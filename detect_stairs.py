@@ -366,7 +366,9 @@ def main():
             # -------------------------------
             
             # 对深度图像应用颜色映射，使其对人眼可见
-            depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
+            # 我们使用 alpha=0.08 将 ~3米 (3000mm) 映射到 240 (接近255)
+            # 这样近距离物体 (0.6m) 的亮度会从 ~18 提升到 ~48，更加可见
+            depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.08), cv2.COLORMAP_JET)
 
             # --- B. 检测算法 ---
             
