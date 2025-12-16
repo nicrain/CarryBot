@@ -309,7 +309,7 @@ def main():
             roi_filtered = cv2.medianBlur(roi, ksize)
 
             # 有效性掩码
-            valid_mask = (roi_filtered > params.get('min_valid_dist') * 1000) &
+            valid_mask = (roi_filtered > params.get('min_valid_dist') * 1000) & \
                          (roi_filtered < params.get('max_valid_dist') * 1000)
             
             # 状态判定
