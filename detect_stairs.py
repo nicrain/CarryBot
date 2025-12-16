@@ -362,7 +362,8 @@ def main():
             main.frame_count = frame_count
             if frame_count % 30 == 0:
                 d_min, d_max, d_mean = np.min(depth_image), np.max(depth_image), np.mean(depth_image)
-                print(f"[Frame {frame_count}] Depth stats - Min: {d_min}, Max: {d_max}, Mean: {d_mean:.1f}")
+                c_mean = np.mean(color_image)
+                print(f"[Frame {frame_count}] Depth: Min={d_min} Max={d_max} Mean={d_mean:.1f} | Color Mean={c_mean:.1f}")
             # -------------------------------
             
             # 对深度图像应用颜色映射，使其对人眼可见
@@ -475,6 +476,12 @@ def main():
 
             # 水平拼接两个图像以在单个窗口中显示它们
             images = np.hstack((color_image, depth_colormap))
+
+            # --- DEBUG: 保存快照 ---
+            if frame_count % 100 == 0:
+                print(f"[Frame {frame_count}] Saving debug_snapshot.jpg (Shape: {images.shape})")
+                cv2.imwrite("debug_snapshot.jpg", images)
+            # ----------------------
 
             # 显示组合后的图像
             cv2.imshow('CarryBot 视觉 - 彩色 | 深度', images)
