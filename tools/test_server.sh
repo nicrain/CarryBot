@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Test script for params server
-set -e
-
-#!/usr/bin/env bash
 # Test helper to exercise the HTTP params server
 # Usage examples:
 #   # Local test (targeting localhost):
@@ -11,23 +7,28 @@ set -e
 #   # Target a specific robot on LAN:
 #   SERVER=192.168.10.212 ./tools/test_server.sh
 #
-# Note: The server binds to 0.0.0.0 by default (listening on all interfaces),
-# but for local testing prefer SERVER=127.0.0.1 to ensure the request reaches
-# the local loopback interface.
+# The script defaults to SERVER=127.0.0.1 and PORT=8080.
 
-echo "GET /params"
-SERVER=${SERVER:-0.0.0.0}
-PORT=${PORT:-8000}
-curl -s http://${SERVER}:${PORT}/params | python -m json.tool || true
+set -e
 
-echo "POST update EDGE_THRESH -> 180"
-curl -s -X POST http://${SERVER}:${PORT}/params -H 'Content-Type: application/json' -d '{"EDGE_THRESH":180}' | python -m json.tool || true
+SERVER=${SERVER:-127.0.0.1}
+PORT=${PORT:-8080}
 
-echo "GET /params after change"
-curl -s http://${SERVER}:${PORT}/params | python -m json.tool || true
+echo "=== 1. Testing GET /params ==="
+curl -s http://${SERVER}:${PORT}/params | python -m json.tool || echo "Failed to connect"
 
-echo "Check config.json"
-cat config.json
+echo ""
+echo "=== 2. Testing POST update (roi_h_start -> 0.25) ==="
+curl -s -X POST http://${SERVER}:${PORT}/params -H 'Content-Type: application/json' -d '{"roi_h_start": 0.25}' | python -m json.tool || echo "Failed to post"
 
-echo "Check param_changes.log"
-tail -n 5 param_changes.log || true
+echo ""
+echo "=== 3. Testing GET /params after change ==="
+curl -s http://${SERVER}:${PORT}/params | python -m json.tool
+
+echo ""
+echo "=== 4. Checking local config.json file (if it exists) ==="
+if [ -f config.json ]; then
+    cat config.json
+else
+    echo "config.json not found in current directory."
+fi

@@ -1,9 +1,12 @@
 {
-  "ROI_WIDTH": 120,
-  "ROI_HEIGHT": 120,
-  "EDGE_THRESH": 180.0,
-  "ROW_NORM_THRESH": 0.3,
-  "MIN_COMPONENT_AREA": 50,
-  "MIN_COMPONENT_HEIGHT": 2,
-  "SMOOTH_WINDOW": 5
+    "roi_h_start": 0.2,
+    "roi_h_stop": 0.8,
+    "roi_v_start": 0.3,
+    "roi_v_stop": 0.7,
+    "median_blur_ksize": 5,
+    "min_valid_dist": 0.1,
+    "max_valid_dist": 5.0,
+    "wall_dist_th": 0.8,
+    "step_height_th": 0.05,
+    "noise_filtering_area_min_th": 1000
 }
