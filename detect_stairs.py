@@ -350,11 +350,20 @@ def main():
 
             # 安全检查：如果任一图像缺失，我们跳过这次迭代
             if not depth_frame or not color_frame:
+                print("警告：丢帧 (Frame missing)")
                 continue
 
             # 将图像转换为NumPy数组，以便用OpenCV处理它们
             depth_image = np.asanyarray(depth_frame.get_data())
             color_image = np.asanyarray(color_frame.get_data())
+
+            # --- DEBUG: 每30帧打印一次状态 ---
+            frame_count = getattr(main, "frame_count", 0) + 1
+            main.frame_count = frame_count
+            if frame_count % 30 == 0:
+                d_min, d_max, d_mean = np.min(depth_image), np.max(depth_image), np.mean(depth_image)
+                print(f"[Frame {frame_count}] Depth stats - Min: {d_min}, Max: {d_max}, Mean: {d_mean:.1f}")
+            # -------------------------------
             
             # 对深度图像应用颜色映射，使其对人眼可见
             depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.03), cv2.COLORMAP_JET)
