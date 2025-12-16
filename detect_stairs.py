@@ -13,7 +13,7 @@
 # - 移除了本地 GUI (cv2.imshow)，改为 MJPEG HTTP 视频流。
 # - 视频流地址: http://<IP>:8080/video_feed
 # - 调参 API: http://<IP>:8080/params
-# - 新增: Web 控制面板，可直接在浏览器中查看和修改参数。
+# - 新增: Web 控制面板 (基于 index.html 模板)
 #
 # =================================================================================================
 
@@ -106,7 +106,7 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 class StreamingHandler(http.server.BaseHTTPRequestHandler):
     """
     处理 HTTP 请求：
-    - GET /           : 返回包含视频流和控制面板的网页
+    - GET /           : 返回包含视频流和控制面板的网页 (从 index.html 加载)
     - GET /video_feed : 返回 MJPEG 视频流
     - GET /params     : 返回当前参数 (JSON)
     - POST /params    : 更新参数
@@ -136,94 +136,21 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 </div>
                 """
 
-            # 使用普通字符串模板（非 f-string），避免花括号转义噩梦
-            html_template = """
-            <html>
-            <head>
-                <title>CarryBot 视觉控制台</title>
-                <style>
-                    body { font-family: sans-serif; text-align: center; background: #222; color: #fff; display: flex; flex-direction: column; align-items: center; }
-                    #container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 20px auto; }
-                    #video-panel { flex: 2; min-width: 640px; }
-                    #control-panel { flex: 1; min-width: 300px; background: #333; padding: 20px; border-radius: 8px; text-align: left; }
-                    img { border: 2px solid #555; max-width: 100%; height: auto; }
-                    h1 { color: #0f0; }
-                    h2 { color: #0f0; margin-top: 0; }
-                    .param-group { margin-bottom: 10px; }
-                    label { display: block; margin-bottom: 5px; color: #aaa; }
-                    input[type="number"], input[type="text"] {
-                        width: calc(100% - 22px); padding: 8px; border: 1px solid #555; border-radius: 4px; background: #444; color: #fff;
-                    }
-                    button {
-                        background: #0f0; color: #000; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px;
-                    }
-                    button:hover { background: #0c0; }
-                    #status-message { margin-top: 10px; font-weight: bold; }
-                    .success { color: #0f0; }
-                    .error { color: #f00; }
-                </style>
-            </head>
-            <body>
-                <h1>CarryBot 实时监控与控制</h1>
-                <div id="container">
-                    <div id="video-panel">
-                        <img src="/video_feed" />
-                    </div>
-                    <div id="control-panel">
-                        <h2>参数控制</h2>
-                        <form id="params-form">
-                            <!-- FORM_PLACEHOLDER -->
-                            <button type="submit">更新参数</button>
-                            <div id="status-message"></div>
-                        </form>
-                    </div>
-                </div>
-
-                <script>
-                    document.getElementById('params-form').addEventListener('submit', async function(event) {
-                        event.preventDefault();
-                        const formData = new FormData(event.target);
-                        const params = {};
-                        for (let [key, value] of formData.entries()) {
-                            // 尝试将值转换为数字，如果失败则保留字符串
-                            if (!isNaN(parseFloat(value)) && isFinite(value)) {
-                                params[key] = parseFloat(value);
-                            } else {
-                                params[key] = value;
-                            }
-                        }
-
-                        const statusMessage = document.getElementById('status-message');
-                        statusMessage.className = '';
-                        statusMessage.textContent = '正在更新...';
-
-                        try {
-                            const response = await fetch('/params', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(params)
-                            });
-                            const data = await response.json();
-                            if (response.ok) {
-                                statusMessage.textContent = '更新成功！';
-                                statusMessage.className = 'success';
-                            } else {
-                                statusMessage.textContent = '更新失败: ' + (data.message || '未知错误');
-                                statusMessage.className = 'error';
-                            }
-                        } catch (error) {
-                            statusMessage.textContent = '请求失败: ' + error.message;
-                            statusMessage.className = 'error';
-                        }
-                    });
-                </script>
-            </body>
-            </html>
-            "
+            # 读取外部 HTML 模板
+            try:
+                # 尝试从当前目录读取 index.html
+                with open('index.html', 'r', encoding='utf-8') as f:
+                    html_template = f.read()
+            except FileNotFoundError:
+                # 如果找不到文件，尝试在脚本所在目录查找 (防止从其他目录运行脚本时出错)
+                script_dir = os.path.dirname(os.path.abspath(__file__))
+                try:
+                    with open(os.path.join(script_dir, 'index.html'), 'r', encoding='utf-8') as f:
+                        html_template = f.read()
+                except FileNotFoundError:
+                    html_template = "<html><body><h1>Error: index.html not found! Please check deployment.</h1></body></html>"
             
-            # 手动插入表单 HTML
+            # 插入表单
             html = html_template.replace("<!-- FORM_PLACEHOLDER -->", params_form_html)
             self.wfile.write(html.encode('utf-8'))
             
@@ -305,7 +232,7 @@ def start_config_watcher(params_handler):
             mtime = os.path.getmtime(params_handler.params_path)
             if mtime > last_mtime:
                 if last_mtime != 0:
-                    print("检测到配置变化，已重新加载。")
+                    print("检测到配置变化，已重新加载。" )
                 last_mtime = mtime
                 params_handler.load_from_file()
         except FileNotFoundError:
@@ -349,7 +276,7 @@ def main():
 
     print("\n--- 启动 CarryBot 视觉系统 (Web 控制台模式) ---")
     print("请在浏览器中访问 http://<树莓派IP>:8080 查看视频流和控制面板。")
-    print("按 Ctrl+C 停止程序。\n")
+    print("按 Ctrl+C 停止程序.\n")
     
     pipeline.start(config)
 
@@ -384,7 +311,7 @@ def main():
             roi_filtered = cv2.medianBlur(roi, ksize)
 
             # 有效性掩码
-            valid_mask = (roi_filtered > params.get('min_valid_dist') * 1000) &
+            valid_mask = (roi_filtered > params.get('min_valid_dist') * 1000) & \
                          (roi_filtered < params.get('max_valid_dist') * 1000)
             
             # 状态判定
