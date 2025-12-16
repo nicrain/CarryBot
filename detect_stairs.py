@@ -136,30 +136,31 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 </div>
                 """
 
-            html = f"""
+            # 使用普通字符串模板（非 f-string），避免花括号转义噩梦
+            html_template = """
             <html>
             <head>
                 <title>CarryBot 视觉控制台</title>
                 <style>
-                    body {{ font-family: sans-serif; text-align: center; background: #222; color: #fff; display: flex; flex-direction: column; align-items: center; }}
-                    #container {{ display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 20px auto; }}
-                    #video-panel {{ flex: 2; min-width: 640px; }}
-                    #control-panel {{ flex: 1; min-width: 300px; background: #333; padding: 20px; border-radius: 8px; text-align: left; }}
-                    img {{ border: 2px solid #555; max-width: 100%; height: auto; }}
-                    h1 {{ color: #0f0; }}
-                    h2 {{ color: #0f0; margin-top: 0; }}
-                    .param-group {{ margin-bottom: 10px; }}
-                    label {{ display: block; margin-bottom: 5px; color: #aaa; }}
-                    input[type="number"], input[type="text"] {{
+                    body { font-family: sans-serif; text-align: center; background: #222; color: #fff; display: flex; flex-direction: column; align-items: center; }
+                    #container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; max-width: 1200px; margin: 20px auto; }
+                    #video-panel { flex: 2; min-width: 640px; }
+                    #control-panel { flex: 1; min-width: 300px; background: #333; padding: 20px; border-radius: 8px; text-align: left; }
+                    img { border: 2px solid #555; max-width: 100%; height: auto; }
+                    h1 { color: #0f0; }
+                    h2 { color: #0f0; margin-top: 0; }
+                    .param-group { margin-bottom: 10px; }
+                    label { display: block; margin-bottom: 5px; color: #aaa; }
+                    input[type="number"], input[type="text"] {
                         width: calc(100% - 22px); padding: 8px; border: 1px solid #555; border-radius: 4px; background: #444; color: #fff;
-                    }}
-                    button {{
+                    }
+                    button {
                         background: #0f0; color: #000; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px;
-                    }}
-                    button:hover {{ background: #0c0; }}
-                    #status-message {{ margin-top: 10px; font-weight: bold; }}
-                    .success {{ color: #0f0; }}
-                    .error {{ color: #f00; }}
+                    }
+                    button:hover { background: #0c0; }
+                    #status-message { margin-top: 10px; font-weight: bold; }
+                    .success { color: #0f0; }
+                    .error { color: #f00; }
                 </style>
             </head>
             <body>
@@ -171,7 +172,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     <div id="control-panel">
                         <h2>参数控制</h2>
                         <form id="params-form">
-                            {params_form_html}
+                            <!-- FORM_PLACEHOLDER -->
                             <button type="submit">更新参数</button>
                             <div id="status-message"></div>
                         </form>
@@ -179,63 +180,278 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 </div>
 
                 <script>
-                    document.getElementById('params-form').addEventListener('submit', async function(event) {{
+                    document.getElementById('params-form').addEventListener('submit', async function(event) {
                         event.preventDefault();
                         const formData = new FormData(event.target);
-                        const params = {{}};
-                        for (let [key, value] of formData.entries()) {{
+                        const params = {};
+                        for (let [key, value] of formData.entries()) {
                             // 尝试将值转换为数字，如果失败则保留字符串
-                            if (!isNaN(parseFloat(value)) && isFinite(value)) {{
+                            if (!isNaN(parseFloat(value)) && isFinite(value)) {
                                 params[key] = parseFloat(value);
-                            }} else {{
+                            } else {
                                 params[key] = value;
-                            }}
-                        }}
+                            }
+                        }
 
                         const statusMessage = document.getElementById('status-message');
                         statusMessage.className = '';
                         statusMessage.textContent = '正在更新...';
 
-                        try {{
-                            const response = await fetch('/params', {{
+                        try {
+                            const response = await fetch('/params', {
                                 method: 'POST',
-                                headers: {{
+                                headers: {
                                     'Content-Type': 'application/json'
-                                }},
+                                },
                                 body: JSON.stringify(params)
-                            }});
+                            });
                             const data = await response.json();
-                            if (response.ok) {{
+                            if (response.ok) {
                                 statusMessage.textContent = '更新成功！';
                                 statusMessage.className = 'success';
-                            }} else {{
+                            } else {
                                 statusMessage.textContent = '更新失败: ' + (data.message || '未知错误');
                                 statusMessage.className = 'error';
-                            }}
-                        }} catch (error) {{
+                            }
+                        } catch (error) {
                             statusMessage.textContent = '请求失败: ' + error.message;
                             statusMessage.className = 'error';
-                        }}
-                    }});
-
-                    // 自动刷新参数值 (可选，如果想要页面显示最新值)
-                    // setInterval(async () => {{
-                    //     try {{
-                    //         const response = await fetch('/params');
-                    //         if (response.ok) {{
-                    //             const currentParams = await response.json();
-                    //             for (const key in currentParams) {{
-                    //                 const input = document.getElementById(key);
-                    //                 if (input && document.activeElement !== input) {{ // 避免刷新正在编辑的输入框
-                    //                     input.value = currentParams[key];
-                    //                 }}
-                    //             }}
-                    //         }}
-                    //     }} catch (error) {{
-                    //         console.error('Failed to fetch latest params:', error);
-                    //     }}
-                    // }}, 2000); // 每2秒刷新一次
+                        }
+                    });
                 </script>
             </body>
             </html>
+            "
             
+            # 手动插入表单 HTML
+            html = html_template.replace("<!-- FORM_PLACEHOLDER -->", params_form_html)
+            self.wfile.write(html.encode('utf-8'))
+            
+        elif self.path == '/video_feed':
+            self.send_response(200)
+            self.send_header('Content-type', 'multipart/x-mixed-replace; boundary=frame')
+            self.end_headers()
+            try:
+                while True:
+                    with frame_lock:
+                        if output_frame is None:
+                            continue
+                        (flag, encodedImage) = cv2.imencode(".jpg", output_frame)
+                        if not flag:
+                            continue
+                        byte_data = encodedImage.tobytes()
+
+                    self.wfile.write(b'--frame\r\n')
+                    self.send_header('Content-Type', 'image/jpeg')
+                    self.send_header('Content-Length', str(len(byte_data)))
+                    self.end_headers()
+                    self.wfile.write(byte_data)
+                    self.wfile.write(b'\r\n')
+                    time.sleep(0.05)
+            except Exception as e:
+                pass
+
+        elif self.path == '/params':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            response = json.dumps(self.params_handler.get_all_params())
+            self.wfile.write(response.encode('utf-8'))
+            
+        else:
+            self.send_error(404)
+
+    def do_POST(self):
+        if self.path == '/params':
+            content_length = int(self.headers['Content-Length'])
+            post_data = self.rfile.read(content_length)
+            try:
+                new_params = json.loads(post_data)
+                for key, value in new_params.items():
+                    if isinstance(value, (int, float)):
+                       if key in self.params_handler.defaults:
+                           original_type = type(self.params_handler.defaults[key])
+                           new_params[key] = original_type(value)
+                
+                self.params_handler.update_and_save(new_params)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.end_headers()
+                self.wfile.write(b'{"status": "success"}')
+            except Exception as e:
+                self.send_response(400)
+                self.wfile.write(f'{{"status": "error", "message": "{e}"}}'.encode('utf-8'))
+        else:
+            self.send_error(404)
+
+    def log_message(self, format, *args):
+        if "video_feed" not in args[0]:
+            super().log_message(format, *args)
+
+def start_http_server(params_handler, host='0.0.0.0', port=8080):
+    def handler_factory(*args, **kwargs):
+        return StreamingHandler(*args, params_handler=params_handler, **kwargs)
+
+    with ThreadingHTTPServer((host, port), handler_factory) as httpd:
+        print(f"WEB服务器已启动: http://{host}:{port}")
+        httpd.serve_forever()
+
+def start_config_watcher(params_handler):
+    last_mtime = 0
+    while True:
+        try:
+            mtime = os.path.getmtime(params_handler.params_path)
+            if mtime > last_mtime:
+                if last_mtime != 0:
+                    print("检测到配置变化，已重新加载。")
+                last_mtime = mtime
+                params_handler.load_from_file()
+        except FileNotFoundError:
+            pass
+        time.sleep(1)
+
+
+# --- 4. 主函数 (main) ---
+# -------------------------------------------------------------------------------------------------
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="CarryBot 视觉系统 (Web Stream 版)")
+    parser.add_argument('--config', type=str, help='配置文件路径')
+    handler = ParamsHandler()
+    for key, val in handler.defaults.items():
+        t = type(val)
+        parser.add_argument(f'--{key}', type=t)
+    return parser.parse_args()
+
+
+def main():
+    global output_frame
+    
+    # --- 初始化 ---
+    args = parse_args()
+    params = ParamsHandler(default_params_path=args.config or 'config.json')
+    params.load_from_file()
+    params._load_from_env()
+    params._load_from_cli_args(args)
+
+    http_thread = threading.Thread(target=start_http_server, args=(params,), daemon=True)
+    http_thread.start()
+    
+    watcher_thread = threading.Thread(target=start_config_watcher, args=(params,), daemon=True)
+    watcher_thread.start()
+
+    pipeline = rs.pipeline()
+    config = rs.config()
+    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
+    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+
+    print("\n--- 启动 CarryBot 视觉系统 (Web 控制台模式) ---")
+    print("请在浏览器中访问 http://<树莓派IP>:8080 查看视频流和控制面板。")
+    print("按 Ctrl+C 停止程序。\n")
+    
+    pipeline.start(config)
+
+    try:
+        frame_count = 0
+        while True:
+            frames = pipeline.wait_for_frames()
+            depth_frame = frames.get_depth_frame()
+            color_frame = frames.get_color_frame()
+            if not depth_frame or not color_frame: continue
+
+            depth_image = np.asanyarray(depth_frame.get_data())
+            color_image = np.asanyarray(color_frame.get_data())
+            
+            # --- B. 检测算法 ---
+            
+            # 可视化增强 (针对 Web 显示优化)
+            depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.08), cv2.COLORMAP_JET)
+            
+            # ROI 计算
+            h, w = depth_image.shape
+            roi_x1 = int(w * params.get('roi_h_start'))
+            roi_x2 = int(w * params.get('roi_h_stop'))
+            roi_y1 = int(h * params.get('roi_v_start'))
+            roi_y2 = int(h * params.get('roi_v_stop'))
+            
+            roi = depth_image[roi_y1:roi_y2, roi_x1:roi_x2]
+
+            # 滤波
+            ksize = int(params.get('median_blur_ksize'))
+            if ksize % 2 == 0: ksize += 1
+            roi_filtered = cv2.medianBlur(roi, ksize)
+
+            # 有效性掩码
+            valid_mask = (roi_filtered > params.get('min_valid_dist') * 1000) &
+                         (roi_filtered < params.get('max_valid_dist') * 1000)
+            
+            # 状态判定
+            is_wall = is_stairs_down = is_stairs_up = False
+            
+            if np.sum(valid_mask) > valid_mask.size * 0.1:
+                mean_dist_mm = np.mean(roi_filtered[valid_mask])
+                is_wall = mean_dist_mm < params.get('wall_dist_th') * 1000
+
+                # 下行 (洞)
+                horizontal_projection = np.sum(valid_mask, axis=1)
+                empty_lines = np.where(horizontal_projection < roi.shape[1] * 0.1)[0]
+                if len(empty_lines) > 0:
+                    hole_mask = np.zeros_like(roi, dtype=np.uint8)
+                    hole_mask[empty_lines, :] = 255
+                    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(hole_mask, 4)
+                    if num_labels > 1:
+                        largest_area = np.max(stats[1:, cv2.CC_STAT_AREA])
+                        is_stairs_down = largest_area > params.get('noise_filtering_area_min_th')
+
+                # 上行 (台阶)
+                mid = roi.shape[0] // 2
+                top = valid_mask[:mid, :]
+                btm = valid_mask[mid:, :]
+                if np.sum(top) > 0 and np.sum(btm) > 0:
+                    top_m = np.mean(roi_filtered[:mid, :][top])
+                    btm_m = np.mean(roi_filtered[mid:, :][btm])
+                    diff_m = (top_m - btm_m) / 1000.0
+                    is_stairs_up = diff_m > params.get('step_height_th')
+
+            # --- C. 绘图与更新 ---
+            
+            cv2.rectangle(color_image, (roi_x1, roi_y1), (roi_x2, roi_y2), (0, 255, 0), 2)
+            cv2.rectangle(depth_colormap, (roi_x1, roi_y1), (roi_x2, roi_y2), (0, 255, 0), 2)
+
+            status_text = "Status: OK"
+            color = (0, 255, 0)
+            if is_wall:
+                status_text = "WALL DETECTED"
+                color = (0, 0, 255)
+            elif is_stairs_down:
+                status_text = "STAIRS DOWN"
+                color = (0, 0, 255)
+            elif is_stairs_up:
+                status_text = "STAIRS UP"
+                color = (0, 0, 255)
+            
+            cv2.putText(color_image, status_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+            cv2.putText(depth_colormap, f"Dist: {np.mean(roi_filtered[valid_mask])/1000:.2f}m" if np.sum(valid_mask)>0 else "No Data", 
+                        (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+
+            # 拼接图像
+            combined_img = np.hstack((color_image, depth_colormap))
+            
+            # --- 安全地更新全局帧 ---
+            with frame_lock:
+                output_frame = combined_img.copy()
+            
+            # 简单的日志心跳
+            frame_count += 1
+            if frame_count % 100 == 0:
+                print(f"[Heartbeat] Frame {frame_count} processed. Last result: {status_text}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        pipeline.stop()
+
+if __name__ == "__main__":
+    main()
