@@ -127,7 +127,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 params_form_html += f"""
                 <div class="param-group">
                     <label for="{key}">{key}</label>
-                    <input type="{input_type}" id="{key}" name="{key}" value="{current_val}" step="{step_val}">
+                    {"<select id='fps' name='fps'>" + ''.join([f"<option value='{val}'{(' selected' if int(current_val) == val else '')}>{val}</option>" for val in [6, 15, 30, 60]]) + "</select>" if key == 'fps' else f"<input type='{input_type}' id='{key}' name='{key}' value='{current_val}' step='{step_val}'>"}
                 </div>
                 """
 
