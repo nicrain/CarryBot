@@ -51,7 +51,8 @@ class ParamsHandler:
             "max_valid_dist": 5.0,
             "wall_dist_th": 0.8,
             "step_height_th": 0.05,
-            "noise_filtering_area_min_th": 1000
+            "noise_filtering_area_min_th": 1000,
+            "fps": 15
         }
 
     def load_from_file(self):
@@ -265,8 +266,12 @@ def main():
 
     pipeline = rs.pipeline()
     config = rs.config()
-    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
-    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
+    
+    # FPS 配置 (RealSense 通常支持 6, 15, 30, 60)
+    fps = int(params.get('fps'))
+    
+    config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, fps)
+    config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, fps)
 
     print("\n--- 启动 CarryBot 视觉系统 (Web 控制台模式) ---")
     print("--- Démarrage CarryBot Vision (Mode Console Web) ---")
