@@ -3,17 +3,19 @@
 
 # =================================================================================================
 #            ---          CarryBot - 楼梯检测系统 (Web Stream版 - 带控制面板)          ---
+#            ---   Système de Détection d'Escaliers CarryBot (Stream Web + Panneau)   ---
 # =================================================================================================
 #
-# ## 描述
+# ## 描述 / Description
 # 该脚本是 CarryBot 感知系统的核心。它使用 Intel RealSense 摄像头通过分析深度数据流
 # 来检测楼梯（上行和下行）和墙壁。
+# Ce script est le cœur du système de perception de CarryBot. Il utilise une caméra de profondeur
+# Intel RealSense pour détecter les escaliers (montants/descendants) et les murs.
 #
-# ## 架构变更 (Web Stream)
-# - 移除了本地 GUI (cv2.imshow)，改为 MJPEG HTTP 视频流。
-# - 视频流地址: http://<IP>:8080/video_feed
-# - 调参 API: http://<IP>:8080/params
-# - 新增: Web 控制面板 (基于 index.html 模板)
+# ## 架构变更 / Architecture
+# - 视频流地址 / Flux vidéo: http://<IP>:8080/video_feed
+# - 调参 API / API Paramètres: http://<IP>:8080/params
+# - Web 控制面板 / Panneau Web: http://<IP>:8080/
 #
 # =================================================================================================
 
@@ -33,7 +35,6 @@ output_frame = None
 frame_lock = threading.Lock()
 
 # --- 2. 参数管理类 (ParamsHandler) ---
-# (保持不变)
 class ParamsHandler:
     def __init__(self, default_params_path='config.json'):
         self.params_path = default_params_path
@@ -104,13 +105,6 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
 
 class StreamingHandler(http.server.BaseHTTPRequestHandler):
-    """
-    处理 HTTP 请求：
-    - GET /           : 返回包含视频流和控制面板的网页 (从 index.html 加载)
-    - GET /video_feed : 返回 MJPEG 视频流
-    - GET /params     : 返回当前参数 (JSON)
-    - POST /params    : 更新参数
-    """
     def __init__(self, *args, params_handler=None, **kwargs):
         self.params_handler = params_handler
         super().__init__(*args, **kwargs)
@@ -131,7 +125,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 
                 params_form_html += f"""
                 <div class="param-group">
-                    <label for="{key}">{key}:</label>
+                    <label for="{key}">{key}</label>
                     <input type="{input_type}" id="{key}" name="{key}" value="{current_val}" step="{step_val}">
                 </div>
                 """
@@ -142,13 +136,13 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 with open('index.html', 'r', encoding='utf-8') as f:
                     html_template = f.read()
             except FileNotFoundError:
-                # 如果找不到文件，尝试在脚本所在目录查找 (防止从其他目录运行脚本时出错)
+                # 如果找不到文件，尝试在脚本所在目录查找
                 script_dir = os.path.dirname(os.path.abspath(__file__))
                 try:
                     with open(os.path.join(script_dir, 'index.html'), 'r', encoding='utf-8') as f:
                         html_template = f.read()
                 except FileNotFoundError:
-                    html_template = "<html><body><h1>Error: index.html not found! Please check deployment.</h1></body></html>"
+                    html_template = "<html><body><h1>Error: index.html not found! / Fichier index.html introuvable!</h1></body></html>"
             
             # 插入表单
             html = html_template.replace("<!-- FORM_PLACEHOLDER -->", params_form_html)
@@ -222,7 +216,7 @@ def start_http_server(params_handler, host='0.0.0.0', port=8080):
         return StreamingHandler(*args, params_handler=params_handler, **kwargs)
 
     with ThreadingHTTPServer((host, port), handler_factory) as httpd:
-        print(f"WEB服务器已启动: http://{host}:{port}")
+        print(f"WEB服务器已启动 / Serveur WEB démarré: http://{host}:{port}")
         httpd.serve_forever()
 
 def start_config_watcher(params_handler):
@@ -232,7 +226,7 @@ def start_config_watcher(params_handler):
             mtime = os.path.getmtime(params_handler.params_path)
             if mtime > last_mtime:
                 if last_mtime != 0:
-                    print("检测到配置变化，已重新加载。" )
+                    print("检测到配置变化 / Changement de configuration détecté.")
                 last_mtime = mtime
                 params_handler.load_from_file()
         except FileNotFoundError:
@@ -244,8 +238,8 @@ def start_config_watcher(params_handler):
 # -------------------------------------------------------------------------------------------------
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="CarryBot 视觉系统 (Web Stream 版)")
-    parser.add_argument('--config', type=str, help='配置文件路径')
+    parser = argparse.ArgumentParser(description="CarryBot Vision (CN/FR)")
+    parser.add_argument('--config', type=str, help='Config file path / Chemin du fichier de config')
     handler = ParamsHandler()
     for key, val in handler.defaults.items():
         t = type(val)
@@ -275,8 +269,9 @@ def main():
     config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 
     print("\n--- 启动 CarryBot 视觉系统 (Web 控制台模式) ---")
-    print("请在浏览器中访问 http://<树莓派IP>:8080 查看视频流和控制面板。")
-    print("按 Ctrl+C 停止程序.\n")
+    print("--- Démarrage CarryBot Vision (Mode Console Web) ---")
+    print("请访问 / Veuillez visiter: http://<IP>:8080")
+    print("按 Ctrl+C 停止 / Appuyez sur Ctrl+C pour arrêter.\n")
     
     pipeline.start(config)
 
@@ -293,7 +288,7 @@ def main():
             
             # --- B. 检测算法 ---
             
-            # 可视化增强 (针对 Web 显示优化)
+            # 可视化增强
             depth_colormap = cv2.applyColorMap(cv2.convertScaleAbs(depth_image, alpha=0.08), cv2.COLORMAP_JET)
             
             # ROI 计算
@@ -347,16 +342,17 @@ def main():
             cv2.rectangle(color_image, (roi_x1, roi_y1), (roi_x2, roi_y2), (0, 255, 0), 2)
             cv2.rectangle(depth_colormap, (roi_x1, roi_y1), (roi_x2, roi_y2), (0, 255, 0), 2)
 
-            status_text = "Status: OK"
+            # 双语状态文本 (OSD 使用 ASCII)
+            status_text = "OK"
             color = (0, 255, 0)
             if is_wall:
-                status_text = "WALL DETECTED"
+                status_text = "WALL / MUR"
                 color = (0, 0, 255)
             elif is_stairs_down:
-                status_text = "STAIRS DOWN"
+                status_text = "DOWN / DESC"
                 color = (0, 0, 255)
             elif is_stairs_up:
-                status_text = "STAIRS UP"
+                status_text = "UP / MONT"
                 color = (0, 0, 255)
             
             cv2.putText(color_image, status_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
@@ -370,13 +366,13 @@ def main():
             with frame_lock:
                 output_frame = combined_img.copy()
             
-            # 简单的日志心跳
+            # 日志心跳
             frame_count += 1
             if frame_count % 100 == 0:
-                print(f"[Heartbeat] Frame {frame_count} processed. Last result: {status_text}")
+                print(f"[Heartbeat] Frame {frame_count}. Status: {status_text}")
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error / Erreur: {e}")
     finally:
         pipeline.stop()
 
