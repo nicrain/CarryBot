@@ -1,3 +1,5 @@
-numpy>=1.21
-opencv-python>=4.5
-pyrealsense2>=2.50.0
+numpy
+opencv-python
+pyrealsense2
+flask
+pyserial

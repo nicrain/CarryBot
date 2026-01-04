@@ -36,7 +36,7 @@ frame_lock = threading.Lock()
 
 # --- 2. 参数管理类 (ParamsHandler) ---
 class ParamsHandler:
-    def __init__(self, default_params_path='config.json'):
+    def __init__(self, default_params_path='config/config.json'):
         self.params_path = default_params_path
         self.file_params = {}
         self.env_params = {}
@@ -134,13 +134,13 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
             # 读取外部 HTML 模板
             try:
                 # 尝试从当前目录读取 index.html
-                with open('index.html', 'r', encoding='utf-8') as f:
+                with open('web/templates/index.html', 'r', encoding='utf-8') as f:
                     html_template = f.read()
             except FileNotFoundError:
                 # 如果找不到文件，尝试在脚本所在目录查找
                 script_dir = os.path.dirname(os.path.abspath(__file__))
                 try:
-                    with open(os.path.join(script_dir, 'index.html'), 'r', encoding='utf-8') as f:
+                    with open(os.path.join(script_dir, 'web/templates/index.html'), 'r', encoding='utf-8') as f:
                         html_template = f.read()
                 except FileNotFoundError:
                     html_template = "<html><body><h1>Error: index.html not found! / Fichier index.html introuvable!</h1></body></html>"

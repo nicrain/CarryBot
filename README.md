@@ -41,13 +41,52 @@ CarryBot 是一个用于 RealSense 深度相机的智能感知系统。
 
 参数与调参
 ----------
-- 所有参数的详细说明请参考 [README_STAIR_PARAMS.md](README_STAIR_PARAMS.md)。
-- 推荐直接在 Web 控制台进行调参，修改会自动保存到 `config.json`。
+- 所有参数的详细说明请参考 [README_STAIR_PARAMS.md](docs/README_STAIR_PARAMS.md)。
+- 推荐直接在 Web 控制台进行调参，修改会自动保存到 `config/config.json`。
 
 文件一览
+
 -------
+
 - `detect_stairs.py`: 主程序（Web 服务器 + 检测算法）。
-- `index.html`: Web 控制台的前端模板。
-- `config.json`: 配置文件。
-- `README_STAIR_PARAMS.md`: 参数详解文档。
+
+- `web/`: Web 资源（包含前端模板 `index.html`）。
+
+- `config/`: 配置文件目录。
+
+- `docs/`: 文档目录（参数说明等）。
+
+- `motor_control/`: 电机控制核心。
+
+  - `motor_control.ino`: Arduino 固件。
+
+  - `motor_driver.py`: Python 驱动（支持 cm/s 速度控制）。
+
+- `tests/`: 测试脚本（运行 `python tests/test_move.py` 测试电机）。
+
 - `tools/`: 辅助脚本目录。
+
+
+
+电机控制 (Motor Control)
+
+------------------------
+
+系统采用 **上位机 (Python) + 下位机 (Arduino)** 架构：
+
+1.  **Arduino**: 运行 PID 闭环控制、堵转保护和同步纠偏。
+
+2.  **Python**: 通过 `MotorDriver` 类发送指令。支持 **直观模式 (cm/s)** 和 **专家模式 (RPM)**。
+
+
+
+
+- **轮式移动 (Slot 1 & 2)**: 负责平地移动与转向。
+  - 电机：25mm DC Encoder Motor, 185rpm, 减速比 1:46。
+- **三星轮机构 (Slot 3)**: 负责爬楼梯。
+  - 电机：25mm DC Encoder Motor, 86rpm, 减速比 1:75 (提供更大扭矩)。
+- **平台调平 (Stabilization)**: 使用 12V 线性编码电缸（通过 L293N 驱动）实时调整托盘倾角。
+- **感知反馈**: 
+  - **IMU**: 监测机器人姿态，用于托盘自动调平。
+  - **超声波传感器**: 4路超声波用于近距离避障。
+- **控制逻辑**: 基于 PID 的速度闭环控制，并包含左右轮同步纠偏算法。
