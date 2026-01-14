@@ -7,10 +7,10 @@ MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
 
 // --- 控制器实例 (PID 参数在这里调) ---
-// 格式: MotorController(&Encoder, Kp, Ki, Kd, FeedForward)
-MotorController MotorL(&Encoder_L, 1.2, 0.6, 2.0, 30.0);
-MotorController MotorR(&Encoder_R, 1.2, 0.6, 2.0, 30.0);
-MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0);
+// 格式: MotorController(&Encoder, Kp, Ki, Kd, FeedForward, Reversed)
+MotorController MotorL(&Encoder_L, 1.2, 0.6, 2.0, 30.0, false);
+MotorController MotorR(&Encoder_R, 1.2, 0.6, 2.0, 30.0, true);
+MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0, false);
 
 // --- 全局参数 ---
 float K_sync = 1.0;          // 左右轮同步系数

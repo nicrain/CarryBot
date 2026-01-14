@@ -63,7 +63,7 @@ The system is designed to run in headless mode (CLI).
 3.  **Monitor:** Access `http://<device-ip>:8080` from a browser to view the stream and tune parameters.
 
 ### Motor Control
-- Flash `MeMegaPiDCMotorTest.ino` to the MegaPi board using Arduino IDE.
+- Flash `motor_control/motor_control.ino` to the MegaPi board using Arduino IDE.
 
 ## Development Notes
 - **Parameter Tuning:** The `config.json` file is the source of truth. It can be updated via the web UI or manually. The Python script watches this file for changes.

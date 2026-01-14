@@ -9,6 +9,7 @@ class MotorController {
     MeEncoderOnBoard* encoder;
     float Kp, Ki, Kd, F;
     float integralLimit;
+    bool reversed;
     
     // 状态变量
     float targetSpeed;
@@ -21,9 +22,10 @@ class MotorController {
     bool isStalled;
 
     // 构造函数
-    MotorController(MeEncoderOnBoard* enc, float kp, float ki, float kd, float f) {
+    MotorController(MeEncoderOnBoard* enc, float kp, float ki, float kd, float f, bool rev = false) {
       encoder = enc;
       Kp = kp; Ki = ki; Kd = kd; F = f;
+      reversed = rev;
       integralLimit = 200.0;
       reset();
     }
@@ -43,12 +45,14 @@ class MotorController {
     }
 
     void writePWM(float pwm) {
-      encoder->setMotorPwm(constrain(pwm, -255, 255));
+      float output = reversed ? -pwm : pwm;
+      encoder->setMotorPwm(constrain(output, -255, 255));
     }
 
     float computePWM() {
       // 1. 读取并平滑速度
       float rawSpeed = encoder->getCurrentSpeed();
+      if (reversed) rawSpeed = -rawSpeed;
       currentSpeed = (currentSpeed * 0.7) + (rawSpeed * 0.3);
 
       // 2. 静止死区控制
