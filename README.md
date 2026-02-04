@@ -31,6 +31,18 @@ CarryBot 是一个用于 RealSense 深度相机的智能感知系统。
 3. **访问控制台**:
    打开浏览器访问：`http://<树莓派IP>:8080`
 
+电机指令快速发送（Pi 上类似 Arduino 串口监视器）
+---------------------------------------------
+
+如果你想在树莓派上像 Arduino IDE Serial Monitor 一样手动发送 `v100` / `m20` / `s` 指令，可以用：
+
+```bash
+python3 tools/serial_console.py --port /dev/ttyUSB0
+```
+
+- 输入命令后按回车发送（例如 `v100`、`m20`）
+- 输入为空时按 `s` 或空格可立即 Stop
+
 性能优化建议
 -----------
 本系统专为**无头模式 (Headless Mode)** 设计。
