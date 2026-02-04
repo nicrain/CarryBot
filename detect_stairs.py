@@ -209,8 +209,13 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
             self.send_error(404)
 
     def log_message(self, format, *args):
-        if "video_feed" not in args[0]:
-            super().log_message(format, *args)
+        # `args` may contain non-strings (e.g., `404` from `send_error`), so don't
+        # inspect `args[0]` for filtering. Filter by request path instead.
+        path = getattr(self, "path", "")
+        if isinstance(path, str) and path.startswith("/video_feed"):
+            return
+
+        super().log_message(format, *args)
 
 def start_http_server(params_handler, host='0.0.0.0', port=8080):
     def handler_factory(*args, **kwargs):
