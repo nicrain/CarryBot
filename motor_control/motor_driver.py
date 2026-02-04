@@ -105,6 +105,20 @@ class MotorDriver:
         rpm = self._clamp_rpm(rpm, 86)
         self._send_command(f"T{rpm:.2f}")
 
+    def move_verin_pwm(self, pwm):
+        """设置推杆/执行器 PWM（-255 ~ 255），对应固件命令 V<val>"""
+        try:
+            pwm_int = int(pwm)
+        except (TypeError, ValueError):
+            raise ValueError(f"Invalid pwm value: {pwm}")
+
+        if pwm_int < -255:
+            pwm_int = -255
+        elif pwm_int > 255:
+            pwm_int = 255
+
+        self._send_command(f"V{pwm_int}")
+
     def stop(self):
         self._send_command("S")
 

@@ -5,6 +5,7 @@
 MeEncoderOnBoard Encoder_L(SLOT1);
 MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
+MeEncoderOnBoard VerinMotor(SLOT4); // 推杆/执行器 (PWM)
 
 // --- 控制器实例 (PID 参数在这里调) ---
 // 格式: MotorController(&Encoder, Kp, Ki, Kd, FeedForward, Reversed)
@@ -36,9 +37,13 @@ void setup() {
   Encoder_L.setPulse(7); Encoder_L.setRatio(46);
   Encoder_R.setPulse(7); Encoder_R.setRatio(46);
   Encoder_T.setPulse(7); Encoder_T.setRatio(75);
+  // 推杆通常没有编码器反馈，这里只需要确保 PWM 输出可用
+  VerinMotor.setPulse(7);
+  VerinMotor.setRatio(46);
   
   // 初始停止
   MotorL.reset(); MotorR.reset(); MotorT.reset();
+  VerinMotor.setMotorPwm(0);
 }
 
 void loop() {
@@ -61,8 +66,16 @@ void loop() {
         Serial.print("SET_TRISTAR:"); Serial.println(val);
         break;
       }
+      case 'V': case 'v': { // 推杆控制 V100(伸出) V-100(收回) V0(停止)
+        int val = Serial.parseInt();
+        val = constrain(val, -255, 255);
+        VerinMotor.setMotorPwm(val);
+        Serial.print("SET_VERIN:"); Serial.println(val);
+        break;
+      }
       case 'S': case 's': { // 停止 S
         MotorL.reset(); MotorR.reset(); MotorT.reset();
+        VerinMotor.setMotorPwm(0);
         Serial.println("STOP");
         break;
       }
@@ -71,6 +84,7 @@ void loop() {
 
   // 2. 刷新编码器状态
   Encoder_L.loop(); Encoder_R.loop(); Encoder_T.loop();
+  VerinMotor.loop();
 
   // 3. 定时 PID 计算
   if (millis() - lastTime > PID_INTERVAL) {
