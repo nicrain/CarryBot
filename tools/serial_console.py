@@ -21,7 +21,13 @@ def _auto_pick_port() -> str | None:
     return ports[0].device if ports else None
 
 
-def _reader(ser: serial.Serial, stop_event: threading.Event) -> None:
+def _reader(
+    ser: serial.Serial,
+    stop_event: threading.Event,
+    *,
+    show_telemetry: bool,
+    show_all: bool,
+) -> None:
     while not stop_event.is_set():
         try:
             line = ser.readline()
@@ -29,6 +35,12 @@ def _reader(ser: serial.Serial, stop_event: threading.Event) -> None:
                 continue
             text = line.decode("utf-8", errors="ignore").rstrip("\r\n")
             if text:
+                if not show_all:
+                    # The firmware prints periodic telemetry like:
+                    #   T:0.00 L:-0.00 R:0.00 Tri:0.00
+                    # which can flood the terminal. Hide it by default.
+                    if text.startswith("T:") and not show_telemetry:
+                        continue
                 sys.stdout.write(f"\r[Arduino] {text}\n")
                 sys.stdout.flush()
         except Exception:
@@ -45,7 +57,7 @@ def _send(ser: serial.Serial, cmd: str) -> None:
     ser.flush()
 
 
-def _interactive_raw(ser: serial.Serial) -> None:
+def _interactive_raw(ser: serial.Serial, *, show_telemetry: bool, show_all: bool) -> None:
     # Raw-key interactive console: type commands, Enter to send.
     # If buffer is empty, pressing 's' (or space) sends STOP immediately.
     import termios
@@ -55,7 +67,12 @@ def _interactive_raw(ser: serial.Serial) -> None:
     old = termios.tcgetattr(fd)
     stop_event = threading.Event()
 
-    reader_thread = threading.Thread(target=_reader, args=(ser, stop_event), daemon=True)
+    reader_thread = threading.Thread(
+        target=_reader,
+        args=(ser, stop_event),
+        kwargs={"show_telemetry": show_telemetry, "show_all": show_all},
+        daemon=True,
+    )
     reader_thread.start()
 
     buffer: list[str] = []
@@ -129,6 +146,16 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Simple serial console for CarryBot motor controller")
     ap.add_argument("--port", default=None, help="Serial port (e.g. /dev/ttyUSB0). Auto-detect if omitted.")
     ap.add_argument("--baud", type=int, default=115200, help="Baud rate (default: 115200)")
+    ap.add_argument(
+        "--show-telemetry",
+        action="store_true",
+        help="Show periodic firmware telemetry lines (T:/L:/R:/Tri:), which can be noisy.",
+    )
+    ap.add_argument(
+        "--all",
+        action="store_true",
+        help="Show all lines from the device (implies --show-telemetry).",
+    )
     args = ap.parse_args()
 
     port = args.port or _auto_pick_port()
@@ -145,7 +172,11 @@ def main() -> int:
 
     print(f"Connected: {port} @ {args.baud}")
     try:
-        _interactive_raw(ser)
+        _interactive_raw(
+            ser,
+            show_telemetry=bool(args.show_telemetry or args.all),
+            show_all=bool(args.all),
+        )
     finally:
         try:
             ser.close()

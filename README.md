@@ -42,6 +42,7 @@ python3 tools/serial_console.py --port /dev/ttyUSB0
 
 - 输入命令后按回车发送（例如 `v100`、`m20`）
 - 输入为空时按 `s` 或空格可立即 Stop
+- 默认会隐藏固件周期性的遥测刷屏（如 `T:... L:...`）；需要时加 `--show-telemetry` 或 `--all`
 
 性能优化建议
 -----------
