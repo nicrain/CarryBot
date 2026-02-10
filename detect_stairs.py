@@ -384,8 +384,32 @@ def main():
                 color = (0, 0, 255)
             
             cv2.putText(color_image, status_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
-            cv2.putText(depth_colormap, f"Dist: {np.mean(roi_filtered[valid_mask])/1000:.2f}m" if np.sum(valid_mask)>0 else "No Data", 
-                        (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
+
+            # Depth OSD distance: use a robust metric and avoid being biased by
+            # `min_valid_dist` when the target is very close.
+            display_mask = (roi_filtered > 0) & (roi_filtered < params.get('max_valid_dist') * 1000)
+            if np.sum(display_mask) > 0:
+                dist_m = float(np.median(roi_filtered[display_mask])) / 1000.0
+
+                close_mask = (roi_filtered > 0) & (roi_filtered < params.get('min_valid_dist') * 1000)
+                too_close = np.sum(close_mask) > display_mask.size * 0.2
+
+                if too_close:
+                    depth_text = f"Too close (<{params.get('min_valid_dist'):.2f}m)"
+                else:
+                    depth_text = f"Dist (med): {dist_m:.2f}m"
+            else:
+                depth_text = "No Data"
+
+            cv2.putText(
+                depth_colormap,
+                depth_text,
+                (20, 40),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1,
+                (255, 255, 255),
+                2,
+            )
 
             # 拼接图像
             combined_img = np.hstack((color_image, depth_colormap))
