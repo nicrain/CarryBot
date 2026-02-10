@@ -34,6 +34,9 @@ import pyrealsense2 as rs
 output_frame = None
 frame_lock = threading.Lock()
 
+# --- Depth OSD smoothing (helps reduce jumpy distance readout) ---
+dist_display_ema_m = None
+
 # --- 2. 参数管理类 (ParamsHandler) ---
 class ParamsHandler:
     def __init__(self, default_params_path='config/config.json'):
@@ -256,6 +259,7 @@ def parse_args():
 
 def main():
     global output_frame
+    global dist_display_ema_m
     
     # --- 初始化 ---
     args = parse_args()
@@ -385,21 +389,46 @@ def main():
             
             cv2.putText(color_image, status_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
 
-            # Depth OSD distance: use a robust metric and avoid being biased by
-            # `min_valid_dist` when the target is very close.
-            display_mask = (roi_filtered > 0) & (roi_filtered < params.get('max_valid_dist') * 1000)
-            if np.sum(display_mask) > 0:
-                dist_m = float(np.median(roi_filtered[display_mask])) / 1000.0
+            # Depth OSD distance: close range can be unstable (D435i). Use robust stats,
+            # require enough valid pixels, and smooth the value.
+            max_valid_mm = params.get('max_valid_dist') * 1000
+            display_mask = (roi_filtered > 0) & (roi_filtered < max_valid_mm)
 
-                close_mask = (roi_filtered > 0) & (roi_filtered < params.get('min_valid_dist') * 1000)
+            # Treat <15cm as unreliable by default (independent from min_valid_dist)
+            too_close_limit_m = max(float(params.get('min_valid_dist')), 0.15)
+            too_close_limit_mm = too_close_limit_m * 1000
+            close_mask = (roi_filtered > 0) & (roi_filtered < too_close_limit_mm)
+
+            if np.sum(display_mask) > display_mask.size * 0.1:
+                depth_vals = roi_filtered[display_mask]
+
+                # Robust distance estimate
+                dist_med_m = float(np.median(depth_vals)) / 1000.0
+
+                # Robust stability check (helps avoid 0/holes causing far-pixel jumps)
+                q10, q90 = np.percentile(depth_vals, [10, 90])
+                spread_m = float(q90 - q10) / 1000.0
+
                 too_close = np.sum(close_mask) > display_mask.size * 0.2
+                unstable = spread_m > 0.60
 
                 if too_close:
-                    depth_text = f"Too close (<{params.get('min_valid_dist'):.2f}m)"
+                    depth_text = f"Too close (<{too_close_limit_m:.2f}m)"
+                    dist_display_ema_m = None
+                elif unstable:
+                    depth_text = "Depth unstable"
+                    dist_display_ema_m = None
                 else:
-                    depth_text = f"Dist (med): {dist_m:.2f}m"
+                    alpha = 0.30
+                    dist_display_ema_m = (
+                        dist_med_m
+                        if dist_display_ema_m is None
+                        else (1 - alpha) * dist_display_ema_m + alpha * dist_med_m
+                    )
+                    depth_text = f"Dist: {dist_display_ema_m:.2f}m"
             else:
                 depth_text = "No Data"
+                dist_display_ema_m = None
 
             cv2.putText(
                 depth_colormap,
