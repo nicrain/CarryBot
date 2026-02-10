@@ -399,6 +399,8 @@ def main():
             if frame_count % 100 == 0:
                 print(f"[Heartbeat] Frame {frame_count}. Status: {status_text}")
 
+    except KeyboardInterrupt:
+        print("\nStopped by user (Ctrl+C). / Arrêté par l'utilisateur (Ctrl+C).")
     except Exception as e:
         print(f"Error / Erreur: {e}")
     finally:
