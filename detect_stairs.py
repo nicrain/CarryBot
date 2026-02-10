@@ -49,7 +49,7 @@ class ParamsHandler:
             "median_blur_ksize": 5,
             "min_valid_dist": 0.1,
             "max_valid_dist": 5.0,
-            "wall_dist_th": 0.8,
+            "wall_dist_th": 0.3,
             "wall_iqr_th": 0.05,
             "step_height_th": 0.05,
             "noise_filtering_area_min_th": 1000,
@@ -324,22 +324,6 @@ def main():
             is_wall = is_stairs_down = is_stairs_up = False
             
             if np.sum(valid_mask) > valid_mask.size * 0.1:
-                mean_dist_mm = np.mean(roi_filtered[valid_mask])
-                # Wall detection: close + (optionally) flat surface.
-                # Using IQR (P75-P25) makes it more robust and helps avoid
-                # misclassifying stairs as a wall when very close.
-                wall_dist_th_mm = params.get('wall_dist_th') * 1000
-                wall_iqr_th_mm = params.get('wall_iqr_th') * 1000
-
-                depth_vals = roi_filtered[valid_mask]
-                if depth_vals.size > 0:
-                    q25, q75 = np.percentile(depth_vals, [25, 75])
-                    iqr_mm = q75 - q25
-                else:
-                    iqr_mm = float('inf')
-
-                is_wall = (mean_dist_mm < wall_dist_th_mm) and (iqr_mm < wall_iqr_th_mm)
-
                 # 下行 (洞)
                 horizontal_projection = np.sum(valid_mask, axis=1)
                 empty_lines = np.where(horizontal_projection < roi.shape[1] * 0.1)[0]
@@ -361,6 +345,26 @@ def main():
                     diff_m = (top_m - btm_m) / 1000.0
                     is_stairs_up = diff_m > params.get('step_height_th')
 
+                # Wall detection: close + flat surface.
+                # IMPORTANT: if stairs are detected, don't classify as WALL.
+                mean_dist_mm = np.mean(roi_filtered[valid_mask])
+                wall_dist_th_mm = params.get('wall_dist_th') * 1000
+                wall_iqr_th_mm = params.get('wall_iqr_th') * 1000
+
+                depth_vals = roi_filtered[valid_mask]
+                if depth_vals.size > 0:
+                    q25, q75 = np.percentile(depth_vals, [25, 75])
+                    iqr_mm = q75 - q25
+                else:
+                    iqr_mm = float('inf')
+
+                is_wall = (
+                    (mean_dist_mm < wall_dist_th_mm)
+                    and (iqr_mm < wall_iqr_th_mm)
+                    and (not is_stairs_down)
+                    and (not is_stairs_up)
+                )
+
             # --- C. 绘图与更新 ---
             
             cv2.rectangle(color_image, (roi_x1, roi_y1), (roi_x2, roi_y2), (0, 255, 0), 2)
@@ -369,14 +373,14 @@ def main():
             # 双语状态文本 (OSD 使用 ASCII)
             status_text = "OK"
             color = (0, 255, 0)
-            if is_wall:
-                status_text = "WALL / MUR"
-                color = (0, 0, 255)
-            elif is_stairs_down:
+            if is_stairs_down:
                 status_text = "DOWN / DESC"
                 color = (0, 0, 255)
             elif is_stairs_up:
                 status_text = "UP / MONT"
+                color = (0, 0, 255)
+            elif is_wall:
+                status_text = "WALL / MUR"
                 color = (0, 0, 255)
             
             cv2.putText(color_image, status_text, (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
