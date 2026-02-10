@@ -50,6 +50,7 @@ class ParamsHandler:
             "min_valid_dist": 0.1,
             "max_valid_dist": 5.0,
             "wall_dist_th": 0.8,
+            "wall_iqr_th": 0.05,
             "step_height_th": 0.05,
             "noise_filtering_area_min_th": 1000,
             "fps": 15
@@ -324,7 +325,20 @@ def main():
             
             if np.sum(valid_mask) > valid_mask.size * 0.1:
                 mean_dist_mm = np.mean(roi_filtered[valid_mask])
-                is_wall = mean_dist_mm < params.get('wall_dist_th') * 1000
+                # Wall detection: close + (optionally) flat surface.
+                # Using IQR (P75-P25) makes it more robust and helps avoid
+                # misclassifying stairs as a wall when very close.
+                wall_dist_th_mm = params.get('wall_dist_th') * 1000
+                wall_iqr_th_mm = params.get('wall_iqr_th') * 1000
+
+                depth_vals = roi_filtered[valid_mask]
+                if depth_vals.size > 0:
+                    q25, q75 = np.percentile(depth_vals, [25, 75])
+                    iqr_mm = q75 - q25
+                else:
+                    iqr_mm = float('inf')
+
+                is_wall = (mean_dist_mm < wall_dist_th_mm) and (iqr_mm < wall_iqr_th_mm)
 
                 # 下行 (洞)
                 horizontal_projection = np.sum(valid_mask, axis=1)
