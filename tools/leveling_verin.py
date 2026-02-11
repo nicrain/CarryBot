@@ -18,7 +18,8 @@ def parse_args():
     parser.add_argument("--deadband", type=float, default=3.0, help="Level deadband in deg")
     parser.add_argument("--kp", type=float, default=20.0, help="PWM per deg")
     parser.add_argument("--pwm-max", type=float, default=120.0, help="PWM limit")
-    parser.add_argument("--rate", type=float, default=20.0, help="Control rate (Hz)")
+    parser.add_argument("--rate", type=float, default=2.0, help="Control rate (Hz)")
+    parser.add_argument("--pwm-step", type=float, default=5.0, help="Min PWM change to resend")
     parser.add_argument("--invert", action="store_true", help="Invert control direction")
     parser.add_argument("--imu-timeout", type=float, default=1.0, help="IMU data timeout (s)")
     return parser.parse_args()
@@ -35,18 +36,24 @@ def main():
     axis_index = {"x": 0, "y": 1, "z": 2}[args.axis]
     interval = 1.0 / max(args.rate, 1e-3)
 
+    last_sent_pwm = None
+
     try:
         while True:
             imu = driver.get_latest_imu()
             if imu is None:
-                driver.move_verin_pwm(0)
+                if last_sent_pwm is None or last_sent_pwm != 0:
+                    driver.move_verin_pwm(0)
+                    last_sent_pwm = 0
                 time.sleep(interval)
                 continue
 
             angle_x, angle_y, angle_z, ts = imu
             age = time.time() - ts
             if age > args.imu_timeout:
-                driver.move_verin_pwm(0)
+                if last_sent_pwm is None or last_sent_pwm != 0:
+                    driver.move_verin_pwm(0)
+                    last_sent_pwm = 0
                 time.sleep(interval)
                 continue
 
@@ -61,7 +68,10 @@ def main():
                 pwm = -pwm
 
             pwm = clamp(pwm, -args.pwm_max, args.pwm_max)
-            driver.move_verin_pwm(pwm)
+            pwm_int = int(round(pwm))
+            if last_sent_pwm is None or abs(pwm_int - last_sent_pwm) >= int(args.pwm_step):
+                driver.move_verin_pwm(pwm_int)
+                last_sent_pwm = pwm_int
 
             time.sleep(interval)
     except KeyboardInterrupt:
