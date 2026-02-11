@@ -8,7 +8,7 @@ MeEncoderOnBoard Encoder_L(SLOT1);
 MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
 MeEncoderOnBoard VerinMotor(SLOT4); // 推杆/执行器 (PWM)
-MeGyro Gyro(PORT_5);
+MeGyro Gyro(PORT_6);
 
 // --- 控制器实例 (PID 参数在这里调) ---
 // 格式: MotorController(&Encoder, Kp, Ki, Kd, FeedForward, Reversed)
