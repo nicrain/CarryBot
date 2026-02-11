@@ -19,7 +19,7 @@ MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0, false);
 // --- 全局参数 ---
 float K_sync = 1.0;          // 左右轮同步系数
 const int PID_INTERVAL = 20; // 控制周期 ms
-const int IMU_INTERVAL = 50; // IMU output interval (ms)
+const int IMU_INTERVAL = 500; // IMU output interval (ms)
 unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
 
