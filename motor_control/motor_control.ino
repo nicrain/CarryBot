@@ -1,4 +1,5 @@
 #include <MeMegaPi.h>
+#include <Wire.h>
 #include <MeGyro.h>
 #include "MotorController.h"
 
