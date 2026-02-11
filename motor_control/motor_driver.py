@@ -8,6 +8,8 @@ class MotorDriver:
         self.ser = None
         self.running = True
         self.arduino_ready = threading.Event() # 握手信号
+        self.imu_lock = threading.Lock()
+        self.latest_imu = None
         target_port = port
         
         # 自动搜索端口
@@ -58,13 +60,30 @@ class MotorDriver:
                     # 读取一行，忽略解码错误
                     line = self.ser.readline().decode('utf-8', errors='ignore').strip()
                     if line:
-                        print(f"[Arduino] {line}")
-                        # 握手检测关键词
-                        if "Ready" in line:
-                            self.arduino_ready.set()
+                        if line.startswith("IMU:"):
+                            imu_payload = line[4:]
+                            parts = [p.strip() for p in imu_payload.split(",")]
+                            if len(parts) >= 3:
+                                try:
+                                    angle_x = float(parts[0])
+                                    angle_y = float(parts[1])
+                                    angle_z = float(parts[2])
+                                    with self.imu_lock:
+                                        self.latest_imu = (angle_x, angle_y, angle_z, time.time())
+                                except ValueError:
+                                    pass
+                        else:
+                            print(f"[Arduino] {line}")
+                            # 握手检测关键词
+                            if "Ready" in line:
+                                self.arduino_ready.set()
             except Exception:
                 pass
             time.sleep(0.01)
+
+    def get_latest_imu(self):
+        with self.imu_lock:
+            return self.latest_imu
 
     def _send_command(self, cmd):
         if self.ser and self.ser.is_open:

@@ -1,4 +1,5 @@
 #include <MeMegaPi.h>
+#include <MeGyro.h>
 #include "MotorController.h"
 
 // --- 硬件对象定义 ---
@@ -6,6 +7,7 @@ MeEncoderOnBoard Encoder_L(SLOT1);
 MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
 MeEncoderOnBoard VerinMotor(SLOT4); // 推杆/执行器 (PWM)
+MeGyro Gyro(PORT_5);
 
 // --- 控制器实例 (PID 参数在这里调) ---
 // 格式: MotorController(&Encoder, Kp, Ki, Kd, FeedForward, Reversed)
@@ -16,7 +18,9 @@ MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0, false);
 // --- 全局参数 ---
 float K_sync = 1.0;          // 左右轮同步系数
 const int PID_INTERVAL = 20; // 控制周期 ms
+const int IMU_INTERVAL = 50; // IMU output interval (ms)
 unsigned long lastTime = 0;
+unsigned long lastImuTime = 0;
 
 // --- 中断函数 (必须写在这里) ---
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
@@ -27,6 +31,8 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(50);
   Serial.println("CarryBot Motor Ctrl Ready");
+
+  Gyro.begin();
 
   // 绑定中断
   attachInterrupt(Encoder_L.getIntNum(), isr_L, RISING);
@@ -85,6 +91,7 @@ void loop() {
   // 2. 刷新编码器状态
   Encoder_L.loop(); Encoder_R.loop(); Encoder_T.loop();
   VerinMotor.loop();
+  Gyro.update();
 
   // 3. 定时 PID 计算
   if (millis() - lastTime > PID_INTERVAL) {
@@ -121,5 +128,16 @@ void loop() {
       }
       Serial.println();
     }
+  }
+
+  // 5. IMU output (roll/pitch/yaw angles)
+  if (millis() - lastImuTime > IMU_INTERVAL) {
+    lastImuTime = millis();
+    Serial.print("IMU:");
+    Serial.print(Gyro.getAngleX());
+    Serial.print(",");
+    Serial.print(Gyro.getAngleY());
+    Serial.print(",");
+    Serial.println(Gyro.getAngleZ());
   }
 }
