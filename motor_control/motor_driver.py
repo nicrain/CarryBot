@@ -1,9 +1,14 @@
+"""
+串口电机驱动与 IMU 数据解析 / Pilote série moteurs + parsing IMU.
+"""
+
 import serial
 import serial.tools.list_ports
 import time
 import threading
 
 class MotorDriver:
+    """串口控制 Makeblock 电机控制板 / Contrôle série du contrôleur Makeblock."""
     def __init__(self, port=None, baudrate=115200, timeout=1):
         self.ser = None
         self.running = True
@@ -54,6 +59,7 @@ class MotorDriver:
             exit(1) # Exit since we can't do anything without the motor
 
     def _read_serial_loop(self):
+        """后台读取串口并解析 IMU / Lecture série en arrière-plan + parsing IMU."""
         while self.running and self.ser and self.ser.is_open:
             try:
                 if self.ser.in_waiting > 0:
@@ -82,10 +88,12 @@ class MotorDriver:
             time.sleep(0.01)
 
     def get_latest_imu(self):
+        """获取最新 IMU 角度与时间戳 / Renvoie les derniers angles IMU + horodatage."""
         with self.imu_lock:
             return self.latest_imu
 
     def _send_command(self, cmd):
+        """发送固件指令 / Envoi d'une commande firmware."""
         if self.ser and self.ser.is_open:
             try:
                 # 加上 \n 换行符，确保 Arduino 知道这是一条完整指令

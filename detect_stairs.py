@@ -39,6 +39,7 @@ dist_display_ema_m = None
 
 # --- 2. 参数管理类 (ParamsHandler) ---
 class ParamsHandler:
+    """参数加载与优先级管理 / Gestion des params et priorites."""
     def __init__(self, default_params_path='config/config.json'):
         self.params_path = default_params_path
         self.file_params = {}
@@ -110,6 +111,7 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
 
 class StreamingHandler(http.server.BaseHTTPRequestHandler):
+    """Web 端点与视频流处理 / Gestion des endpoints web et du flux video."""
     def __init__(self, *args, params_handler=None, **kwargs):
         self.params_handler = params_handler
         super().__init__(*args, **kwargs)
@@ -222,6 +224,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
         super().log_message(format, *args)
 
 def start_http_server(params_handler, host='0.0.0.0', port=8080):
+    """启动 HTTP 服务线程 / Demarre le serveur HTTP."""
     def handler_factory(*args, **kwargs):
         return StreamingHandler(*args, params_handler=params_handler, **kwargs)
 
@@ -230,6 +233,7 @@ def start_http_server(params_handler, host='0.0.0.0', port=8080):
         httpd.serve_forever()
 
 def start_config_watcher(params_handler):
+    """监测配置文件变更 / Surveille les changements du fichier config."""
     last_mtime = 0
     while True:
         try:
@@ -248,6 +252,7 @@ def start_config_watcher(params_handler):
 # -------------------------------------------------------------------------------------------------
 
 def parse_args():
+    """解析 CLI 参数 / Analyse des arguments CLI."""
     parser = argparse.ArgumentParser(description="CarryBot Vision (CN/FR)")
     parser.add_argument('--config', type=str, help='Config file path / Chemin du fichier de config')
     handler = ParamsHandler()
@@ -258,6 +263,7 @@ def parse_args():
 
 
 def main():
+    """主循环：采集、检测、可视化与流输出 / Boucle principale capture-detect-affichage."""
     global output_frame
     global dist_display_ema_m
     

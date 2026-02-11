@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+简易串口控制台 / Console série simple.
+用于发送指令并读取固件输出 / Envoi de commandes et lecture des sorties firmware.
+"""
+
 import argparse
 import select
 import sys
@@ -12,6 +17,7 @@ import serial.tools.list_ports
 
 
 def _auto_pick_port() -> str | None:
+    """自动选择疑似控制板串口 / Sélection automatique du port série."""
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
         dev = (p.device or "").lower()
@@ -28,6 +34,7 @@ def _reader(
     show_telemetry: bool,
     show_all: bool,
 ) -> None:
+    """后台读取串口文本并过滤 / Lecture série en arrière-plan + filtrage."""
     while not stop_event.is_set():
         try:
             line = ser.readline()
@@ -48,6 +55,7 @@ def _reader(
 
 
 def _send(ser: serial.Serial, cmd: str) -> None:
+    """发送一条指令行 / Envoi d'une ligne de commande."""
     cmd = cmd.strip()
     if not cmd:
         return
@@ -58,6 +66,7 @@ def _send(ser: serial.Serial, cmd: str) -> None:
 
 
 def _interactive_raw(ser: serial.Serial, *, show_telemetry: bool, show_all: bool) -> None:
+    """交互式原始终端 / Terminal interactif brut."""
     # Raw-key interactive console: type commands, Enter to send.
     # If buffer is empty, pressing 's' (or space) sends STOP immediately.
     import termios
@@ -143,6 +152,7 @@ def _interactive_raw(ser: serial.Serial, *, show_telemetry: bool, show_all: bool
 
 
 def main() -> int:
+    """入口：解析参数并启动串口会话 / Entrée: parse args et lance la session."""
     ap = argparse.ArgumentParser(description="Simple serial console for CarryBot motor controller")
     ap.add_argument("--port", default=None, help="Serial port (e.g. /dev/ttyUSB0). Auto-detect if omitted.")
     ap.add_argument("--baud", type=int, default=115200, help="Baud rate (default: 115200)")

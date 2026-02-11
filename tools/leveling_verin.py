@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+IMU 水平控制推杆 / Contrôle d'assiette via IMU pour vérin.
+"""
+
 import argparse
 import os
 import sys
@@ -13,6 +17,7 @@ from motor_control.motor_driver import MotorDriver
 
 
 def parse_args():
+    """解析控制参数 / Analyse des paramètres de contrôle."""
     parser = argparse.ArgumentParser(description="Verin leveling controller (IMU-based)")
     parser.add_argument("--axis", choices=["x", "y", "z"], default="y", help="IMU angle axis")
     parser.add_argument("--deadband", type=float, default=3.0, help="Level deadband in deg")
@@ -26,10 +31,12 @@ def parse_args():
 
 
 def clamp(val, lo, hi):
+    """限制数值范围 / Limite une valeur dans un intervalle."""
     return max(lo, min(hi, val))
 
 
 def main():
+    """主循环：读取 IMU 并驱动推杆 / Boucle principale IMU + vérin."""
     args = parse_args()
     driver = MotorDriver()
 
