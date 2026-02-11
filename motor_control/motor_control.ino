@@ -29,8 +29,9 @@ unsigned long lastUltraTime = 0;
 
 // --- T 电机自动触发参数 ---
 const int T_PULSE_PER_REV = 7; // Encoder_T.setPulse
-const int T_RATIO = 75;        // Encoder_T.setRatio
-const long T_TARGET_PULSES = (T_PULSE_PER_REV * T_RATIO) / 3; // 1/3 圈
+const int T_RATIO = 75;        // Encoder_T.setRatio (电机轴参数 / param moteur)
+const float T_GEAR_RATIO = 9.0; // 8T:72T => 1:9 (motor:wheel)
+const long T_TARGET_PULSES = (long)((T_PULSE_PER_REV * T_RATIO * T_GEAR_RATIO) / 3.0); // 轮轴 1/3 圈
 const float T_AUTO_RPM = 20.0; // 自动触发速度
 const double ULTRA_TRIGGER_CM = 5.0;
 const double ULTRA_RESET_CM = 6.0; // 简单迟滞，防止抖动
