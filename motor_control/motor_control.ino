@@ -1,6 +1,7 @@
 #include <MeMegaPi.h>
 #include <Wire.h>
 #include <MeGyro.h>
+#include <MeUltrasonicSensor.h>
 #include "MotorController.h"
 
 // --- 硬件对象定义 ---
@@ -9,6 +10,7 @@ MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
 MeEncoderOnBoard VerinMotor(SLOT4); // 推杆/执行器 (PWM)
 MeGyro Gyro(PORT_6);
+MeUltrasonicSensor Ultrasonic(PORT_7);
 
 // --- 控制器实例 (PID 参数在这里调) ---
 // 格式: MotorController(&Encoder, Kp, Ki, Kd, FeedForward, Reversed)
@@ -20,8 +22,21 @@ MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0, false);
 float K_sync = 1.0;          // 左右轮同步系数
 const int PID_INTERVAL = 20; // 控制周期 ms
 const int IMU_INTERVAL = 500; // IMU output interval (ms)
+const int ULTRA_INTERVAL = 100; // Ultrasonic interval (ms)
 unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
+unsigned long lastUltraTime = 0;
+
+// --- T 电机自动触发参数 ---
+const int T_PULSE_PER_REV = 7; // Encoder_T.setPulse
+const int T_RATIO = 75;        // Encoder_T.setRatio
+const long T_TARGET_PULSES = (T_PULSE_PER_REV * T_RATIO) / 3; // 1/3 圈
+const float T_AUTO_RPM = 20.0; // 自动触发速度
+const double ULTRA_TRIGGER_CM = 5.0;
+const double ULTRA_RESET_CM = 6.0; // 简单迟滞，防止抖动
+bool t_auto_active = false;
+bool t_auto_armed = true;
+long t_start_pulse = 0;
 
 // --- 中断函数 (必须写在这里) ---
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
@@ -43,7 +58,7 @@ void setup() {
   // 设置减速比和脉冲数
   Encoder_L.setPulse(7); Encoder_L.setRatio(46);
   Encoder_R.setPulse(7); Encoder_R.setRatio(46);
-  Encoder_T.setPulse(7); Encoder_T.setRatio(75);
+  Encoder_T.setPulse(T_PULSE_PER_REV); Encoder_T.setRatio(T_RATIO);
   // 推杆通常没有编码器反馈，这里只需要确保 PWM 输出可用
   VerinMotor.setPulse(7);
   VerinMotor.setRatio(46);
@@ -69,7 +84,9 @@ void loop() {
       }
       case 'T': case 't': { // 爬楼 T20
         float val = Serial.parseFloat();
-        MotorT.setTarget(val);
+        if (!t_auto_active) {
+          MotorT.setTarget(val);
+        }
         Serial.print("SET_TRISTAR:"); Serial.println(val);
         break;
       }
@@ -94,6 +111,23 @@ void loop() {
   VerinMotor.loop();
   Gyro.update();
 
+  // 2.5 超声波触发检测 (接近台阶)
+  if (millis() - lastUltraTime > ULTRA_INTERVAL) {
+    lastUltraTime = millis();
+    double dist_cm = Ultrasonic.distanceCm();
+    if (dist_cm > 0 && dist_cm < 400) {
+      if (t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM) {
+        t_auto_active = true;
+        t_auto_armed = false;
+        t_start_pulse = Encoder_T.getPulsePos();
+        MotorT.setTarget(T_AUTO_RPM);
+        Serial.print("AUTO_T_START_CM:"); Serial.println(dist_cm);
+      } else if (!t_auto_armed && dist_cm >= ULTRA_RESET_CM) {
+        t_auto_armed = true;
+      }
+    }
+  }
+
   // 3. 定时 PID 计算
   if (millis() - lastTime > PID_INTERVAL) {
     lastTime = millis();
@@ -113,6 +147,16 @@ void loop() {
     // 写入电机
     MotorL.writePWM(pwmL);
     MotorR.writePWM(pwmR);
+    // 自动触发运行完成检测
+    if (t_auto_active) {
+      long delta_pulse = labs(Encoder_T.getPulsePos() - t_start_pulse);
+      if (delta_pulse >= T_TARGET_PULSES) {
+        MotorT.setTarget(0);
+        t_auto_active = false;
+        Serial.println("AUTO_T_DONE");
+      }
+    }
+
     MotorT.writePWM(pwmT);
 
     // 4. 定期发送调试信息 (每 100ms 一次)
