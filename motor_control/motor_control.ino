@@ -69,9 +69,12 @@ void isr_T() { if(digitalRead(Encoder_T.getPortB()) == 0) Encoder_T.pulsePosMinu
 void setup() {
   Serial.begin(115200);
   Serial.setTimeout(50);
-  Serial.println("CarryBot Motor Ctrl Ready");
-
-  Serial.print("STOP_BTN_PIN:");
+  delay(100);
+  Serial.print("CarryBot Motor Ctrl Ready | FW:");
+  Serial.print(__DATE__);
+  Serial.print(" ");
+  Serial.print(__TIME__);
+  Serial.print(" | STOP_BTN_PIN:");
   Serial.println(stop_btn_pin);
 
   pinMode(stop_btn_pin, INPUT_PULLUP);
