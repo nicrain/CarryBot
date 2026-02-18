@@ -19,7 +19,7 @@ from motor_control.motor_driver import MotorDriver
 def parse_args():
     """解析控制参数 / Analyse des paramètres de contrôle."""
     parser = argparse.ArgumentParser(description="Verin leveling controller (IMU-based)")
-    parser.add_argument("--axis", choices=["x", "y", "z"], default="y", help="IMU angle axis")
+    parser.add_argument("--axis", choices=["x", "y", "z"], default="x", help="IMU angle axis")
     parser.add_argument("--deadband", type=float, default=3.0, help="Level deadband in deg")
     parser.add_argument("--kp", type=float, default=20.0, help="PWM per deg")
     parser.add_argument("--pwm-max", type=float, default=120.0, help="PWM limit")

@@ -28,7 +28,7 @@ unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
 // --- T 电机自动触发参数 ---
-const int T_PULSE_PER_REV = 7; // Encoder_T.setPulse
+const int T_PULSE_PER_REV = 8; // Encoder_T.setPulse
 const int T_RATIO = 75;        // Encoder_T.setRatio (电机轴参数 / param moteur)
 const float T_GEAR_RATIO = 9.0; // 8T:72T => 1:9 (motor:wheel)
 const long T_TARGET_PULSES = (long)((T_PULSE_PER_REV * T_RATIO * T_GEAR_RATIO) / 3.0); // 轮轴 1/3 圈
@@ -77,10 +77,15 @@ void loop() {
 
     switch (cmd) {
       case 'M': case 'm': { // 轮子移动 M30
-        float val = Serial.parseFloat();
+        float req = Serial.parseFloat();
+        // 约定：串口输入的正值表示“小车向前”。
+        // 但在当前硬件接线/安装方向下，MegaPi 的正 PWM 对应小车后退，
+        // 所以这里做一次全局符号翻转，保证 m100=前进，m-100=后退。
+        float val = -req;
         MotorL.setTarget(val);
         MotorR.setTarget(val);
-        Serial.print("SET_WHEELS:"); Serial.println(val);
+        Serial.print("SET_WHEELS_REQ:"); Serial.println(req);
+        Serial.print("SET_WHEELS_APPLIED:"); Serial.println(val);
         break;
       }
       case 'T': case 't': { // 爬楼 T20
@@ -117,13 +122,13 @@ void loop() {
     lastUltraTime = millis();
     double dist_cm = Ultrasonic.distanceCm();
     if (dist_cm > 0 && dist_cm < 400) {
-      if (t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM) {
+      if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM) {
         t_auto_active = true;
         t_auto_armed = false;
         t_start_pulse = Encoder_T.getPulsePos();
         MotorT.setTarget(T_AUTO_RPM);
         Serial.print("AUTO_T_START_CM:"); Serial.println(dist_cm);
-      } else if (!t_auto_armed && dist_cm >= ULTRA_RESET_CM) {
+      } else if (!t_auto_active && !t_auto_armed && dist_cm >= ULTRA_RESET_CM) {
         t_auto_armed = true;
       }
     }
@@ -154,6 +159,7 @@ void loop() {
       if (delta_pulse >= T_TARGET_PULSES) {
         MotorT.setTarget(0);
         t_auto_active = false;
+        t_auto_armed = true;
         Serial.println("AUTO_T_DONE");
       }
     }
