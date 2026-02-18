@@ -33,14 +33,8 @@ unsigned long lastUltraTime = 0;
 // - 两个“小脚”标 + / - 是 LED（与 STOP 输入无关）
 // 接线建议：开关触点一端接 GND，另一端接 STOP_BTN_PIN；用 INPUT_PULLUP。
 // 如果有两个按钮实现同样 STOP：两个按钮的开关触点并联到同一个 STOP_BTN_PIN 与 GND。
-// 默认 STOP 引脚；如果板子丝印/映射不一致，可在运行时用串口命令 Bxx 修改。
-uint8_t stop_btn_pin = 22; // 默认 22
-const unsigned long STOP_DEBOUNCE_MS = 30;
-bool stop_btn_stable_pressed = false;
-bool stop_btn_last_sample = false;
-unsigned long stop_btn_last_change_ms = 0;
+const uint8_t STOP_BTN_PIN = 22;
 bool stop_btn_reported_pressed = false;
-unsigned long stop_debug_until_ms = 0;
 
 static inline void apply_stop_all() {
   MotorL.reset();
@@ -69,15 +63,9 @@ void isr_T() { if(digitalRead(Encoder_T.getPortB()) == 0) Encoder_T.pulsePosMinu
 void setup() {
   Serial.begin(115200);
   Serial.setTimeout(50);
-  delay(100);
-  Serial.print("CarryBot Motor Ctrl Ready | FW:");
-  Serial.print(__DATE__);
-  Serial.print(" ");
-  Serial.print(__TIME__);
-  Serial.print(" | STOP_BTN_PIN:");
-  Serial.println(stop_btn_pin);
+  Serial.println("CarryBot Motor Ctrl Ready");
 
-  pinMode(stop_btn_pin, INPUT_PULLUP);
+  pinMode(STOP_BTN_PIN, INPUT_PULLUP);
 
   Gyro.begin();
 
@@ -102,19 +90,8 @@ void setup() {
 void loop() {
   // 0. 实体 STOP 按钮（防抖 + 电平触发）
   // INPUT_PULLUP: 未按下=HIGH，按下(短接到GND)=LOW
-  bool stop_sample_pressed = (digitalRead(stop_btn_pin) == LOW);
+  bool stop_sample_pressed = (digitalRead(STOP_BTN_PIN) == LOW);
 
-  // 可选调试：在指定时间窗口内，周期性打印当前 STOP 引脚电平
-  if (stop_debug_until_ms != 0 && millis() < stop_debug_until_ms) {
-    static unsigned long last_dbg = 0;
-    if (millis() - last_dbg >= 200) {
-      last_dbg = millis();
-      Serial.print("STOP_BTN_READ_PIN:");
-      Serial.print(stop_btn_pin);
-      Serial.print(" VAL:");
-      Serial.println(stop_sample_pressed ? 0 : 1);
-    }
-  }
   // 紧急停：只要检测到 LOW，就立刻停（不等防抖）。
   // 这样即使串口持续有数据（while Serial.available 一直跑），也能立即刹车。
   if (stop_sample_pressed) {
@@ -122,8 +99,7 @@ void loop() {
     t_auto_active = false;
     t_auto_armed = true;
     if (!stop_btn_reported_pressed) {
-      Serial.print("STOP_BTN_RAW_LOW_PIN:");
-      Serial.println(stop_btn_pin);
+      Serial.println("STOP_BTN");
       stop_btn_reported_pressed = true;
     }
     return;
@@ -131,40 +107,16 @@ void loop() {
     stop_btn_reported_pressed = false;
   }
 
-  if (stop_sample_pressed != stop_btn_last_sample) {
-    stop_btn_last_sample = stop_sample_pressed;
-    stop_btn_last_change_ms = millis();
-    Serial.print("STOP_BTN_RAW:");
-    Serial.println(stop_sample_pressed ? 1 : 0);
-  }
-  if (millis() - stop_btn_last_change_ms >= STOP_DEBOUNCE_MS) {
-    if (stop_btn_stable_pressed != stop_btn_last_sample) {
-      stop_btn_stable_pressed = stop_btn_last_sample;
-      if (stop_btn_stable_pressed) {
-        apply_stop_all();
-        Serial.println("STOP_BTN");
-      }
-    }
-  }
-  if (stop_btn_stable_pressed) {
-    // 按住期间持续保持停机状态（更安全，等同于反复收到 'S'）
-    apply_stop_all();
-    t_auto_active = false;
-    t_auto_armed = true;
-    return;
-  }
-
   // 1. 读取串口指令
   // 限制每轮处理的命令数，避免被串口洪泛“饿死”其他逻辑（例如 STOP 按钮）。
   int cmd_budget = 8;
   while (Serial.available() > 0 && cmd_budget-- > 0) {
     // 串口处理期间也检查紧急停
-    if (digitalRead(stop_btn_pin) == LOW) {
+    if (digitalRead(STOP_BTN_PIN) == LOW) {
       apply_stop_all();
       t_auto_active = false;
       t_auto_armed = true;
-      Serial.print("STOP_BTN_RAW_LOW_PIN:");
-      Serial.println(stop_btn_pin);
+      Serial.println("STOP_BTN");
       // 清空缓冲区，避免松开按钮后立刻又被历史命令启动
       while (Serial.available() > 0) (void)Serial.read();
       return;
@@ -174,25 +126,6 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
-      case 'B': case 'b': { // 设置 STOP 按钮引脚：B22
-        int new_pin = Serial.parseInt();
-        if (new_pin >= 2 && new_pin <= 53) {
-          stop_btn_pin = (uint8_t)new_pin;
-          pinMode(stop_btn_pin, INPUT_PULLUP);
-          Serial.print("STOP_BTN_PIN_SET:");
-          Serial.println(stop_btn_pin);
-        } else {
-          Serial.print("STOP_BTN_PIN_INVALID:");
-          Serial.println(new_pin);
-        }
-        break;
-      }
-      case 'Q': case 'q': { // 打印 5 秒 STOP 引脚读数，用于接线自检
-        stop_debug_until_ms = millis() + 5000;
-        Serial.print("STOP_BTN_DEBUG_5S_PIN:");
-        Serial.println(stop_btn_pin);
-        break;
-      }
       case 'M': case 'm': { // 轮子移动 M30
         float req = Serial.parseFloat();
         // 约定：串口输入的正值表示“小车向前”。
