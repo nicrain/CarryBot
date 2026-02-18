@@ -39,7 +39,9 @@ float verin_level_deadband_deg = 3.0; // deg
 float verin_level_kp = 20.0;          // PWM per deg
 int verin_level_pwm_max = 120;        // PWM limit
 int verin_level_pwm_step = 5;         // 最小 PWM 变化才重发
-bool verin_level_invert = true;
+// 调平方向：默认 NORMAL（与当前机械/安装方向匹配）。
+// 如需反向，可切换到 REVERSED。
+bool verin_level_reversed = false;
 const int VERIN_LEVEL_INTERVAL = 500; // ms (2 Hz)
 unsigned long lastVerinLevelTime = 0;
 int last_verin_pwm_sent = 0;
@@ -215,11 +217,11 @@ void loop() {
         Serial.println(verin_level_pwm_max);
         break;
       }
-      case 'I': case 'i': { // invert: I1 / I0
+      case 'I': case 'i': { // 调平方向: I0 NORMAL / I1 REVERSED
         int v = Serial.parseInt();
-        verin_level_invert = (v != 0);
-        Serial.print("VERIN_INVERT:");
-        Serial.println(verin_level_invert ? 1 : 0);
+        verin_level_reversed = (v != 0);
+        Serial.print("VERIN_MODE:");
+        Serial.println(verin_level_reversed ? "REVERSED" : "NORMAL");
         break;
       }
       case 'E': case 'e': { // pwm step: E5
@@ -271,8 +273,9 @@ void loop() {
     float angle = get_gyro_axis_deg(verin_level_axis);
     int pwm = 0;
     if (abs(angle) > verin_level_deadband_deg) {
-      float p = verin_level_kp * angle;
-      if (verin_level_invert) p = -p;
+      // 以 NORMAL 为基准：这里用 -kp*angle。
+      // 如需反向（REVERSED），则改为 +kp*angle。
+      float p = verin_level_reversed ? (verin_level_kp * angle) : (-verin_level_kp * angle);
       p = constrain(p, (float)-verin_level_pwm_max, (float)verin_level_pwm_max);
       pwm = (int)round(p);
     }
