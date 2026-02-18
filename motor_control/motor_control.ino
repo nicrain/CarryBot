@@ -37,7 +37,7 @@ bool verin_level_enabled = true;
 char verin_level_axis = 'x';
 float verin_level_deadband_deg = 2.0; // deg
 float verin_level_kp = 20.0;          // PWM per deg
-int verin_level_pwm_max = 120;        // PWM limit
+int verin_level_pwm_max = 150;        // PWM limit
 int verin_level_pwm_step = 5;         // 最小 PWM 变化才重发
 // 调平方向：默认 NORMAL（与当前机械/安装方向匹配）。
 // 如需反向，可切换到 REVERSED。
