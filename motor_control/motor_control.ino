@@ -31,6 +31,8 @@ unsigned long lastUltraTime = 0;
 
 // --- 推杆自动调平（板上闭环）---
 // 基于 Gyro.getAngleX/Y/Z（单位：deg），输出 VerinMotor PWM（-255~255）。
+// 注意：如果推杆物理方向与约定相反（V100 变成收回），用 verin_hw_reversed 统一反转。
+bool verin_hw_reversed = false;
 bool verin_level_enabled = false;
 char verin_level_axis = 'x';
 float verin_level_deadband_deg = 3.0; // deg
@@ -41,6 +43,16 @@ bool verin_level_invert = false;
 const int VERIN_LEVEL_INTERVAL = 500; // ms (2 Hz)
 unsigned long lastVerinLevelTime = 0;
 int last_verin_pwm_sent = 0;
+
+static inline int apply_verin_hw_dir(int pwm_cmd) {
+  return verin_hw_reversed ? -pwm_cmd : pwm_cmd;
+}
+
+static inline void write_verin_pwm_cmd(int pwm_cmd) {
+  pwm_cmd = constrain(pwm_cmd, -255, 255);
+  VerinMotor.setMotorPwm(apply_verin_hw_dir(pwm_cmd));
+  last_verin_pwm_sent = pwm_cmd;
+}
 
 static inline float get_gyro_axis_deg(char axis) {
   switch (axis) {
@@ -53,8 +65,7 @@ static inline float get_gyro_axis_deg(char axis) {
 
 static inline void verin_level_stop() {
   verin_level_enabled = false;
-  VerinMotor.setMotorPwm(0);
-  last_verin_pwm_sent = 0;
+  write_verin_pwm_cmd(0);
 }
 
 // --- 实体 STOP 按钮 ---
@@ -70,9 +81,8 @@ static inline void apply_stop_all() {
   MotorL.reset();
   MotorR.reset();
   MotorT.reset();
-  VerinMotor.setMotorPwm(0);
+  write_verin_pwm_cmd(0);
   verin_level_enabled = false;
-  last_verin_pwm_sent = 0;
 }
 
 // --- T 电机自动触发参数 ---
@@ -116,7 +126,7 @@ void setup() {
   
   // 初始停止
   MotorL.reset(); MotorR.reset(); MotorT.reset();
-  VerinMotor.setMotorPwm(0);
+  write_verin_pwm_cmd(0);
 }
 
 void loop() {
@@ -158,12 +168,20 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
+      case 'R': case 'r': { // 推杆物理方向反转: R1 反转 / R0 不反转
+        int v = Serial.parseInt();
+        verin_hw_reversed = (v != 0);
+        // 方向切换后，立即按当前“命令语义”重新下发一次，避免瞬间反冲
+        write_verin_pwm_cmd(last_verin_pwm_sent);
+        Serial.print("VERIN_HW_REVERSED:");
+        Serial.println(verin_hw_reversed ? 1 : 0);
+        break;
+      }
       case 'L': case 'l': { // 推杆自动调平开关: L1 开 / L0 关
         int en = Serial.parseInt();
         verin_level_enabled = (en != 0);
         if (!verin_level_enabled) {
-          VerinMotor.setMotorPwm(0);
-          last_verin_pwm_sent = 0;
+          write_verin_pwm_cmd(0);
         }
         Serial.print("VERIN_LEVEL:");
         Serial.println(verin_level_enabled ? 1 : 0);
@@ -244,9 +262,7 @@ void loop() {
         // 手动推杆优先：收到 V 指令就关闭自动调平
         verin_level_enabled = false;
         int val = Serial.parseInt();
-        val = constrain(val, -255, 255);
-        VerinMotor.setMotorPwm(val);
-        last_verin_pwm_sent = val;
+        write_verin_pwm_cmd(val);
         Serial.print("SET_VERIN:"); Serial.println(val);
         break;
       }
@@ -271,8 +287,7 @@ void loop() {
     }
 
     if (abs(pwm - last_verin_pwm_sent) >= verin_level_pwm_step) {
-      VerinMotor.setMotorPwm(pwm);
-      last_verin_pwm_sent = pwm;
+      write_verin_pwm_cmd(pwm);
     }
   }
 
