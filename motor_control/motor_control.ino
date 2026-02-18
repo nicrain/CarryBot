@@ -38,6 +38,7 @@ const unsigned long STOP_DEBOUNCE_MS = 30;
 bool stop_btn_stable_pressed = false;
 bool stop_btn_last_sample = false;
 unsigned long stop_btn_last_change_ms = 0;
+bool stop_btn_reported_pressed = false;
 
 static inline void apply_stop_all() {
   MotorL.reset();
@@ -94,9 +95,27 @@ void loop() {
   // 0. 实体 STOP 按钮（防抖 + 电平触发）
   // INPUT_PULLUP: 未按下=HIGH，按下(短接到GND)=LOW
   bool stop_sample_pressed = (digitalRead(STOP_BTN_PIN) == LOW);
+  // 紧急停：只要检测到 LOW，就立刻停（不等防抖）。
+  // 这样即使串口持续有数据（while Serial.available 一直跑），也能立即刹车。
+  if (stop_sample_pressed) {
+    apply_stop_all();
+    t_auto_active = false;
+    t_auto_armed = true;
+    if (!stop_btn_reported_pressed) {
+      Serial.print("STOP_BTN_RAW_LOW_PIN:");
+      Serial.println(STOP_BTN_PIN);
+      stop_btn_reported_pressed = true;
+    }
+    return;
+  } else {
+    stop_btn_reported_pressed = false;
+  }
+
   if (stop_sample_pressed != stop_btn_last_sample) {
     stop_btn_last_sample = stop_sample_pressed;
     stop_btn_last_change_ms = millis();
+    Serial.print("STOP_BTN_RAW:");
+    Serial.println(stop_sample_pressed ? 1 : 0);
   }
   if (millis() - stop_btn_last_change_ms >= STOP_DEBOUNCE_MS) {
     if (stop_btn_stable_pressed != stop_btn_last_sample) {
@@ -116,7 +135,21 @@ void loop() {
   }
 
   // 1. 读取串口指令
-  while (Serial.available() > 0) {
+  // 限制每轮处理的命令数，避免被串口洪泛“饿死”其他逻辑（例如 STOP 按钮）。
+  int cmd_budget = 8;
+  while (Serial.available() > 0 && cmd_budget-- > 0) {
+    // 串口处理期间也检查紧急停
+    if (digitalRead(STOP_BTN_PIN) == LOW) {
+      apply_stop_all();
+      t_auto_active = false;
+      t_auto_armed = true;
+      Serial.print("STOP_BTN_RAW_LOW_PIN:");
+      Serial.println(STOP_BTN_PIN);
+      // 清空缓冲区，避免松开按钮后立刻又被历史命令启动
+      while (Serial.available() > 0) (void)Serial.read();
+      return;
+    }
+
     char cmd = Serial.read();
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
