@@ -27,6 +27,25 @@ unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
+// --- 实体 STOP 按钮 ---
+// 适配类似 R16-503 的带灯按钮：
+// - 两个“大脚”是开关触点（通常常开 NO）
+// - 两个“小脚”标 + / - 是 LED（与 STOP 输入无关）
+// 接线建议：开关触点一端接 GND，另一端接 STOP_BTN_PIN；用 INPUT_PULLUP。
+// 如果有两个按钮实现同样 STOP：两个按钮的开关触点并联到同一个 STOP_BTN_PIN 与 GND。
+const uint8_t STOP_BTN_PIN = 22; // TODO: 按你的接线改成可用的数字引脚
+const unsigned long STOP_DEBOUNCE_MS = 30;
+bool stop_btn_stable_pressed = false;
+bool stop_btn_last_sample = false;
+unsigned long stop_btn_last_change_ms = 0;
+
+static inline void apply_stop_all() {
+  MotorL.reset();
+  MotorR.reset();
+  MotorT.reset();
+  VerinMotor.setMotorPwm(0);
+}
+
 // --- T 电机自动触发参数 ---
 const int T_PULSE_PER_REV = 8; // Encoder_T.setPulse
 const int T_RATIO = 75;        // Encoder_T.setRatio (电机轴参数 / param moteur)
@@ -49,6 +68,8 @@ void setup() {
   Serial.setTimeout(50);
   Serial.println("CarryBot Motor Ctrl Ready");
 
+  pinMode(STOP_BTN_PIN, INPUT_PULLUP);
+
   Gyro.begin();
 
   // 绑定中断
@@ -70,6 +91,30 @@ void setup() {
 }
 
 void loop() {
+  // 0. 实体 STOP 按钮（防抖 + 电平触发）
+  // INPUT_PULLUP: 未按下=HIGH，按下(短接到GND)=LOW
+  bool stop_sample_pressed = (digitalRead(STOP_BTN_PIN) == LOW);
+  if (stop_sample_pressed != stop_btn_last_sample) {
+    stop_btn_last_sample = stop_sample_pressed;
+    stop_btn_last_change_ms = millis();
+  }
+  if (millis() - stop_btn_last_change_ms >= STOP_DEBOUNCE_MS) {
+    if (stop_btn_stable_pressed != stop_btn_last_sample) {
+      stop_btn_stable_pressed = stop_btn_last_sample;
+      if (stop_btn_stable_pressed) {
+        apply_stop_all();
+        Serial.println("STOP_BTN");
+      }
+    }
+  }
+  if (stop_btn_stable_pressed) {
+    // 按住期间持续保持停机状态（更安全，等同于反复收到 'S'）
+    apply_stop_all();
+    t_auto_active = false;
+    t_auto_armed = true;
+    return;
+  }
+
   // 1. 读取串口指令
   while (Serial.available() > 0) {
     char cmd = Serial.read();
@@ -104,8 +149,7 @@ void loop() {
         break;
       }
       case 'S': case 's': { // 停止 S
-        MotorL.reset(); MotorR.reset(); MotorT.reset();
-        VerinMotor.setMotorPwm(0);
+        apply_stop_all();
         Serial.println("STOP");
         break;
       }
