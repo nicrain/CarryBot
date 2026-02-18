@@ -33,7 +33,7 @@ unsigned long lastUltraTime = 0;
 // 基于 Gyro.getAngleX/Y/Z（单位：deg），输出 VerinMotor PWM（-255~255）。
 // 注意：如果推杆物理方向与约定相反（V100 变成收回），用 verin_hw_reversed 统一反转。
 bool verin_hw_reversed = false;
-bool verin_level_enabled = false;
+bool verin_level_enabled = true;
 char verin_level_axis = 'x';
 float verin_level_deadband_deg = 3.0; // deg
 float verin_level_kp = 20.0;          // PWM per deg
@@ -168,15 +168,6 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
-      case 'R': case 'r': { // 推杆物理方向反转: R1 反转 / R0 不反转
-        int v = Serial.parseInt();
-        verin_hw_reversed = (v != 0);
-        // 方向切换后，立即按当前“命令语义”重新下发一次，避免瞬间反冲
-        write_verin_pwm_cmd(last_verin_pwm_sent);
-        Serial.print("VERIN_HW_REVERSED:");
-        Serial.println(verin_hw_reversed ? 1 : 0);
-        break;
-      }
       case 'L': case 'l': { // 推杆自动调平开关: L1 开 / L0 关
         int en = Serial.parseInt();
         verin_level_enabled = (en != 0);
