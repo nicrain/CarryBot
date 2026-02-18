@@ -2,6 +2,8 @@
 #include <Wire.h>
 #include <MeGyro.h>
 #include <MeUltrasonicSensor.h>
+#include <ctype.h>
+#include <math.h>
 #include "MotorController.h"
 
 // --- 硬件对象定义 ---
@@ -27,6 +29,34 @@ unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
+// --- 推杆自动调平（板上闭环）---
+// 基于 Gyro.getAngleX/Y/Z（单位：deg），输出 VerinMotor PWM（-255~255）。
+bool verin_level_enabled = false;
+char verin_level_axis = 'x';
+float verin_level_deadband_deg = 3.0; // deg
+float verin_level_kp = 20.0;          // PWM per deg
+int verin_level_pwm_max = 120;        // PWM limit
+int verin_level_pwm_step = 5;         // 最小 PWM 变化才重发
+bool verin_level_invert = false;
+const int VERIN_LEVEL_INTERVAL = 500; // ms (2 Hz)
+unsigned long lastVerinLevelTime = 0;
+int last_verin_pwm_sent = 0;
+
+static inline float get_gyro_axis_deg(char axis) {
+  switch (axis) {
+    case 'x': case 'X': return Gyro.getAngleX();
+    case 'y': case 'Y': return Gyro.getAngleY();
+    case 'z': case 'Z': return Gyro.getAngleZ();
+    default: return Gyro.getAngleX();
+  }
+}
+
+static inline void verin_level_stop() {
+  verin_level_enabled = false;
+  VerinMotor.setMotorPwm(0);
+  last_verin_pwm_sent = 0;
+}
+
 // --- 实体 STOP 按钮 ---
 // 适配类似 R16-503 的带灯按钮：
 // - 两个“大脚”是开关触点（通常常开 NO）
@@ -41,6 +71,8 @@ static inline void apply_stop_all() {
   MotorR.reset();
   MotorT.reset();
   VerinMotor.setMotorPwm(0);
+  verin_level_enabled = false;
+  last_verin_pwm_sent = 0;
 }
 
 // --- T 电机自动触发参数 ---
@@ -126,6 +158,68 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
+      case 'L': case 'l': { // 推杆自动调平开关: L1 开 / L0 关
+        int en = Serial.parseInt();
+        verin_level_enabled = (en != 0);
+        if (!verin_level_enabled) {
+          VerinMotor.setMotorPwm(0);
+          last_verin_pwm_sent = 0;
+        }
+        Serial.print("VERIN_LEVEL:");
+        Serial.println(verin_level_enabled ? 1 : 0);
+        break;
+      }
+      case 'A': case 'a': { // 选择轴: Ax / Ay / Az
+        char ax = 0;
+        // 跳过可能的空白
+        while (Serial.peek() == ' ' || Serial.peek() == '\t') (void)Serial.read();
+        ax = (char)Serial.read();
+        if (ax == 'x' || ax == 'X' || ax == 'y' || ax == 'Y' || ax == 'z' || ax == 'Z') {
+          verin_level_axis = (char)tolower(ax);
+          Serial.print("VERIN_AXIS:");
+          Serial.println(verin_level_axis);
+        } else {
+          Serial.print("VERIN_AXIS_INVALID:");
+          Serial.println((int)ax);
+        }
+        break;
+      }
+      case 'D': case 'd': { // deadband (deg): D3.0
+        float v = Serial.parseFloat();
+        if (v < 0) v = -v;
+        verin_level_deadband_deg = v;
+        Serial.print("VERIN_DEADBAND:");
+        Serial.println(verin_level_deadband_deg);
+        break;
+      }
+      case 'K': case 'k': { // Kp (PWM/deg): K20
+        float v = Serial.parseFloat();
+        verin_level_kp = v;
+        Serial.print("VERIN_KP:");
+        Serial.println(verin_level_kp);
+        break;
+      }
+      case 'W': case 'w': { // PWM max: W120
+        int v = Serial.parseInt();
+        verin_level_pwm_max = constrain(abs(v), 0, 255);
+        Serial.print("VERIN_PWM_MAX:");
+        Serial.println(verin_level_pwm_max);
+        break;
+      }
+      case 'I': case 'i': { // invert: I1 / I0
+        int v = Serial.parseInt();
+        verin_level_invert = (v != 0);
+        Serial.print("VERIN_INVERT:");
+        Serial.println(verin_level_invert ? 1 : 0);
+        break;
+      }
+      case 'E': case 'e': { // pwm step: E5
+        int v = Serial.parseInt();
+        verin_level_pwm_step = constrain(abs(v), 0, 50);
+        Serial.print("VERIN_PWM_STEP:");
+        Serial.println(verin_level_pwm_step);
+        break;
+      }
       case 'M': case 'm': { // 轮子移动 M30
         float req = Serial.parseFloat();
         // 约定：串口输入的正值表示“小车向前”。
@@ -147,9 +241,12 @@ void loop() {
         break;
       }
       case 'V': case 'v': { // 推杆控制 V100(伸出) V-100(收回) V0(停止)
+        // 手动推杆优先：收到 V 指令就关闭自动调平
+        verin_level_enabled = false;
         int val = Serial.parseInt();
         val = constrain(val, -255, 255);
         VerinMotor.setMotorPwm(val);
+        last_verin_pwm_sent = val;
         Serial.print("SET_VERIN:"); Serial.println(val);
         break;
       }
@@ -158,6 +255,24 @@ void loop() {
         Serial.println("STOP");
         break;
       }
+    }
+  }
+
+  // 1.5 推杆自动调平（板上闭环）
+  if (verin_level_enabled && (millis() - lastVerinLevelTime > VERIN_LEVEL_INTERVAL)) {
+    lastVerinLevelTime = millis();
+    float angle = get_gyro_axis_deg(verin_level_axis);
+    int pwm = 0;
+    if (abs(angle) > verin_level_deadband_deg) {
+      float p = verin_level_kp * angle;
+      if (verin_level_invert) p = -p;
+      p = constrain(p, (float)-verin_level_pwm_max, (float)verin_level_pwm_max);
+      pwm = (int)round(p);
+    }
+
+    if (abs(pwm - last_verin_pwm_sent) >= verin_level_pwm_step) {
+      VerinMotor.setMotorPwm(pwm);
+      last_verin_pwm_sent = pwm;
     }
   }
 
