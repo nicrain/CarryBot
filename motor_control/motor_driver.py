@@ -117,6 +117,15 @@ class MotorDriver:
         rpm = self._clamp_rpm(rpm, 185)
         self._send_command(f"M{rpm:.2f}")
 
+    def move_wheels_lr(self, left_rpm, right_rpm):
+        """分别设置左右轮电机轴转速 (RPM)，极限 185。
+
+        固件命令格式: B<left_rpm> <right_rpm>
+        """
+        left_rpm = self._clamp_rpm(left_rpm, 185)
+        right_rpm = self._clamp_rpm(right_rpm, 185)
+        self._send_command(f"B{left_rpm:.2f} {right_rpm:.2f}")
+
     def move_wheels_cmps(self, speed_cmps):
         """
         设置小车线速度 (cm/s)。

@@ -243,6 +243,24 @@ void loop() {
         Serial.print("SET_WHEELS_APPLIED:"); Serial.println(val);
         break;
       }
+      case 'B': case 'b': { // 左右轮分别控制: B<left_rpm> <right_rpm>
+        float left_req = Serial.parseFloat();
+        float right_req = Serial.parseFloat();
+        // 同样约定：正值=前进；硬件层面需要全局符号翻转
+        float left_val = -left_req;
+        float right_val = -right_req;
+        MotorL.setTarget(left_val);
+        MotorR.setTarget(right_val);
+        Serial.print("SET_WHEELS_LR_REQ:");
+        Serial.print(left_req);
+        Serial.print(",");
+        Serial.println(right_req);
+        Serial.print("SET_WHEELS_LR_APPLIED:");
+        Serial.print(left_val);
+        Serial.print(",");
+        Serial.println(right_val);
+        break;
+      }
       case 'T': case 't': { // 爬楼 T20
         float val = Serial.parseFloat();
         if (!t_auto_active) {
