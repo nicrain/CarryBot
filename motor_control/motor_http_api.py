@@ -27,6 +27,10 @@ from flask import Flask, jsonify, request
 from motor_control.motor_driver import MotorDriver
 
 
+DEFAULT_WHEEL_SPEED_RPM = 60.0
+DEFAULT_TRISTAR_RPM = 20.0
+
+
 def _corsify(resp):
     resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
@@ -58,7 +62,7 @@ def create_app(driver: MotorDriver) -> Flask:
         if request.method == "OPTIONS":
             return ("", 204)
         payload: Dict[str, Any] = request.get_json(force=True, silent=True) or {}
-        rpm = float(payload.get("rpm", 0))
+        rpm = float(payload.get("rpm", DEFAULT_TRISTAR_RPM))
         driver.move_tristar(rpm)
         return jsonify({"status": "ok", "rpm": rpm})
 
@@ -87,7 +91,7 @@ def create_app(driver: MotorDriver) -> Flask:
         payload: Dict[str, Any] = request.get_json(force=True, silent=True) or {}
 
         action = str(payload.get("action", "")).strip().lower()
-        speed = float(payload.get("speed", 60))
+        speed = float(payload.get("speed", DEFAULT_WHEEL_SPEED_RPM))
 
         if action in ("stop", "s"):
             driver.stop()
@@ -109,6 +113,18 @@ def create_app(driver: MotorDriver) -> Flask:
         if action in ("right", "r"):
             driver.move_wheels_lr(speed, -speed)
             return jsonify({"status": "ok", "action": "right", "speed": speed})
+
+        # Stair mechanism (tristar): map App's up/down to tristar direction.
+        # App can omit rpm; server uses DEFAULT_TRISTAR_RPM.
+        if action in ("up", "u"):
+            rpm = float(payload.get("rpm", DEFAULT_TRISTAR_RPM))
+            driver.move_tristar(abs(rpm))
+            return jsonify({"status": "ok", "action": "up", "rpm": abs(rpm)})
+
+        if action in ("down", "d"):
+            rpm = float(payload.get("rpm", DEFAULT_TRISTAR_RPM))
+            driver.move_tristar(-abs(rpm))
+            return jsonify({"status": "ok", "action": "down", "rpm": -abs(rpm)})
 
         return jsonify({"status": "error", "message": f"Unknown action: {action}"}), 400
 
