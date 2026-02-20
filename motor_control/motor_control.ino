@@ -6,11 +6,20 @@
 #include <math.h>
 #include "MotorController.h"
 
+// SLOT4 复用开关：
+// - 1: SLOT4 用作第二个爬坡电机（与 SLOT3 方向相反，用于抵消安装方向差异）
+// - 0: SLOT4 仍用作推杆/执行器（verin）
+#define SLOT4_AS_TRISTAR2 1
+
 // --- 硬件对象定义 ---
 MeEncoderOnBoard Encoder_L(SLOT1);
 MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
+#if SLOT4_AS_TRISTAR2
+MeEncoderOnBoard Encoder_T2(SLOT4);
+#else
 MeEncoderOnBoard VerinMotor(SLOT4); // 推杆/执行器 (PWM)
+#endif
 MeGyro Gyro(PORT_6);
 MeUltrasonicSensor Ultrasonic(PORT_7);
 
@@ -19,6 +28,12 @@ MeUltrasonicSensor Ultrasonic(PORT_7);
 MotorController MotorL(&Encoder_L, 1.2, 0.6, 2.0, 30.0, false);
 MotorController MotorR(&Encoder_R, 1.2, 0.6, 2.0, 30.0, true);
 MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0, false);
+
+#if SLOT4_AS_TRISTAR2
+// 注意：你的安装方向导致 SLOT4 与 SLOT3 电机“机械方向相反”。
+// 这里将 SLOT4 设为 reversed=true，让同一个目标 RPM 下两台电机最终“机械方向一致”。
+MotorController MotorT2(&Encoder_T2, 1.5, 0.5, 1.0, 40.0, true);
+#endif
 
 // --- 全局参数 ---
 float K_sync = 1.0;          // 左右轮同步系数
@@ -29,6 +44,7 @@ unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
+#if !SLOT4_AS_TRISTAR2
 // --- 推杆自动调平（板上闭环）---
 // 基于 Gyro.getAngleX/Y/Z（单位：deg），输出 VerinMotor PWM（-255~255）。
 // 注意：如果推杆物理方向与约定相反（V100 变成收回），用 verin_hw_reversed 统一反转。
@@ -69,6 +85,7 @@ static inline void verin_level_stop() {
   verin_level_enabled = false;
   write_verin_pwm_cmd(0);
 }
+#endif
 
 // --- 实体 STOP 按钮 ---
 // 适配类似 R16-503 的带灯按钮：
@@ -83,8 +100,12 @@ static inline void apply_stop_all() {
   MotorL.reset();
   MotorR.reset();
   MotorT.reset();
+#if SLOT4_AS_TRISTAR2
+  MotorT2.reset();
+#else
   write_verin_pwm_cmd(0);
   verin_level_enabled = false;
+#endif
 }
 
 // --- T 电机自动触发参数 ---
@@ -103,6 +124,9 @@ long t_start_pulse = 0;
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
 void isr_R() { if(digitalRead(Encoder_R.getPortB()) == 0) Encoder_R.pulsePosMinus(); else Encoder_R.pulsePosPlus(); }
 void isr_T() { if(digitalRead(Encoder_T.getPortB()) == 0) Encoder_T.pulsePosMinus(); else Encoder_T.pulsePosPlus(); }
+#if SLOT4_AS_TRISTAR2
+void isr_T2() { if(digitalRead(Encoder_T2.getPortB()) == 0) Encoder_T2.pulsePosMinus(); else Encoder_T2.pulsePosPlus(); }
+#endif
 
 void setup() {
   Serial.begin(115200);
@@ -117,18 +141,29 @@ void setup() {
   attachInterrupt(Encoder_L.getIntNum(), isr_L, RISING);
   attachInterrupt(Encoder_R.getIntNum(), isr_R, RISING);
   attachInterrupt(Encoder_T.getIntNum(), isr_T, RISING);
+#if SLOT4_AS_TRISTAR2
+  attachInterrupt(Encoder_T2.getIntNum(), isr_T2, RISING);
+#endif
 
   // 设置减速比和脉冲数
   Encoder_L.setPulse(7); Encoder_L.setRatio(46);
   Encoder_R.setPulse(7); Encoder_R.setRatio(46);
   Encoder_T.setPulse(T_PULSE_PER_REV); Encoder_T.setRatio(T_RATIO);
+#if SLOT4_AS_TRISTAR2
+  Encoder_T2.setPulse(T_PULSE_PER_REV); Encoder_T2.setRatio(T_RATIO);
+#else
   // 推杆通常没有编码器反馈，这里只需要确保 PWM 输出可用
   VerinMotor.setPulse(7);
   VerinMotor.setRatio(46);
+#endif
   
   // 初始停止
   MotorL.reset(); MotorR.reset(); MotorT.reset();
+#if SLOT4_AS_TRISTAR2
+  MotorT2.reset();
+#else
   write_verin_pwm_cmd(0);
+#endif
 }
 
 void loop() {
@@ -170,6 +205,7 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
+#if !SLOT4_AS_TRISTAR2
       case 'L': case 'l': { // 推杆自动调平开关: L1 开 / L0 关
         int en = Serial.parseInt();
         verin_level_enabled = (en != 0);
@@ -231,6 +267,7 @@ void loop() {
         Serial.println(verin_level_pwm_step);
         break;
       }
+#endif
       case 'M': case 'm': { // 轮子移动 M30
         float req = Serial.parseFloat();
         // 约定：串口输入的正值表示“小车向前”。
@@ -265,10 +302,14 @@ void loop() {
         float val = Serial.parseFloat();
         if (!t_auto_active) {
           MotorT.setTarget(val);
+#if SLOT4_AS_TRISTAR2
+          MotorT2.setTarget(val);
+#endif
         }
         Serial.print("SET_TRISTAR:"); Serial.println(val);
         break;
       }
+#if !SLOT4_AS_TRISTAR2
       case 'V': case 'v': { // 推杆控制 V100(伸出) V-100(收回) V0(停止)
         // 手动推杆优先：收到 V 指令就关闭自动调平
         verin_level_enabled = false;
@@ -277,6 +318,12 @@ void loop() {
         Serial.print("SET_VERIN:"); Serial.println(val);
         break;
       }
+#else
+      case 'V': case 'v': { // SLOT4 已复用为第二爬坡电机
+        Serial.println("VERIN_DISABLED_SLOT4_IN_TRISTAR2_MODE");
+        break;
+      }
+#endif
       case 'S': case 's': { // 停止 S
         apply_stop_all();
         Serial.println("STOP");
@@ -285,6 +332,7 @@ void loop() {
     }
   }
 
+#if !SLOT4_AS_TRISTAR2
   // 1.5 推杆自动调平（板上闭环）
   if (verin_level_enabled && (millis() - lastVerinLevelTime > VERIN_LEVEL_INTERVAL)) {
     lastVerinLevelTime = millis();
@@ -302,10 +350,15 @@ void loop() {
       write_verin_pwm_cmd(pwm);
     }
   }
+#endif
 
   // 2. 刷新编码器状态
   Encoder_L.loop(); Encoder_R.loop(); Encoder_T.loop();
+#if SLOT4_AS_TRISTAR2
+  Encoder_T2.loop();
+#else
   VerinMotor.loop();
+#endif
   Gyro.update();
 
   // 2.5 超声波触发检测 (接近台阶)
@@ -318,6 +371,9 @@ void loop() {
         t_auto_armed = false;
         t_start_pulse = Encoder_T.getPulsePos();
         MotorT.setTarget(T_AUTO_RPM);
+#if SLOT4_AS_TRISTAR2
+        MotorT2.setTarget(T_AUTO_RPM);
+#endif
         Serial.print("AUTO_T_START_CM:"); Serial.println(dist_cm);
       } else if (!t_auto_active && !t_auto_armed && dist_cm >= ULTRA_RESET_CM) {
         t_auto_armed = true;
@@ -333,6 +389,9 @@ void loop() {
     float pwmL = MotorL.computePWM();
     float pwmR = MotorR.computePWM();
     float pwmT = MotorT.computePWM();
+  #if SLOT4_AS_TRISTAR2
+    float pwmT2 = MotorT2.computePWM();
+  #endif
 
     // 左右轮同步纠偏 (仅在直线行驶时)
     if (abs(MotorL.targetSpeed) > 5.0 && MotorL.targetSpeed == MotorR.targetSpeed) {
@@ -349,6 +408,9 @@ void loop() {
       long delta_pulse = labs(Encoder_T.getPulsePos() - t_start_pulse);
       if (delta_pulse >= T_TARGET_PULSES) {
         MotorT.setTarget(0);
+#if SLOT4_AS_TRISTAR2
+        MotorT2.setTarget(0);
+#endif
         t_auto_active = false;
         t_auto_armed = true;
         Serial.println("AUTO_T_DONE");
@@ -356,6 +418,9 @@ void loop() {
     }
 
     MotorT.writePWM(pwmT);
+#if SLOT4_AS_TRISTAR2
+    MotorT2.writePWM(pwmT2);
+#endif
 
     // 4. 定期发送调试信息 (每 100ms 一次)
     static int debugCount = 0;
@@ -365,8 +430,16 @@ void loop() {
       Serial.print(" L:"); Serial.print(MotorL.currentSpeed);
       Serial.print(" R:"); Serial.print(MotorR.currentSpeed);
       Serial.print(" Tri:"); Serial.print(MotorT.currentSpeed);
+
+    #if SLOT4_AS_TRISTAR2
+      Serial.print(" Tri2:"); Serial.print(MotorT2.currentSpeed);
+    #endif
       
-      if (MotorL.isStalled || MotorR.isStalled || MotorT.isStalled) {
+      if (MotorL.isStalled || MotorR.isStalled || MotorT.isStalled
+    #if SLOT4_AS_TRISTAR2
+          || MotorT2.isStalled
+    #endif
+      ) {
         Serial.print(" !!STALLED!!");
       }
       Serial.println();
