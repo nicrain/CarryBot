@@ -1,3 +1,11 @@
+if __name__ != "__main__":
+    try:
+        import pytest
+
+        pytest.skip("Hardware camera demo (not a unit test)", allow_module_level=True)
+    except Exception:
+        pass
+
 # 导入 pyrealsense2 库，这是与 RealSense 摄像头交互的官方 Python 封装
 import pyrealsense2 as rs
 import time

@@ -26,13 +26,36 @@ import time
 import threading
 import http.server
 import socketserver
-import cv2
-import numpy as np
-import pyrealsense2 as rs
+
+# Heavy runtime deps (camera/vision). Keep imports optional so unit tests that
+# only exercise ParamsHandler / HTTP routes can run without RealSense/OpenCV.
+try:
+    import cv2  # type: ignore
+except Exception:
+    cv2 = None
+
+try:
+    import numpy as np  # type: ignore
+except Exception:
+    np = None
+
+try:
+    import pyrealsense2 as rs  # type: ignore
+except Exception:
+    rs = None
+
+try:
+    from motor_control.motor_driver import MotorDriver
+except Exception:
+    MotorDriver = None
 
 # --- 全局变量用于线程间通信 ---
 output_frame = None
 frame_lock = threading.Lock()
+
+# --- Motor control (optional) ---
+motor_driver = None
+motor_lock = threading.Lock()
 
 # --- Depth OSD smoothing (helps reduce jumpy distance readout) ---
 dist_display_ema_m = None
@@ -83,7 +106,11 @@ class ParamsHandler:
                     pass
 
     def _load_from_cli_args(self, args):
-        self.cli_args = {k: v for k, v in vars(args).items() if v is not None}
+        # Only treat known param keys as tunables. CLI args like --config or
+        # --motor-serial should not pollute the params dict.
+        self.cli_args = {
+            k: v for k, v in vars(args).items() if v is not None and k in self.defaults
+        }
 
     def get(self, key):
         if key in self.cli_args: return self.cli_args[key]
@@ -112,9 +139,37 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 class StreamingHandler(http.server.BaseHTTPRequestHandler):
     """Web 端点与视频流处理 / Gestion des endpoints web et du flux video."""
-    def __init__(self, *args, params_handler=None, **kwargs):
+    def __init__(self, *args, params_handler=None, motor_driver=None, motor_lock=None, **kwargs):
         self.params_handler = params_handler
+        self.motor_driver = motor_driver
+        self.motor_lock = motor_lock
         super().__init__(*args, **kwargs)
+
+    def _send_json(self, status_code: int, payload: dict, *, cors: bool = False):
+        body = json.dumps(payload).encode("utf-8")
+        self.send_response(status_code)
+        self.send_header("Content-type", "application/json")
+        if cors:
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _read_json_body(self) -> dict:
+        try:
+            content_length = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            content_length = 0
+        raw = self.rfile.read(content_length) if content_length > 0 else b"{}"
+        try:
+            data = json.loads(raw.decode("utf-8", errors="ignore"))
+            return data if isinstance(data, dict) else {}
+        except Exception:
+            return {}
+
+    def _motor_available(self) -> bool:
+        return self.motor_driver is not None and getattr(self.motor_driver, "ser", None) is not None
 
     def do_GET(self):
         if self.path == '/':
@@ -154,8 +209,15 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
             # 插入表单
             html = html_template.replace("<!-- FORM_PLACEHOLDER -->", params_form_html)
             self.wfile.write(html.encode('utf-8'))
+
+        elif self.path == '/health':
+            ok = self._motor_available()
+            self._send_json(200, {"ok": True, "motor_ok": ok}, cors=True)
             
         elif self.path == '/video_feed':
+            if cv2 is None:
+                self.send_error(503, "OpenCV (cv2) not available")
+                return
             self.send_response(200)
             self.send_header('Content-type', 'multipart/x-mixed-replace; boundary=frame')
             self.end_headers()
@@ -180,22 +242,15 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 pass
 
         elif self.path == '/params':
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            response = json.dumps(self.params_handler.get_all_params())
-            self.wfile.write(response.encode('utf-8'))
+            self._send_json(200, self.params_handler.get_all_params(), cors=True)
             
         else:
             self.send_error(404)
 
     def do_POST(self):
         if self.path == '/params':
-            content_length = int(self.headers['Content-Length'])
-            post_data = self.rfile.read(content_length)
             try:
-                new_params = json.loads(post_data)
+                new_params = self._read_json_body()
                 for key, value in new_params.items():
                     if isinstance(value, (int, float)):
                        if key in self.params_handler.defaults:
@@ -203,16 +258,136 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                            new_params[key] = original_type(value)
                 
                 self.params_handler.update_and_save(new_params)
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.send_header('Access-Control-Allow-Origin', '*')
-                self.end_headers()
-                self.wfile.write(b'{"status": "success"}')
+                self._send_json(200, {"status": "success"}, cors=True)
             except Exception as e:
-                self.send_response(400)
-                self.wfile.write(f'{{"status": "error", "message": "{e}"}}'.encode('utf-8'))
-        else:
-            self.send_error(404)
+                self._send_json(400, {"status": "error", "message": str(e)}, cors=True)
+            return
+
+        # --- Motor control API (merged from motor_http_api.py) ---
+        if self.path in ("/stop", "/wheels", "/tristar", "/drive"):
+            if self.motor_driver is None:
+                self._send_json(503, {"status": "error", "message": "Motor driver not available"}, cors=True)
+                return
+
+            payload = self._read_json_body()
+
+            def _with_lock(fn):
+                lock = self.motor_lock
+                if lock is None:
+                    return fn()
+                with lock:
+                    return fn()
+
+            if self.path == "/stop":
+                _with_lock(self.motor_driver.stop)
+                self._send_json(200, {"status": "ok"}, cors=True)
+                return
+
+            if self.path == "/wheels":
+                # Option A: independent wheels
+                if "left" in payload or "right" in payload:
+                    left = float(payload.get("left", 0))
+                    right = float(payload.get("right", 0))
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(left, right))
+                    self._send_json(200, {"status": "ok", "left": left, "right": right}, cors=True)
+                    return
+
+                rpm = float(payload.get("rpm", 0))
+                _with_lock(lambda: self.motor_driver.move_wheels(rpm))
+                self._send_json(200, {"status": "ok", "rpm": rpm}, cors=True)
+                return
+
+            if self.path == "/tristar":
+                rpm = float(payload.get("rpm", 20.0))
+                _with_lock(lambda: self.motor_driver.move_tristar(rpm))
+                self._send_json(200, {"status": "ok", "rpm": rpm}, cors=True)
+                return
+
+            if self.path == "/drive":
+                action = str(payload.get("action", "")).strip().lower()
+                speed = float(payload.get("speed", 60.0))
+                rpm = float(payload.get("rpm", 20.0))
+
+                if action in ("stop", "s"):
+                    _with_lock(self.motor_driver.stop)
+                    self._send_json(200, {"status": "ok", "action": "stop"}, cors=True)
+                    return
+
+                if action in ("forward", "f"):
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(speed, speed))
+                    self._send_json(200, {"status": "ok", "action": "forward", "speed": speed}, cors=True)
+                    return
+
+                if action in ("backward", "back", "b"):
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(-speed, -speed))
+                    self._send_json(200, {"status": "ok", "action": "backward", "speed": speed}, cors=True)
+                    return
+
+                if action in ("left", "l"):
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(-speed, speed))
+                    self._send_json(200, {"status": "ok", "action": "left", "speed": speed}, cors=True)
+                    return
+
+                if action in ("right", "r"):
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(speed, -speed))
+                    self._send_json(200, {"status": "ok", "action": "right", "speed": speed}, cors=True)
+                    return
+
+                # Stair mechanism (tristar)
+                if action in ("up", "u"):
+                    _with_lock(lambda: self.motor_driver.move_tristar(abs(rpm)))
+                    self._send_json(200, {"status": "ok", "action": "up", "rpm": abs(rpm)}, cors=True)
+                    return
+
+                if action in ("down", "d"):
+                    _with_lock(lambda: self.motor_driver.move_tristar(-abs(rpm)))
+                    self._send_json(200, {"status": "ok", "action": "down", "rpm": -abs(rpm)}, cors=True)
+                    return
+
+                # Independent climb motors (firmware: F/R)
+                if action in ("front_up", "fu"):
+                    if hasattr(self.motor_driver, "move_tristar_front"):
+                        _with_lock(lambda: self.motor_driver.move_tristar_front(abs(rpm)))
+                        self._send_json(200, {"status": "ok", "action": "front_up", "rpm": abs(rpm)}, cors=True)
+                    else:
+                        self._send_json(400, {"status": "error", "message": "Firmware/driver lacks front motor command"}, cors=True)
+                    return
+
+                if action in ("front_down", "fd"):
+                    if hasattr(self.motor_driver, "move_tristar_front"):
+                        _with_lock(lambda: self.motor_driver.move_tristar_front(-abs(rpm)))
+                        self._send_json(200, {"status": "ok", "action": "front_down", "rpm": -abs(rpm)}, cors=True)
+                    else:
+                        self._send_json(400, {"status": "error", "message": "Firmware/driver lacks front motor command"}, cors=True)
+                    return
+
+                if action in ("rear_up", "ru"):
+                    if hasattr(self.motor_driver, "move_tristar_rear"):
+                        _with_lock(lambda: self.motor_driver.move_tristar_rear(abs(rpm)))
+                        self._send_json(200, {"status": "ok", "action": "rear_up", "rpm": abs(rpm)}, cors=True)
+                    else:
+                        self._send_json(400, {"status": "error", "message": "Firmware/driver lacks rear motor command"}, cors=True)
+                    return
+
+                if action in ("rear_down", "rd"):
+                    if hasattr(self.motor_driver, "move_tristar_rear"):
+                        _with_lock(lambda: self.motor_driver.move_tristar_rear(-abs(rpm)))
+                        self._send_json(200, {"status": "ok", "action": "rear_down", "rpm": -abs(rpm)}, cors=True)
+                    else:
+                        self._send_json(400, {"status": "error", "message": "Firmware/driver lacks rear motor command"}, cors=True)
+                    return
+
+                self._send_json(400, {"status": "error", "message": f"Unknown action: {action}"}, cors=True)
+                return
+
+        self.send_error(404)
+
+    def do_OPTIONS(self):
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Methods", "GET,POST,OPTIONS")
+        self.end_headers()
 
     def log_message(self, format, *args):
         # `args` may contain non-strings (e.g., `404` from `send_error`), so don't
@@ -226,7 +401,13 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 def start_http_server(params_handler, host='0.0.0.0', port=8080):
     """启动 HTTP 服务线程 / Demarre le serveur HTTP."""
     def handler_factory(*args, **kwargs):
-        return StreamingHandler(*args, params_handler=params_handler, **kwargs)
+        return StreamingHandler(
+            *args,
+            params_handler=params_handler,
+            motor_driver=motor_driver,
+            motor_lock=motor_lock,
+            **kwargs,
+        )
 
     with ThreadingHTTPServer((host, port), handler_factory) as httpd:
         print(f"WEB服务器已启动 / Serveur WEB démarré: http://{host}:{port}")
@@ -251,15 +432,16 @@ def start_config_watcher(params_handler):
 # --- 4. 主函数 (main) ---
 # -------------------------------------------------------------------------------------------------
 
-def parse_args():
+def parse_args(argv=None):
     """解析 CLI 参数 / Analyse des arguments CLI."""
     parser = argparse.ArgumentParser(description="CarryBot Vision (CN/FR)")
     parser.add_argument('--config', type=str, help='Config file path / Chemin du fichier de config')
+    parser.add_argument('--motor-serial', type=str, default=None, help='Motor controller serial port (e.g. /dev/ttyUSB0)')
     handler = ParamsHandler()
     for key, val in handler.defaults.items():
         t = type(val)
         parser.add_argument(f'--{key}', type=t)
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 def main():
@@ -273,6 +455,21 @@ def main():
     params.load_from_file()
     params._load_from_env()
     params._load_from_cli_args(args)
+
+    if cv2 is None or np is None or rs is None:
+        raise RuntimeError(
+            "Missing runtime dependencies. Install OpenCV (opencv-python), numpy and pyrealsense2 "
+            "to run the camera loop. (Unit tests can run without them.)"
+        )
+
+    # Motor driver (optional): merged into the same web server.
+    global motor_driver
+    if MotorDriver is not None:
+        try:
+            motor_driver = MotorDriver(port=args.motor_serial)
+        except Exception as e:
+            print(f"[Motor] init failed: {e}")
+            motor_driver = None
 
     http_thread = threading.Thread(target=start_http_server, args=(params,), daemon=True)
     http_thread.start()

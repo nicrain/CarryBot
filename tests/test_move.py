@@ -2,6 +2,14 @@ import sys
 import os
 import time
 
+if __name__ != "__main__":
+    try:
+        import pytest
+
+        pytest.skip("Hardware motor demo (not a unit test)", allow_module_level=True)
+    except Exception:
+        pass
+
 # 将项目根目录添加到 Python 路径，确保能找到 motor_control 模块
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

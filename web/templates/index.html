@@ -44,6 +44,29 @@
             body { padding: 10px; }
             #params-form { grid-template-columns: 1fr; }
         }
+
+        .control-section {
+            width: 100%;
+            background: #333;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .control-section button {
+            margin-top: 0;
+            width: 100%;
+        }
+        #motor-status {
+            margin: 0;
+            min-height: 18px;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +83,30 @@
                 <button type="submit">Mettre à jour</button>
                 <div id="status-message"></div>
             </form>
+        </div>
+        <div class="control-section">
+          <h2>Motor Control</h2>
+          <div class="controls">
+            <button type="button" onclick="drive('forward')">Forward</button>
+            <button type="button" onclick="drive('backward')">Backward</button>
+            <button type="button" onclick="drive('left')">Left</button>
+            <button type="button" onclick="drive('right')">Right</button>
+            <button type="button" onclick="stopAll()">Stop</button>
+          </div>
+
+          <div class="controls">
+            <button type="button" onclick="drive('up')">Up (Tristar)</button>
+            <button type="button" onclick="drive('down')">Down (Tristar)</button>
+          </div>
+
+          <div class="controls">
+            <button type="button" onclick="drive('front_up')">Front Up</button>
+            <button type="button" onclick="drive('front_down')">Front Down</button>
+            <button type="button" onclick="drive('rear_up')">Rear Up</button>
+            <button type="button" onclick="drive('rear_down')">Rear Down</button>
+          </div>
+
+          <p id="motor-status" style="font-family: monospace;"></p>
         </div>
     </div>
 
@@ -101,6 +148,33 @@
                 statusMessage.className = 'error';
             }
         });
+        async function postJson(url, payload) {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload || {})
+          });
+          let data = null;
+          try { data = await res.json(); } catch (e) {}
+          return { ok: res.ok, status: res.status, data };
+        }
+
+        async function drive(action) {
+          const r = await postJson('/drive', { action });
+          const el = document.getElementById('motor-status');
+          if (r.ok) {
+            el.textContent = 'OK: ' + action;
+          } else {
+            const msg = (r.data && (r.data.message || r.data.status)) ? (r.data.message || r.data.status) : 'error';
+            el.textContent = 'ERR(' + r.status + '): ' + msg;
+          }
+        }
+
+        async function stopAll() {
+          const r = await postJson('/stop', {});
+          const el = document.getElementById('motor-status');
+          el.textContent = r.ok ? 'OK: stop' : 'ERR(' + r.status + ')';
+        }
     </script>
 </body>
 </html>
