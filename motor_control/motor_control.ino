@@ -70,7 +70,7 @@ unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
 // --- 推杆自动调平（外接 L293D，非 PWM）---
-// 读取 Gyro 角度（deg），用“固定脉冲点动”方式纠偏。
+// 读取 Gyro 角度（deg），超出 deadband 时持续纠偏；回到 deadband 时停止。
 // 注意：如果推杆物理方向与约定相反，用 verin_hw_reversed 统一反转。
 bool verin_hw_reversed = false;
 bool verin_level_enabled = true;
@@ -78,10 +78,7 @@ char verin_level_axis = 'x';
 float verin_level_deadband_deg = 2.0; // deg
 bool verin_level_reversed = false;
 const int VERIN_LEVEL_INTERVAL = 500; // ms (2 Hz)
-const int VERIN_LEVEL_PULSE_MS = 80;  // ms (每次纠偏点动时长)
 unsigned long lastVerinLevelTime = 0;
-bool verin_pulse_active = false;
-unsigned long verin_pulse_end_ms = 0;
 
 static inline int apply_verin_hw_dir(int dir) {
   return verin_hw_reversed ? -dir : dir;
@@ -96,16 +93,8 @@ static inline float get_gyro_axis_deg(char axis) {
   }
 }
 
-static inline void verin_pulse_tick() {
-  if (verin_pulse_active && millis() >= verin_pulse_end_ms) {
-    verin_l293d_stop();
-    verin_pulse_active = false;
-  }
-}
-
 static inline void verin_output_stop() {
   verin_l293d_stop();
-  verin_pulse_active = false;
 }
 
 static inline void verin_output_set_manual_dir(int dir) {
@@ -114,12 +103,10 @@ static inline void verin_output_set_manual_dir(int dir) {
   verin_l293d_run_dir(dir);
 }
 
-static inline void verin_output_pulse_dir(int dir, int pulse_ms) {
+static inline void verin_output_set_autolevel_dir(int dir) {
   dir = (dir >= 0) ? 1 : -1;
   dir = apply_verin_hw_dir(dir);
   verin_l293d_run_dir(dir);
-  verin_pulse_end_ms = millis() + (unsigned long)constrain(pulse_ms, 10, 300);
-  verin_pulse_active = true;
 }
 
 static inline void verin_level_stop() {
@@ -395,16 +382,17 @@ void loop() {
     }
   }
 
-  // 1.5 推杆自动调平（外接 L293D，固定脉冲点动）
-  verin_pulse_tick();
+  // 1.5 推杆自动调平（外接 L293D，持续纠偏）
   if (verin_level_enabled && (millis() - lastVerinLevelTime > VERIN_LEVEL_INTERVAL)) {
     lastVerinLevelTime = millis();
     float angle = get_gyro_axis_deg(verin_level_axis);
     if (abs(angle) > verin_level_deadband_deg) {
-      // NORMAL: 角度为正时用 -1 方向纠偏；REVERSED 反过来。
-      int dir = (angle > 0) ? -1 : 1;
+      // NORMAL: 角度为正时用 +1 方向纠偏；REVERSED 反过来。
+      int dir = (angle > 0) ? 1 : -1;
       if (verin_level_reversed) dir = -dir;
-      verin_output_pulse_dir(dir, VERIN_LEVEL_PULSE_MS);
+      verin_output_set_autolevel_dir(dir);
+    } else {
+      verin_output_stop();
     }
   }
 
