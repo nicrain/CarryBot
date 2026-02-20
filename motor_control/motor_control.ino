@@ -150,12 +150,6 @@ const int T_PULSE_PER_REV = 8; // Encoder_T.setPulse
 const int T_RATIO = 75;        // Encoder_T.setRatio (电机轴参数 / param moteur)
 const float T_GEAR_RATIO = 9.0; // 8T:72T => 1:9 (motor:wheel)
 const long T_TARGET_PULSES = (long)((T_PULSE_PER_REV * T_RATIO * T_GEAR_RATIO) / 3.0); // 轮轴 1/3 圈
-const float T_AUTO_RPM = 20.0; // 自动触发速度
-const double ULTRA_TRIGGER_CM = 5.0;
-const double ULTRA_RESET_CM = 6.0; // 简单迟滞，防止抖动
-bool t_auto_active = false;
-bool t_auto_armed = true;
-long t_start_pulse = 0;
 
 // --- 中断函数 (必须写在这里) ---
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
@@ -204,8 +198,6 @@ void loop() {
   // 这样即使串口持续有数据（while Serial.available 一直跑），也能立即刹车。
   if (stop_sample_pressed) {
     apply_stop_all();
-    t_auto_active = false;
-    t_auto_armed = true;
     if (!stop_btn_reported_pressed) {
       Serial.println("STOP_BTN");
       stop_btn_reported_pressed = true;
@@ -222,8 +214,6 @@ void loop() {
     // 串口处理期间也检查紧急停
     if (digitalRead(STOP_BTN_PIN) == LOW) {
       apply_stop_all();
-      t_auto_active = false;
-      t_auto_armed = true;
       Serial.println("STOP_BTN");
       // 清空缓冲区，避免松开按钮后立刻又被历史命令启动
       while (Serial.available() > 0) (void)Serial.read();
@@ -306,27 +296,25 @@ void loop() {
       }
       case 'T': case 't': { // 爬楼 T20
         float val = Serial.parseFloat();
-        if (!t_auto_active) {
-          MotorT.setTarget(val);
-          // 时序：第一次启动时先只跑前轴（SLOT3），达到 1/3 阈值再启动后轴（SLOT4）。
-          if (val == 0) {
-            MotorT2.setTarget(0);
-            t_seq_active = false;
+        MotorT.setTarget(val);
+        // 时序：第一次启动时先只跑前轴（SLOT3），达到 1/3 阈值再启动后轴（SLOT4）。
+        if (val == 0) {
+          MotorT2.setTarget(0);
+          t_seq_active = false;
+          t_rear_started = false;
+          t_seq_start_pulse = 0;
+          t_seq_target_rpm = 0;
+        } else {
+          t_seq_target_rpm = val;
+          if (!t_seq_active) {
+            t_seq_active = true;
             t_rear_started = false;
-            t_seq_start_pulse = 0;
-            t_seq_target_rpm = 0;
+            t_seq_start_pulse = Encoder_T.getPulsePos();
+            MotorT2.setTarget(0);
+            Serial.println("TRI_SEQ_START_FRONT");
           } else {
-            t_seq_target_rpm = val;
-            if (!t_seq_active) {
-              t_seq_active = true;
-              t_rear_started = false;
-              t_seq_start_pulse = Encoder_T.getPulsePos();
-              MotorT2.setTarget(0);
-              Serial.println("TRI_SEQ_START_FRONT");
-            } else {
-              if (t_rear_started) {
-                MotorT2.setTarget(val);
-              }
+            if (t_rear_started) {
+              MotorT2.setTarget(val);
             }
           }
         }
@@ -336,28 +324,24 @@ void loop() {
 
       case 'F': case 'f': { // 前轴爬坡电机（SLOT3）单独控制: F20
         float val = Serial.parseFloat();
-        if (!t_auto_active) {
-          MotorT.setTarget(val);
-          // 独立控制时关闭双电机时序
-          t_seq_active = false;
-          t_rear_started = false;
-          t_seq_start_pulse = 0;
-          t_seq_target_rpm = 0;
-        }
+        MotorT.setTarget(val);
+        // 独立控制时关闭双电机时序
+        t_seq_active = false;
+        t_rear_started = false;
+        t_seq_start_pulse = 0;
+        t_seq_target_rpm = 0;
         Serial.print("SET_TRISTAR_FRONT:"); Serial.println(val);
         break;
       }
 
       case 'R': case 'r': { // 后轴爬坡电机（SLOT4）单独控制: R20
         float val = Serial.parseFloat();
-        if (!t_auto_active) {
-          MotorT2.setTarget(val);
-          // 独立控制时关闭双电机时序
-          t_seq_active = false;
-          t_rear_started = false;
-          t_seq_start_pulse = 0;
-          t_seq_target_rpm = 0;
-        }
+        MotorT2.setTarget(val);
+        // 独立控制时关闭双电机时序
+        t_seq_active = false;
+        t_rear_started = false;
+        t_seq_start_pulse = 0;
+        t_seq_target_rpm = 0;
         Serial.print("SET_TRISTAR_REAR:"); Serial.println(val);
         break;
       }
@@ -401,7 +385,7 @@ void loop() {
   Encoder_T2.loop();
   Gyro.update();
 
-  // 2.5 超声波触发检测 (接近台阶)
+  // 2.5 超声波测距上报（仅遥测，不再自动触发电机动作）
   if (millis() - lastUltraTime > ULTRA_INTERVAL) {
     lastUltraTime = millis();
     double dist_cm = Ultrasonic.distanceCm();
@@ -409,24 +393,10 @@ void loop() {
       Serial.print("ULTRA:");
       Serial.println(dist_cm);
     }
-    if (dist_cm > 0 && dist_cm < 400) {
-      // 自动触发仅用于“接近台阶时的单电机动作”，避免在手动爬坡/双电机时序期间干扰。
-      if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM && MotorT.targetSpeed == 0
-          && MotorT2.targetSpeed == 0
-      ) {
-        t_auto_active = true;
-        t_auto_armed = false;
-        t_start_pulse = Encoder_T.getPulsePos();
-        MotorT.setTarget(T_AUTO_RPM);
-        Serial.print("AUTO_T_START_CM:"); Serial.println(dist_cm);
-      } else if (!t_auto_active && !t_auto_armed && dist_cm >= ULTRA_RESET_CM) {
-        t_auto_armed = true;
-      }
-    }
   }
 
   // 2.8 双爬坡电机时序：前轴达到 1/3 阈值后启动后轴
-  if (t_seq_active && !t_rear_started && !t_auto_active && MotorT.targetSpeed != 0) {
+  if (t_seq_active && !t_rear_started && MotorT.targetSpeed != 0) {
     long delta_pulse = labs(Encoder_T.getPulsePos() - t_seq_start_pulse);
     if (delta_pulse >= T_TARGET_PULSES) {
       MotorT2.setTarget(t_seq_target_rpm);
@@ -455,17 +425,6 @@ void loop() {
     // 写入电机
     MotorL.writePWM(pwmL);
     MotorR.writePWM(pwmR);
-    // 自动触发运行完成检测
-    if (t_auto_active) {
-      long delta_pulse = labs(Encoder_T.getPulsePos() - t_start_pulse);
-      if (delta_pulse >= T_TARGET_PULSES) {
-        MotorT.setTarget(0);
-        t_auto_active = false;
-        t_auto_armed = true;
-        Serial.println("AUTO_T_DONE");
-      }
-    }
-
     MotorT.writePWM(pwmT);
     MotorT2.writePWM(pwmT2);
 
