@@ -147,17 +147,6 @@
     <h1>Surveillance et Contrôle en Temps Réel</h1>
 
     <div id="container">
-        <div id="video-panel">
-            <img src="/video_feed" />
-        </div>
-        <div id="control-panel">
-            <h2>Paramètres</h2>
-            <form id="params-form">
-                <!-- FORM_PLACEHOLDER -->
-                <button type="submit">Mettre à jour</button>
-                <div id="status-message"></div>
-            </form>
-        </div>
         <div class="control-section">
           <h2>Motor Control</h2>
                     <div class="motor-grid">
@@ -188,10 +177,27 @@
                                 <button class="m-btn wide" type="button" onclick="drive('rear_up')">Rear ▲</button>
                                 <button class="m-btn wide" type="button" onclick="drive('rear_down')">Rear ▼</button>
                             </div>
+
+                            <div style="height: 10px;"></div>
+
+                            <button class="m-btn wide" type="button" title="Unlock forward after stair stop" onclick="drive('unlock_forward')">
+                                Unlock Forward
+                            </button>
                         </div>
                     </div>
 
           <p id="motor-status" style="font-family: monospace;"></p>
+        </div>
+        <div id="video-panel">
+            <img src="/video_feed" />
+        </div>
+        <div id="control-panel">
+            <h2>Paramètres</h2>
+            <form id="params-form">
+                <!-- FORM_PLACEHOLDER -->
+                <button type="submit">Mettre à jour</button>
+                <div id="status-message"></div>
+            </form>
         </div>
     </div>
 

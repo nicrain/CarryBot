@@ -15,6 +15,8 @@ class MotorDriver:
         self.arduino_ready = threading.Event() # 握手信号
         self.imu_lock = threading.Lock()
         self.latest_imu = None
+        self.ultra_lock = threading.Lock()
+        self.latest_ultra_cm = None
         target_port = port
         
         # 自动搜索端口
@@ -78,6 +80,14 @@ class MotorDriver:
                                         self.latest_imu = (angle_x, angle_y, angle_z, time.time())
                                 except ValueError:
                                     pass
+                        elif line.startswith("ULTRA:"):
+                            ultra_payload = line[6:].strip()
+                            try:
+                                dist_cm = float(ultra_payload)
+                                with self.ultra_lock:
+                                    self.latest_ultra_cm = dist_cm
+                            except ValueError:
+                                pass
                         else:
                             print(f"[Arduino] {line}")
                             # 握手检测关键词
@@ -91,6 +101,11 @@ class MotorDriver:
         """获取最新 IMU 角度与时间戳 / Renvoie les derniers angles IMU + horodatage."""
         with self.imu_lock:
             return self.latest_imu
+
+    def get_latest_ultrasonic_cm(self):
+        """获取最近一次超声波距离（cm）。"""
+        with self.ultra_lock:
+            return self.latest_ultra_cm
 
     def _send_command(self, cmd):
         """发送固件指令 / Envoi d'une commande firmware."""

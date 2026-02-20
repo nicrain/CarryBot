@@ -26,6 +26,7 @@ import time
 import threading
 import http.server
 import socketserver
+from typing import Optional, Tuple
 
 # Heavy runtime deps (camera/vision). Keep imports optional so unit tests that
 # only exercise ParamsHandler / HTTP routes can run without RealSense/OpenCV.
@@ -60,6 +61,63 @@ motor_lock = threading.Lock()
 # --- Depth OSD smoothing (helps reduce jumpy distance readout) ---
 dist_display_ema_m = None
 
+# --- Navigation safety state shared by camera loop and HTTP API ---
+nav_state_lock = threading.Lock()
+nav_state = {
+    "is_wall": False,
+    "is_stairs_up": False,
+    "is_stairs_down": False,
+    "ultra_cm": None,
+    "stair_approach_active": False,
+    "forward_lock_latched": False,
+    "forward_locked": False,
+    "forward_lock_reason": "",
+}
+
+
+def _get_nav_state_snapshot() -> dict:
+    with nav_state_lock:
+        return dict(nav_state)
+
+
+def _set_nav_state(**kwargs) -> dict:
+    with nav_state_lock:
+        nav_state.update(kwargs)
+        return dict(nav_state)
+
+
+def _recompute_forward_lock(*, is_wall: bool, lock_latched: bool) -> Tuple[bool, str]:
+    if lock_latched:
+        return True, "stair_ultrasonic"
+    if is_wall:
+        return True, "wall"
+    return False, ""
+
+
+def _is_drive_action_forward_like(action: str) -> bool:
+    return action in ("forward", "f", "left", "l", "right", "r")
+
+
+def _is_wheels_forward_like(payload: dict) -> bool:
+    if "left" in payload or "right" in payload:
+        left = float(payload.get("left", 0.0))
+        right = float(payload.get("right", 0.0))
+        return left > 0 or right > 0
+    rpm = float(payload.get("rpm", 0.0))
+    return rpm > 0
+
+
+def _clear_forward_latch() -> dict:
+    with nav_state_lock:
+        nav_state["forward_lock_latched"] = False
+        forward_locked, lock_reason = _recompute_forward_lock(
+            is_wall=bool(nav_state.get("is_wall", False)),
+            lock_latched=False,
+        )
+        nav_state["forward_locked"] = forward_locked
+        nav_state["forward_lock_reason"] = lock_reason
+        return dict(nav_state)
+
 # --- 2. 参数管理类 (ParamsHandler) ---
 class ParamsHandler:
     """参数加载与优先级管理 / Gestion des params et priorites."""
@@ -80,7 +138,9 @@ class ParamsHandler:
             "wall_iqr_th": 0.05,
             "step_height_th": 0.05,
             "noise_filtering_area_min_th": 1000,
-            "fps": 15
+            "fps": 15,
+            "stair_approach_speed_rpm": 45.0,
+            "stair_ultra_trigger_cm": 6.0,
         }
 
     def load_from_file(self):
@@ -212,7 +272,19 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
         elif self.path == '/health':
             ok = self._motor_available()
-            self._send_json(200, {"ok": True, "motor_ok": ok}, cors=True)
+            snap = _get_nav_state_snapshot()
+            self._send_json(
+                200,
+                {
+                    "ok": True,
+                    "motor_ok": ok,
+                    "forward_locked": snap["forward_locked"],
+                    "forward_lock_reason": snap["forward_lock_reason"],
+                    "stair_approach_active": snap["stair_approach_active"],
+                    "ultra_cm": snap["ultra_cm"],
+                },
+                cors=True,
+            )
             
         elif self.path == '/video_feed':
             if cv2 is None:
@@ -243,6 +315,9 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
         elif self.path == '/params':
             self._send_json(200, self.params_handler.get_all_params(), cors=True)
+
+        elif self.path == '/nav_state':
+            self._send_json(200, _get_nav_state_snapshot(), cors=True)
             
         else:
             self.send_error(404)
@@ -284,6 +359,20 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 return
 
             if self.path == "/wheels":
+                snap = _get_nav_state_snapshot()
+                if snap["forward_locked"] and _is_wheels_forward_like(payload):
+                    _with_lock(self.motor_driver.stop)
+                    self._send_json(
+                        423,
+                        {
+                            "status": "blocked",
+                            "message": "Forward motion locked",
+                            "reason": snap["forward_lock_reason"],
+                        },
+                        cors=True,
+                    )
+                    return
+
                 # Option A: independent wheels
                 if "left" in payload or "right" in payload:
                     left = float(payload.get("left", 0))
@@ -307,6 +396,34 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 action = str(payload.get("action", "")).strip().lower()
                 speed = float(payload.get("speed", 60.0))
                 rpm = float(payload.get("rpm", 20.0))
+
+                if action in ("unlock_forward", "unlock", "uf"):
+                    snap = _clear_forward_latch()
+                    self._send_json(
+                        200,
+                        {
+                            "status": "ok",
+                            "action": "unlock_forward",
+                            "forward_locked": snap["forward_locked"],
+                            "forward_lock_reason": snap["forward_lock_reason"],
+                        },
+                        cors=True,
+                    )
+                    return
+
+                snap = _get_nav_state_snapshot()
+                if snap["forward_locked"] and _is_drive_action_forward_like(action):
+                    _with_lock(self.motor_driver.stop)
+                    self._send_json(
+                        423,
+                        {
+                            "status": "blocked",
+                            "message": "Forward motion locked",
+                            "reason": snap["forward_lock_reason"],
+                        },
+                        cors=True,
+                    )
+                    return
 
                 if action in ("stop", "s"):
                     _with_lock(self.motor_driver.stop)
@@ -573,6 +690,63 @@ def main():
                     and (not is_stairs_down)
                     and (not is_stairs_up)
                 )
+
+            # --- D. Navigation state + safety behavior ---
+            ultra_cm: Optional[float] = None
+            if motor_driver is not None and hasattr(motor_driver, "get_latest_ultrasonic_cm"):
+                try:
+                    ultra_cm = motor_driver.get_latest_ultrasonic_cm()
+                except Exception:
+                    ultra_cm = None
+
+            snap = _get_nav_state_snapshot()
+            approach_active = bool(snap["stair_approach_active"])
+            lock_latched = bool(snap["forward_lock_latched"])
+
+            # 1) Wall ahead => immediate stop.
+            if is_wall and motor_driver is not None:
+                with motor_lock:
+                    motor_driver.stop()
+                approach_active = False
+
+            # 2) Stair ahead => auto approach until ultrasonic trigger.
+            if (is_stairs_up and (not approach_active) and (not lock_latched) and (not is_wall)):
+                if motor_driver is not None:
+                    approach_speed = float(params.get("stair_approach_speed_rpm"))
+                    with motor_lock:
+                        motor_driver.move_wheels_lr(approach_speed, approach_speed)
+                approach_active = True
+
+            ultra_trigger_cm = float(params.get("stair_ultra_trigger_cm"))
+            ultra_hit = (
+                approach_active
+                and ultra_cm is not None
+                and ultra_cm > 0
+                and ultra_cm <= ultra_trigger_cm
+            )
+
+            # 3) Ultrasonic trigger reached => stop and latch forward lock.
+            if ultra_hit:
+                if motor_driver is not None:
+                    with motor_lock:
+                        motor_driver.stop()
+                approach_active = False
+                lock_latched = True
+
+            forward_locked, lock_reason = _recompute_forward_lock(
+                is_wall=is_wall,
+                lock_latched=lock_latched,
+            )
+            _set_nav_state(
+                is_wall=is_wall,
+                is_stairs_up=is_stairs_up,
+                is_stairs_down=is_stairs_down,
+                ultra_cm=ultra_cm,
+                stair_approach_active=approach_active,
+                forward_lock_latched=lock_latched,
+                forward_locked=forward_locked,
+                forward_lock_reason=lock_reason,
+            )
 
             # --- C. 绘图与更新 ---
             

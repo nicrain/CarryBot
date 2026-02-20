@@ -406,6 +406,10 @@ void loop() {
     lastUltraTime = millis();
     double dist_cm = Ultrasonic.distanceCm();
     if (dist_cm > 0 && dist_cm < 400) {
+      Serial.print("ULTRA:");
+      Serial.println(dist_cm);
+    }
+    if (dist_cm > 0 && dist_cm < 400) {
       // 自动触发仅用于“接近台阶时的单电机动作”，避免在手动爬坡/双电机时序期间干扰。
       if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM && MotorT.targetSpeed == 0
           && MotorT2.targetSpeed == 0

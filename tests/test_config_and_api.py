@@ -30,6 +30,8 @@ def test_defaults_loaded(empty_config_file):
     # 检查默认值
     assert params.get("roi_h_start") == 0.2
     assert params.get("median_blur_ksize") == 5
+    assert params.get("stair_approach_speed_rpm") == 45.0
+    assert params.get("stair_ultra_trigger_cm") == 6.0
 
 def test_load_from_file(populated_config_file):
     """测试从 JSON 文件加载参数。"""
@@ -95,3 +97,55 @@ def test_update_and_save(populated_config_file):
     assert saved_data["wall_dist_th"] == 1.5
     # 其他参数应该还在
     assert saved_data["median_blur_ksize"] == 9
+
+
+def test_forward_lock_reason_rules():
+    locked, reason = ds._recompute_forward_lock(is_wall=False, lock_latched=False)
+    assert locked is False
+    assert reason == ""
+
+    locked, reason = ds._recompute_forward_lock(is_wall=True, lock_latched=False)
+    assert locked is True
+    assert reason == "wall"
+
+    locked, reason = ds._recompute_forward_lock(is_wall=False, lock_latched=True)
+    assert locked is True
+    assert reason == "stair_ultrasonic"
+
+
+def test_forward_like_helpers():
+    assert ds._is_drive_action_forward_like("forward") is True
+    assert ds._is_drive_action_forward_like("left") is True
+    assert ds._is_drive_action_forward_like("up") is False
+    assert ds._is_drive_action_forward_like("backward") is False
+
+    assert ds._is_wheels_forward_like({"rpm": 10}) is True
+    assert ds._is_wheels_forward_like({"rpm": -10}) is False
+    assert ds._is_wheels_forward_like({"left": 0, "right": 20}) is True
+    assert ds._is_wheels_forward_like({"left": -20, "right": -1}) is False
+
+
+def test_clear_forward_latch_without_wall():
+    ds._set_nav_state(
+        is_wall=False,
+        forward_lock_latched=True,
+        forward_locked=True,
+        forward_lock_reason="stair_ultrasonic",
+    )
+    snap = ds._clear_forward_latch()
+    assert snap["forward_lock_latched"] is False
+    assert snap["forward_locked"] is False
+    assert snap["forward_lock_reason"] == ""
+
+
+def test_clear_forward_latch_with_wall_keeps_lock():
+    ds._set_nav_state(
+        is_wall=True,
+        forward_lock_latched=True,
+        forward_locked=True,
+        forward_lock_reason="stair_ultrasonic",
+    )
+    snap = ds._clear_forward_latch()
+    assert snap["forward_lock_latched"] is False
+    assert snap["forward_locked"] is True
+    assert snap["forward_lock_reason"] == "wall"
