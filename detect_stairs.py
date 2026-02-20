@@ -324,12 +324,14 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 if action in ("left", "l"):
-                    _with_lock(lambda: self.motor_driver.move_wheels_lr(-speed, speed))
+                    # Pivot turn: stop left wheel, drive right wheel forward
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(0.0, speed))
                     self._send_json(200, {"status": "ok", "action": "left", "speed": speed}, cors=True)
                     return
 
                 if action in ("right", "r"):
-                    _with_lock(lambda: self.motor_driver.move_wheels_lr(speed, -speed))
+                    # Pivot turn: drive left wheel forward, stop right wheel
+                    _with_lock(lambda: self.motor_driver.move_wheels_lr(speed, 0.0))
                     self._send_json(200, {"status": "ok", "action": "right", "speed": speed}, cors=True)
                     return
 
