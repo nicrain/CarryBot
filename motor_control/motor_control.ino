@@ -343,6 +343,36 @@ void loop() {
         Serial.print("SET_TRISTAR:"); Serial.println(val);
         break;
       }
+
+#if SLOT4_AS_TRISTAR2
+      case 'F': case 'f': { // 前轴爬坡电机（SLOT3）单独控制: F20
+        float val = Serial.parseFloat();
+        if (!t_auto_active) {
+          MotorT.setTarget(val);
+          // 独立控制时关闭双电机时序
+          t_seq_active = false;
+          t_rear_started = false;
+          t_seq_start_pulse = 0;
+          t_seq_target_rpm = 0;
+        }
+        Serial.print("SET_TRISTAR_FRONT:"); Serial.println(val);
+        break;
+      }
+
+      case 'R': case 'r': { // 后轴爬坡电机（SLOT4）单独控制: R20
+        float val = Serial.parseFloat();
+        if (!t_auto_active) {
+          MotorT2.setTarget(val);
+          // 独立控制时关闭双电机时序
+          t_seq_active = false;
+          t_rear_started = false;
+          t_seq_start_pulse = 0;
+          t_seq_target_rpm = 0;
+        }
+        Serial.print("SET_TRISTAR_REAR:"); Serial.println(val);
+        break;
+      }
+#endif
 #if !SLOT4_AS_TRISTAR2
       case 'V': case 'v': { // 推杆控制 V100(伸出) V-100(收回) V0(停止)
         // 手动推杆优先：收到 V 指令就关闭自动调平
@@ -401,7 +431,11 @@ void loop() {
     double dist_cm = Ultrasonic.distanceCm();
     if (dist_cm > 0 && dist_cm < 400) {
       // 自动触发仅用于“接近台阶时的单电机动作”，避免在手动爬坡/双电机时序期间干扰。
-      if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM && MotorT.targetSpeed == 0) {
+      if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM && MotorT.targetSpeed == 0
+#if SLOT4_AS_TRISTAR2
+          && MotorT2.targetSpeed == 0
+#endif
+      ) {
         t_auto_active = true;
         t_auto_armed = false;
         t_start_pulse = Encoder_T.getPulsePos();

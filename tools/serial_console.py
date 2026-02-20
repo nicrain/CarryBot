@@ -92,7 +92,7 @@ def _interactive_raw(ser: serial.Serial, *, show_telemetry: bool, show_all: bool
 
     try:
         tty.setraw(fd)
-        sys.stdout.write("Type command then Enter (e.g. t20, m20).\n")
+        sys.stdout.write("Type command then Enter (e.g. t20, f20, r20, m20).\n")
         sys.stdout.write("Quick STOP: press 's' or Space when input is empty. Quit: 'q'.\n")
         redraw_prompt()
 

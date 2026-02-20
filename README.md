@@ -34,13 +34,13 @@ CarryBot 是一个用于 RealSense 深度相机的智能感知系统。
 电机指令快速发送（Pi 上类似 Arduino 串口监视器）
 ---------------------------------------------
 
-如果你想在树莓派上像 Arduino IDE Serial Monitor 一样手动发送 `m20` / `t20` / `s` 指令，可以用：
+如果你想在树莓派上像 Arduino IDE Serial Monitor 一样手动发送 `m20` / `t20` / `f20` / `r20` / `s` 指令，可以用：
 
 ```bash
 python3 tools/serial_console.py --port /dev/ttyUSB0
 ```
 
-- 输入命令后按回车发送（例如 `m20`、`t20`）
+- 输入命令后按回车发送（例如 `m20`、`t20`、`f20`、`r20`）
 - 输入为空时按 `s` 或空格可立即 Stop
 - 默认会隐藏固件周期性的遥测刷屏（如 `T:... L:...`）；需要时加 `--show-telemetry` 或 `--all`
 
@@ -50,6 +50,7 @@ python3 tools/serial_console.py --port /dev/ttyUSB0
 当前固件 [motor_control/motor_control.ino](motor_control/motor_control.ino) 支持通过宏 `SLOT4_AS_TRISTAR2` 选择 SLOT4 的用途：
 
 - 当 `SLOT4_AS_TRISTAR2 = 1`：SLOT4 用作“第二个爬坡电机”，并在固件内对 SLOT4 做方向反转补偿（用于抵消安装方向差异）。此时串口命令 `T<rpm>` 会同时驱动 SLOT3 + SLOT4。
+- 当 `SLOT4_AS_TRISTAR2 = 1`：支持分别控制前/后爬坡电机：`F<rpm>`（SLOT3，前轴）、`R<rpm>`（SLOT4，后轴）。
 - 当 `SLOT4_AS_TRISTAR2 = 1` 时，推杆（verin）相关的 `V<val>` 命令会被禁用（会打印 `VERIN_DISABLED...` 提示）。
 
 性能优化建议
