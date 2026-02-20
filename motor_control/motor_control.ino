@@ -6,9 +6,7 @@
 #include <math.h>
 #include "MotorController.h"
 
-// SLOT4 复用开关：
-// - 1: SLOT4 用作第二个爬坡电机（与 SLOT3 方向相反，用于抵消安装方向差异）
-// - 0: SLOT4 仍用作推杆/执行器（verin）
+// SLOT4 固定为第二个爬坡电机（Tristar2）
 #define SLOT4_AS_TRISTAR2 1
 
 // --- 外接 L293D 控制 verin（推杆/执行器）---
@@ -18,10 +16,7 @@
 // - L293D GND(p4,p5,p12,p13) -> MegaPi GND（必须共地）
 // - L293D OUT1(pin3) / OUT2(pin6) -> verin 两根线
 // - L293D IN1(pin2) -> D23, IN2(pin7) -> D24, EN1,2(pin1) -> D25
-// 注意：Mega2560 上 D25 不是硬件 PWM 引脚，因此这里默认只做“全速开关”。
-// 如果未来需要 PWM 调速：把 EN 改接到支持 PWM 的引脚（如 D6/D7/D8/D9/D10/D11/D12/D13/D44/D45/D46）并启用 VERIN_USE_PWM。
-#define VERIN_USE_L293D 1
-#define VERIN_USE_PWM 0
+// 说明：推杆不做 PWM 调速，只做方向全速开/关。
 const uint8_t VERIN_IN1_PIN = 23;
 const uint8_t VERIN_IN2_PIN = 24;
 const uint8_t VERIN_EN_PIN  = 25;
@@ -33,15 +28,9 @@ static inline void verin_l293d_stop() {
   digitalWrite(VERIN_IN2_PIN, LOW);
 }
 
-static inline void verin_l293d_set(int cmd) {
-  // cmd: -255..255 (sign = direction, magnitude = speed request)
-  cmd = constrain(cmd, -255, 255);
-  if (cmd == 0) {
-    verin_l293d_stop();
-    return;
-  }
-
-  if (cmd > 0) {
+static inline void verin_l293d_run_dir(int dir) {
+  // dir: -1 / +1
+  if (dir >= 0) {
     digitalWrite(VERIN_IN1_PIN, HIGH);
     digitalWrite(VERIN_IN2_PIN, LOW);
   } else {
@@ -49,24 +38,15 @@ static inline void verin_l293d_set(int cmd) {
     digitalWrite(VERIN_IN2_PIN, HIGH);
   }
 
-#if VERIN_USE_PWM
-  // Requires VERIN_EN_PIN to be a PWM-capable pin
-  analogWrite(VERIN_EN_PIN, abs(cmd));
-#else
   // Full speed enable (EN high)
   digitalWrite(VERIN_EN_PIN, HIGH);
-#endif
 }
 
 // --- 硬件对象定义 ---
 MeEncoderOnBoard Encoder_L(SLOT1);
 MeEncoderOnBoard Encoder_R(SLOT2);
 MeEncoderOnBoard Encoder_T(SLOT3);
-#if SLOT4_AS_TRISTAR2
 MeEncoderOnBoard Encoder_T2(SLOT4);
-#else
-MeEncoderOnBoard VerinMotor(SLOT4); // 推杆/执行器 (PWM)
-#endif
 MeGyro Gyro(PORT_6);
 MeUltrasonicSensor Ultrasonic(PORT_7);
 
@@ -76,11 +56,9 @@ MotorController MotorL(&Encoder_L, 1.2, 0.6, 2.0, 30.0, false);
 MotorController MotorR(&Encoder_R, 1.2, 0.6, 2.0, 30.0, true);
 MotorController MotorT(&Encoder_T, 1.5, 0.5, 1.0, 40.0, false);
 
-#if SLOT4_AS_TRISTAR2
 // 注意：你的安装方向导致 SLOT4 与 SLOT3 电机“机械方向相反”。
 // 这里将 SLOT4 设为 reversed=true，让同一个目标 RPM 下两台电机最终“机械方向一致”。
 MotorController MotorT2(&Encoder_T2, 1.5, 0.5, 1.0, 40.0, true);
-#endif
 
 // --- 全局参数 ---
 float K_sync = 1.0;          // 左右轮同步系数
@@ -91,26 +69,22 @@ unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
-#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
-// --- 推杆自动调平（通用）---
-// 读取 Gyro 角度（deg），输出到推杆驱动后端：
-// - 默认：SLOT4 直连（VerinMotor PWM，-255..255）
-// - 若启用 VERIN_USE_L293D：外接 L293D（D23/D24/D25）
-// 注意：如果推杆物理方向与约定相反（正值变成收回），用 verin_hw_reversed 统一反转。
+// --- 推杆自动调平（外接 L293D，非 PWM）---
+// 读取 Gyro 角度（deg），用“固定脉冲点动”方式纠偏。
+// 注意：如果推杆物理方向与约定相反，用 verin_hw_reversed 统一反转。
 bool verin_hw_reversed = false;
 bool verin_level_enabled = true;
 char verin_level_axis = 'x';
 float verin_level_deadband_deg = 2.0; // deg
-float verin_level_kp = 20.0;          // cmd per deg (mapped to -255..255)
-int verin_level_pwm_max = 150;        // cmd limit
-int verin_level_pwm_step = 5;         // 最小 cmd 变化才触发
 bool verin_level_reversed = false;
 const int VERIN_LEVEL_INTERVAL = 500; // ms (2 Hz)
+const int VERIN_LEVEL_PULSE_MS = 80;  // ms (每次纠偏点动时长)
 unsigned long lastVerinLevelTime = 0;
-int last_verin_cmd_sent = 0;
+bool verin_pulse_active = false;
+unsigned long verin_pulse_end_ms = 0;
 
-static inline int apply_verin_hw_dir(int cmd) {
-  return verin_hw_reversed ? -cmd : cmd;
+static inline int apply_verin_hw_dir(int dir) {
+  return verin_hw_reversed ? -dir : dir;
 }
 
 static inline float get_gyro_axis_deg(char axis) {
@@ -122,82 +96,36 @@ static inline float get_gyro_axis_deg(char axis) {
   }
 }
 
-#if VERIN_USE_L293D && !VERIN_USE_PWM
-bool verin_l293d_pulse_active = false;
-unsigned long verin_l293d_pulse_end_ms = 0;
-static inline void verin_l293d_pulse_tick() {
-  if (verin_l293d_pulse_active && millis() >= verin_l293d_pulse_end_ms) {
+static inline void verin_pulse_tick() {
+  if (verin_pulse_active && millis() >= verin_pulse_end_ms) {
     verin_l293d_stop();
-    verin_l293d_pulse_active = false;
+    verin_pulse_active = false;
   }
 }
-
-static inline void verin_l293d_pulse(int cmd) {
-  cmd = constrain(cmd, -255, 255);
-  if (cmd == 0) {
-    verin_l293d_stop();
-    verin_l293d_pulse_active = false;
-    return;
-  }
-
-  if (cmd > 0) {
-    digitalWrite(VERIN_IN1_PIN, HIGH);
-    digitalWrite(VERIN_IN2_PIN, LOW);
-  } else {
-    digitalWrite(VERIN_IN1_PIN, LOW);
-    digitalWrite(VERIN_IN2_PIN, HIGH);
-  }
-
-  int on_ms = map(abs(cmd), 0, 255, 20, 120);
-  digitalWrite(VERIN_EN_PIN, HIGH);
-  verin_l293d_pulse_end_ms = millis() + (unsigned long)on_ms;
-  verin_l293d_pulse_active = true;
-}
-#endif
 
 static inline void verin_output_stop() {
-#if VERIN_USE_L293D
   verin_l293d_stop();
-  #if !VERIN_USE_PWM
-  verin_l293d_pulse_active = false;
-  #endif
-#else
-  VerinMotor.setMotorPwm(0);
-#endif
-  last_verin_cmd_sent = 0;
+  verin_pulse_active = false;
 }
 
-static inline void verin_output_set_manual(int cmd) {
-  cmd = constrain(cmd, -255, 255);
-  cmd = apply_verin_hw_dir(cmd);
-#if VERIN_USE_L293D
-  verin_l293d_set(cmd);
-#else
-  VerinMotor.setMotorPwm(cmd);
-#endif
-  last_verin_cmd_sent = cmd;
+static inline void verin_output_set_manual_dir(int dir) {
+  dir = (dir >= 0) ? 1 : -1;
+  dir = apply_verin_hw_dir(dir);
+  verin_l293d_run_dir(dir);
 }
 
-static inline void verin_output_set_autolevel(int cmd) {
-  cmd = constrain(cmd, -255, 255);
-  cmd = apply_verin_hw_dir(cmd);
-#if VERIN_USE_L293D
-  #if VERIN_USE_PWM
-  verin_l293d_set(cmd);
-  #else
-  verin_l293d_pulse(cmd);
-  #endif
-#else
-  VerinMotor.setMotorPwm(cmd);
-#endif
-  last_verin_cmd_sent = cmd;
+static inline void verin_output_pulse_dir(int dir, int pulse_ms) {
+  dir = (dir >= 0) ? 1 : -1;
+  dir = apply_verin_hw_dir(dir);
+  verin_l293d_run_dir(dir);
+  verin_pulse_end_ms = millis() + (unsigned long)constrain(pulse_ms, 10, 300);
+  verin_pulse_active = true;
 }
 
 static inline void verin_level_stop() {
   verin_level_enabled = false;
   verin_output_stop();
 }
-#endif
 
 // --- 实体 STOP 按钮 ---
 // 适配类似 R16-503 的带灯按钮：
@@ -208,7 +136,6 @@ static inline void verin_level_stop() {
 const uint8_t STOP_BTN_PIN = 22;
 bool stop_btn_reported_pressed = false;
 
-#if SLOT4_AS_TRISTAR2
 // --- 双爬坡电机时序控制 ---
 // 需求：爬坡时，前轴（SLOT3）先转动 1/3（对应电机约 3 圈），再启动后轴（SLOT4）。
 // 这里复用 T_TARGET_PULSES 作为“1/3”阈值。
@@ -216,24 +143,19 @@ bool t_seq_active = false;
 bool t_rear_started = false;
 long t_seq_start_pulse = 0;
 float t_seq_target_rpm = 0;
-#endif
 
 static inline void apply_stop_all() {
   MotorL.reset();
   MotorR.reset();
   MotorT.reset();
-#if SLOT4_AS_TRISTAR2
   MotorT2.reset();
   t_seq_active = false;
   t_rear_started = false;
   t_seq_start_pulse = 0;
   t_seq_target_rpm = 0;
-#endif
 
-#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
   verin_output_stop();
   verin_level_enabled = false;
-#endif
 }
 
 // --- T 电机自动触发参数 ---
@@ -252,21 +174,17 @@ long t_start_pulse = 0;
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
 void isr_R() { if(digitalRead(Encoder_R.getPortB()) == 0) Encoder_R.pulsePosMinus(); else Encoder_R.pulsePosPlus(); }
 void isr_T() { if(digitalRead(Encoder_T.getPortB()) == 0) Encoder_T.pulsePosMinus(); else Encoder_T.pulsePosPlus(); }
-#if SLOT4_AS_TRISTAR2
 void isr_T2() { if(digitalRead(Encoder_T2.getPortB()) == 0) Encoder_T2.pulsePosMinus(); else Encoder_T2.pulsePosPlus(); }
-#endif
 
 void setup() {
   Serial.begin(115200);
   Serial.setTimeout(50);
   Serial.println("CarryBot Motor Ctrl Ready");
 
-#if VERIN_USE_L293D
   pinMode(VERIN_IN1_PIN, OUTPUT);
   pinMode(VERIN_IN2_PIN, OUTPUT);
   pinMode(VERIN_EN_PIN, OUTPUT);
   verin_l293d_stop();
-#endif
 
   pinMode(STOP_BTN_PIN, INPUT_PULLUP);
 
@@ -276,29 +194,18 @@ void setup() {
   attachInterrupt(Encoder_L.getIntNum(), isr_L, RISING);
   attachInterrupt(Encoder_R.getIntNum(), isr_R, RISING);
   attachInterrupt(Encoder_T.getIntNum(), isr_T, RISING);
-#if SLOT4_AS_TRISTAR2
   attachInterrupt(Encoder_T2.getIntNum(), isr_T2, RISING);
-#endif
 
   // 设置减速比和脉冲数
   Encoder_L.setPulse(7); Encoder_L.setRatio(46);
   Encoder_R.setPulse(7); Encoder_R.setRatio(46);
   Encoder_T.setPulse(T_PULSE_PER_REV); Encoder_T.setRatio(T_RATIO);
-#if SLOT4_AS_TRISTAR2
   Encoder_T2.setPulse(T_PULSE_PER_REV); Encoder_T2.setRatio(T_RATIO);
-#else
-  // 推杆通常没有编码器反馈，这里只需要确保 PWM 输出可用
-  VerinMotor.setPulse(7);
-  VerinMotor.setRatio(46);
-#endif
   
   // 初始停止
   MotorL.reset(); MotorR.reset(); MotorT.reset();
-#if SLOT4_AS_TRISTAR2
   MotorT2.reset();
-#else
   verin_output_stop();
-#endif
 }
 
 void loop() {
@@ -340,7 +247,6 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
-#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
       case 'L': case 'l': { // 推杆自动调平开关: L1 开 / L0 关
         int en = Serial.parseInt();
         verin_level_enabled = (en != 0);
@@ -374,20 +280,6 @@ void loop() {
         Serial.println(verin_level_deadband_deg);
         break;
       }
-      case 'K': case 'k': { // Kp (PWM/deg): K20
-        float v = Serial.parseFloat();
-        verin_level_kp = v;
-        Serial.print("VERIN_KP:");
-        Serial.println(verin_level_kp);
-        break;
-      }
-      case 'W': case 'w': { // PWM max: W120
-        int v = Serial.parseInt();
-        verin_level_pwm_max = constrain(abs(v), 0, 255);
-        Serial.print("VERIN_PWM_MAX:");
-        Serial.println(verin_level_pwm_max);
-        break;
-      }
       case 'I': case 'i': { // 调平方向: I0 NORMAL / I1 REVERSED
         int v = Serial.parseInt();
         verin_level_reversed = (v != 0);
@@ -395,14 +287,6 @@ void loop() {
         Serial.println(verin_level_reversed ? "REVERSED" : "NORMAL");
         break;
       }
-      case 'E': case 'e': { // pwm step: E5
-        int v = Serial.parseInt();
-        verin_level_pwm_step = constrain(abs(v), 0, 50);
-        Serial.print("VERIN_PWM_STEP:");
-        Serial.println(verin_level_pwm_step);
-        break;
-      }
-#endif
       case 'M': case 'm': { // 轮子移动 M30
         float req = Serial.parseFloat();
         // 约定：串口输入的正值表示“小车向前”。
@@ -437,7 +321,6 @@ void loop() {
         float val = Serial.parseFloat();
         if (!t_auto_active) {
           MotorT.setTarget(val);
-#if SLOT4_AS_TRISTAR2
           // 时序：第一次启动时先只跑前轴（SLOT3），达到 1/3 阈值再启动后轴（SLOT4）。
           if (val == 0) {
             MotorT2.setTarget(0);
@@ -459,13 +342,11 @@ void loop() {
               }
             }
           }
-#endif
         }
         Serial.print("SET_TRISTAR:"); Serial.println(val);
         break;
       }
 
-#if SLOT4_AS_TRISTAR2
       case 'F': case 'f': { // 前轴爬坡电机（SLOT3）单独控制: F20
         float val = Serial.parseFloat();
         if (!t_auto_active) {
@@ -493,26 +374,17 @@ void loop() {
         Serial.print("SET_TRISTAR_REAR:"); Serial.println(val);
         break;
       }
-#endif
       case 'V': case 'v': {
-        // 推杆控制（外接 L293D）：V100(方向A) / V-100(方向B) / V0(停止)
-#if VERIN_USE_L293D
+        // 推杆控制（外接 L293D）：V>0 一个方向 / V<0 另一个方向 / V0 停止（不做 PWM）
         // 手动推杆优先：收到 V 指令就关闭自动调平
         verin_level_enabled = false;
         int val = Serial.parseInt();
-        verin_output_set_manual(val);
-        Serial.print("SET_VERIN_L293D:"); Serial.println(val);
-#else
-        // 兼容旧模式（SLOT4 verin），仅当 SLOT4 未复用时可用
-  #if !SLOT4_AS_TRISTAR2
-        verin_level_enabled = false;
-        int val = Serial.parseInt();
-      verin_output_set_manual(val);
+        if (val == 0) {
+          verin_output_stop();
+        } else {
+          verin_output_set_manual_dir(val > 0 ? 1 : -1);
+        }
         Serial.print("SET_VERIN:"); Serial.println(val);
-  #else
-        Serial.println("VERIN_DISABLED_SLOT4_IN_TRISTAR2_MODE");
-  #endif
-#endif
         break;
       }
       case 'S': case 's': { // 停止 S
@@ -523,38 +395,23 @@ void loop() {
     }
   }
 
-#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
-  // 1.5 推杆自动调平（板上闭环）
+  // 1.5 推杆自动调平（外接 L293D，固定脉冲点动）
+  verin_pulse_tick();
   if (verin_level_enabled && (millis() - lastVerinLevelTime > VERIN_LEVEL_INTERVAL)) {
     lastVerinLevelTime = millis();
     float angle = get_gyro_axis_deg(verin_level_axis);
-    int pwm = 0;
     if (abs(angle) > verin_level_deadband_deg) {
-      // 以 NORMAL 为基准：这里用 -kp*angle。
-      // 如需反向（REVERSED），则改为 +kp*angle。
-      float p = verin_level_reversed ? (verin_level_kp * angle) : (-verin_level_kp * angle);
-      p = constrain(p, (float)-verin_level_pwm_max, (float)verin_level_pwm_max);
-      pwm = (int)round(p);
-    }
-
-    if (abs(pwm - last_verin_cmd_sent) >= verin_level_pwm_step) {
-      verin_output_set_autolevel(pwm);
+      // NORMAL: 角度为正时用 -1 方向纠偏；REVERSED 反过来。
+      int dir = (angle > 0) ? -1 : 1;
+      if (verin_level_reversed) dir = -dir;
+      verin_output_pulse_dir(dir, VERIN_LEVEL_PULSE_MS);
     }
   }
-#endif
 
   // 2. 刷新编码器状态
   Encoder_L.loop(); Encoder_R.loop(); Encoder_T.loop();
-#if SLOT4_AS_TRISTAR2
   Encoder_T2.loop();
-#else
-  VerinMotor.loop();
-#endif
   Gyro.update();
-
-#if VERIN_USE_L293D && !VERIN_USE_PWM
-  verin_l293d_pulse_tick();
-#endif
 
   // 2.5 超声波触发检测 (接近台阶)
   if (millis() - lastUltraTime > ULTRA_INTERVAL) {
@@ -563,9 +420,7 @@ void loop() {
     if (dist_cm > 0 && dist_cm < 400) {
       // 自动触发仅用于“接近台阶时的单电机动作”，避免在手动爬坡/双电机时序期间干扰。
       if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM && MotorT.targetSpeed == 0
-#if SLOT4_AS_TRISTAR2
           && MotorT2.targetSpeed == 0
-#endif
       ) {
         t_auto_active = true;
         t_auto_armed = false;
@@ -578,7 +433,6 @@ void loop() {
     }
   }
 
-#if SLOT4_AS_TRISTAR2
   // 2.8 双爬坡电机时序：前轴达到 1/3 阈值后启动后轴
   if (t_seq_active && !t_rear_started && !t_auto_active && MotorT.targetSpeed != 0) {
     long delta_pulse = labs(Encoder_T.getPulsePos() - t_seq_start_pulse);
@@ -588,7 +442,6 @@ void loop() {
       Serial.println("TRI_SEQ_START_REAR");
     }
   }
-#endif
 
   // 3. 定时 PID 计算
   if (millis() - lastTime > PID_INTERVAL) {
@@ -598,9 +451,7 @@ void loop() {
     float pwmL = MotorL.computePWM();
     float pwmR = MotorR.computePWM();
     float pwmT = MotorT.computePWM();
-  #if SLOT4_AS_TRISTAR2
     float pwmT2 = MotorT2.computePWM();
-  #endif
 
     // 左右轮同步纠偏 (仅在直线行驶时)
     if (abs(MotorL.targetSpeed) > 5.0 && MotorL.targetSpeed == MotorR.targetSpeed) {
@@ -624,9 +475,7 @@ void loop() {
     }
 
     MotorT.writePWM(pwmT);
-#if SLOT4_AS_TRISTAR2
     MotorT2.writePWM(pwmT2);
-#endif
 
     // 4. 定期发送调试信息 (每 100ms 一次)
     static int debugCount = 0;
@@ -636,15 +485,10 @@ void loop() {
       Serial.print(" L:"); Serial.print(MotorL.currentSpeed);
       Serial.print(" R:"); Serial.print(MotorR.currentSpeed);
       Serial.print(" Tri:"); Serial.print(MotorT.currentSpeed);
-
-    #if SLOT4_AS_TRISTAR2
       Serial.print(" Tri2:"); Serial.print(MotorT2.currentSpeed);
-    #endif
       
       if (MotorL.isStalled || MotorR.isStalled || MotorT.isStalled
-    #if SLOT4_AS_TRISTAR2
           || MotorT2.isStalled
-    #endif
       ) {
         Serial.print(" !!STALLED!!");
       }
