@@ -91,32 +91,26 @@ unsigned long lastTime = 0;
 unsigned long lastImuTime = 0;
 unsigned long lastUltraTime = 0;
 
-#if !SLOT4_AS_TRISTAR2
-// --- 推杆自动调平（板上闭环）---
-// 基于 Gyro.getAngleX/Y/Z（单位：deg），输出 VerinMotor PWM（-255~255）。
-// 注意：如果推杆物理方向与约定相反（V100 变成收回），用 verin_hw_reversed 统一反转。
+#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
+// --- 推杆自动调平（通用）---
+// 读取 Gyro 角度（deg），输出到推杆驱动后端：
+// - 默认：SLOT4 直连（VerinMotor PWM，-255..255）
+// - 若启用 VERIN_USE_L293D：外接 L293D（D23/D24/D25）
+// 注意：如果推杆物理方向与约定相反（正值变成收回），用 verin_hw_reversed 统一反转。
 bool verin_hw_reversed = false;
 bool verin_level_enabled = true;
 char verin_level_axis = 'x';
 float verin_level_deadband_deg = 2.0; // deg
-float verin_level_kp = 20.0;          // PWM per deg
-int verin_level_pwm_max = 150;        // PWM limit
-int verin_level_pwm_step = 5;         // 最小 PWM 变化才重发
-// 调平方向：默认 NORMAL（与当前机械/安装方向匹配）。
-// 如需反向，可切换到 REVERSED。
+float verin_level_kp = 20.0;          // cmd per deg (mapped to -255..255)
+int verin_level_pwm_max = 150;        // cmd limit
+int verin_level_pwm_step = 5;         // 最小 cmd 变化才触发
 bool verin_level_reversed = false;
 const int VERIN_LEVEL_INTERVAL = 500; // ms (2 Hz)
 unsigned long lastVerinLevelTime = 0;
-int last_verin_pwm_sent = 0;
+int last_verin_cmd_sent = 0;
 
-static inline int apply_verin_hw_dir(int pwm_cmd) {
-  return verin_hw_reversed ? -pwm_cmd : pwm_cmd;
-}
-
-static inline void write_verin_pwm_cmd(int pwm_cmd) {
-  pwm_cmd = constrain(pwm_cmd, -255, 255);
-  VerinMotor.setMotorPwm(apply_verin_hw_dir(pwm_cmd));
-  last_verin_pwm_sent = pwm_cmd;
+static inline int apply_verin_hw_dir(int cmd) {
+  return verin_hw_reversed ? -cmd : cmd;
 }
 
 static inline float get_gyro_axis_deg(char axis) {
@@ -128,9 +122,80 @@ static inline float get_gyro_axis_deg(char axis) {
   }
 }
 
+#if VERIN_USE_L293D && !VERIN_USE_PWM
+bool verin_l293d_pulse_active = false;
+unsigned long verin_l293d_pulse_end_ms = 0;
+static inline void verin_l293d_pulse_tick() {
+  if (verin_l293d_pulse_active && millis() >= verin_l293d_pulse_end_ms) {
+    verin_l293d_stop();
+    verin_l293d_pulse_active = false;
+  }
+}
+
+static inline void verin_l293d_pulse(int cmd) {
+  cmd = constrain(cmd, -255, 255);
+  if (cmd == 0) {
+    verin_l293d_stop();
+    verin_l293d_pulse_active = false;
+    return;
+  }
+
+  if (cmd > 0) {
+    digitalWrite(VERIN_IN1_PIN, HIGH);
+    digitalWrite(VERIN_IN2_PIN, LOW);
+  } else {
+    digitalWrite(VERIN_IN1_PIN, LOW);
+    digitalWrite(VERIN_IN2_PIN, HIGH);
+  }
+
+  int on_ms = map(abs(cmd), 0, 255, 20, 120);
+  digitalWrite(VERIN_EN_PIN, HIGH);
+  verin_l293d_pulse_end_ms = millis() + (unsigned long)on_ms;
+  verin_l293d_pulse_active = true;
+}
+#endif
+
+static inline void verin_output_stop() {
+#if VERIN_USE_L293D
+  verin_l293d_stop();
+  #if !VERIN_USE_PWM
+  verin_l293d_pulse_active = false;
+  #endif
+#else
+  VerinMotor.setMotorPwm(0);
+#endif
+  last_verin_cmd_sent = 0;
+}
+
+static inline void verin_output_set_manual(int cmd) {
+  cmd = constrain(cmd, -255, 255);
+  cmd = apply_verin_hw_dir(cmd);
+#if VERIN_USE_L293D
+  verin_l293d_set(cmd);
+#else
+  VerinMotor.setMotorPwm(cmd);
+#endif
+  last_verin_cmd_sent = cmd;
+}
+
+static inline void verin_output_set_autolevel(int cmd) {
+  cmd = constrain(cmd, -255, 255);
+  cmd = apply_verin_hw_dir(cmd);
+#if VERIN_USE_L293D
+  #if VERIN_USE_PWM
+  verin_l293d_set(cmd);
+  #else
+  verin_l293d_pulse(cmd);
+  #endif
+#else
+  VerinMotor.setMotorPwm(cmd);
+#endif
+  last_verin_cmd_sent = cmd;
+}
+
 static inline void verin_level_stop() {
   verin_level_enabled = false;
-  write_verin_pwm_cmd(0);
+  verin_output_stop();
 }
 #endif
 
@@ -163,13 +228,11 @@ static inline void apply_stop_all() {
   t_rear_started = false;
   t_seq_start_pulse = 0;
   t_seq_target_rpm = 0;
-#else
-  write_verin_pwm_cmd(0);
-  verin_level_enabled = false;
 #endif
 
-#if VERIN_USE_L293D
-  verin_l293d_stop();
+#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
+  verin_output_stop();
+  verin_level_enabled = false;
 #endif
 }
 
@@ -234,7 +297,7 @@ void setup() {
 #if SLOT4_AS_TRISTAR2
   MotorT2.reset();
 #else
-  write_verin_pwm_cmd(0);
+  verin_output_stop();
 #endif
 }
 
@@ -277,12 +340,12 @@ void loop() {
     if (cmd > 32 && cmd < 127) { Serial.print("RX:"); Serial.write(cmd); Serial.println(); }
 
     switch (cmd) {
-#if !SLOT4_AS_TRISTAR2
+#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
       case 'L': case 'l': { // 推杆自动调平开关: L1 开 / L0 关
         int en = Serial.parseInt();
         verin_level_enabled = (en != 0);
         if (!verin_level_enabled) {
-          write_verin_pwm_cmd(0);
+          verin_output_stop();
         }
         Serial.print("VERIN_LEVEL:");
         Serial.println(verin_level_enabled ? 1 : 0);
@@ -434,15 +497,17 @@ void loop() {
       case 'V': case 'v': {
         // 推杆控制（外接 L293D）：V100(方向A) / V-100(方向B) / V0(停止)
 #if VERIN_USE_L293D
+        // 手动推杆优先：收到 V 指令就关闭自动调平
+        verin_level_enabled = false;
         int val = Serial.parseInt();
-        verin_l293d_set(val);
+        verin_output_set_manual(val);
         Serial.print("SET_VERIN_L293D:"); Serial.println(val);
 #else
         // 兼容旧模式（SLOT4 verin），仅当 SLOT4 未复用时可用
   #if !SLOT4_AS_TRISTAR2
         verin_level_enabled = false;
         int val = Serial.parseInt();
-        write_verin_pwm_cmd(val);
+      verin_output_set_manual(val);
         Serial.print("SET_VERIN:"); Serial.println(val);
   #else
         Serial.println("VERIN_DISABLED_SLOT4_IN_TRISTAR2_MODE");
@@ -458,7 +523,7 @@ void loop() {
     }
   }
 
-#if !SLOT4_AS_TRISTAR2
+#if !SLOT4_AS_TRISTAR2 || VERIN_USE_L293D
   // 1.5 推杆自动调平（板上闭环）
   if (verin_level_enabled && (millis() - lastVerinLevelTime > VERIN_LEVEL_INTERVAL)) {
     lastVerinLevelTime = millis();
@@ -472,8 +537,8 @@ void loop() {
       pwm = (int)round(p);
     }
 
-    if (abs(pwm - last_verin_pwm_sent) >= verin_level_pwm_step) {
-      write_verin_pwm_cmd(pwm);
+    if (abs(pwm - last_verin_cmd_sent) >= verin_level_pwm_step) {
+      verin_output_set_autolevel(pwm);
     }
   }
 #endif
@@ -486,6 +551,10 @@ void loop() {
   VerinMotor.loop();
 #endif
   Gyro.update();
+
+#if VERIN_USE_L293D && !VERIN_USE_PWM
+  verin_l293d_pulse_tick();
+#endif
 
   // 2.5 超声波触发检测 (接近台阶)
   if (millis() - lastUltraTime > ULTRA_INTERVAL) {
