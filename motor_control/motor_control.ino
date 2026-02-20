@@ -11,6 +11,53 @@
 // - 0: SLOT4 仍用作推杆/执行器（verin）
 #define SLOT4_AS_TRISTAR2 1
 
+// --- 外接 L293D 控制 verin（推杆/执行器）---
+// 接线方案（单路 H-bridge）：
+// - L293D Vcc1(pin16) -> MegaPi 5V
+// - L293D Vcc2(pin8)  -> MegaPi V+
+// - L293D GND(p4,p5,p12,p13) -> MegaPi GND（必须共地）
+// - L293D OUT1(pin3) / OUT2(pin6) -> verin 两根线
+// - L293D IN1(pin2) -> D23, IN2(pin7) -> D24, EN1,2(pin1) -> D25
+// 注意：Mega2560 上 D25 不是硬件 PWM 引脚，因此这里默认只做“全速开关”。
+// 如果未来需要 PWM 调速：把 EN 改接到支持 PWM 的引脚（如 D6/D7/D8/D9/D10/D11/D12/D13/D44/D45/D46）并启用 VERIN_USE_PWM。
+#define VERIN_USE_L293D 1
+#define VERIN_USE_PWM 0
+const uint8_t VERIN_IN1_PIN = 23;
+const uint8_t VERIN_IN2_PIN = 24;
+const uint8_t VERIN_EN_PIN  = 25;
+
+static inline void verin_l293d_stop() {
+  // Disable output (coast)
+  digitalWrite(VERIN_EN_PIN, LOW);
+  digitalWrite(VERIN_IN1_PIN, LOW);
+  digitalWrite(VERIN_IN2_PIN, LOW);
+}
+
+static inline void verin_l293d_set(int cmd) {
+  // cmd: -255..255 (sign = direction, magnitude = speed request)
+  cmd = constrain(cmd, -255, 255);
+  if (cmd == 0) {
+    verin_l293d_stop();
+    return;
+  }
+
+  if (cmd > 0) {
+    digitalWrite(VERIN_IN1_PIN, HIGH);
+    digitalWrite(VERIN_IN2_PIN, LOW);
+  } else {
+    digitalWrite(VERIN_IN1_PIN, LOW);
+    digitalWrite(VERIN_IN2_PIN, HIGH);
+  }
+
+#if VERIN_USE_PWM
+  // Requires VERIN_EN_PIN to be a PWM-capable pin
+  analogWrite(VERIN_EN_PIN, abs(cmd));
+#else
+  // Full speed enable (EN high)
+  digitalWrite(VERIN_EN_PIN, HIGH);
+#endif
+}
+
 // --- 硬件对象定义 ---
 MeEncoderOnBoard Encoder_L(SLOT1);
 MeEncoderOnBoard Encoder_R(SLOT2);
@@ -120,6 +167,10 @@ static inline void apply_stop_all() {
   write_verin_pwm_cmd(0);
   verin_level_enabled = false;
 #endif
+
+#if VERIN_USE_L293D
+  verin_l293d_stop();
+#endif
 }
 
 // --- T 电机自动触发参数 ---
@@ -146,6 +197,13 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(50);
   Serial.println("CarryBot Motor Ctrl Ready");
+
+#if VERIN_USE_L293D
+  pinMode(VERIN_IN1_PIN, OUTPUT);
+  pinMode(VERIN_IN2_PIN, OUTPUT);
+  pinMode(VERIN_EN_PIN, OUTPUT);
+  verin_l293d_stop();
+#endif
 
   pinMode(STOP_BTN_PIN, INPUT_PULLUP);
 
@@ -373,21 +431,25 @@ void loop() {
         break;
       }
 #endif
-#if !SLOT4_AS_TRISTAR2
-      case 'V': case 'v': { // 推杆控制 V100(伸出) V-100(收回) V0(停止)
-        // 手动推杆优先：收到 V 指令就关闭自动调平
+      case 'V': case 'v': {
+        // 推杆控制（外接 L293D）：V100(方向A) / V-100(方向B) / V0(停止)
+#if VERIN_USE_L293D
+        int val = Serial.parseInt();
+        verin_l293d_set(val);
+        Serial.print("SET_VERIN_L293D:"); Serial.println(val);
+#else
+        // 兼容旧模式（SLOT4 verin），仅当 SLOT4 未复用时可用
+  #if !SLOT4_AS_TRISTAR2
         verin_level_enabled = false;
         int val = Serial.parseInt();
         write_verin_pwm_cmd(val);
         Serial.print("SET_VERIN:"); Serial.println(val);
-        break;
-      }
-#else
-      case 'V': case 'v': { // SLOT4 已复用为第二爬坡电机
+  #else
         Serial.println("VERIN_DISABLED_SLOT4_IN_TRISTAR2_MODE");
+  #endif
+#endif
         break;
       }
-#endif
       case 'S': case 's': { // 停止 S
         apply_stop_all();
         Serial.println("STOP");
