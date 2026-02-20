@@ -1,6 +1,7 @@
 import os
 import json
 import argparse
+import time
 import pytest
 from unittest.mock import patch, MagicMock
 import detect_stairs as ds
@@ -32,6 +33,7 @@ def test_defaults_loaded(empty_config_file):
     assert params.get("median_blur_ksize") == 5
     assert params.get("stair_approach_speed_rpm") == 45.0
     assert params.get("stair_ultra_trigger_cm") == 6.0
+    assert params.get("manual_reverse_override_s") == 1.5
 
 def test_load_from_file(populated_config_file):
     """测试从 JSON 文件加载参数。"""
@@ -123,6 +125,20 @@ def test_forward_like_helpers():
     assert ds._is_wheels_forward_like({"rpm": -10}) is False
     assert ds._is_wheels_forward_like({"left": 0, "right": 20}) is True
     assert ds._is_wheels_forward_like({"left": -20, "right": -1}) is False
+
+
+def test_backward_like_helper():
+    assert ds._is_wheels_backward_like({"rpm": -10}) is True
+    assert ds._is_wheels_backward_like({"rpm": 10}) is False
+    assert ds._is_wheels_backward_like({"left": -1, "right": 0}) is True
+    assert ds._is_wheels_backward_like({"left": 1, "right": 1}) is False
+
+
+def test_manual_reverse_override_timestamp_updates():
+    before = time.time()
+    ds._arm_manual_reverse_override(0.5)
+    snap = ds._get_nav_state_snapshot()
+    assert snap["manual_reverse_until"] >= before + 0.4
 
 
 def test_clear_forward_latch_without_wall():

@@ -72,6 +72,7 @@ nav_state = {
     "forward_lock_latched": False,
     "forward_locked": False,
     "forward_lock_reason": "",
+    "manual_reverse_until": 0.0,
 }
 
 
@@ -105,6 +106,21 @@ def _is_wheels_forward_like(payload: dict) -> bool:
         return left > 0 or right > 0
     rpm = float(payload.get("rpm", 0.0))
     return rpm > 0
+
+
+def _is_wheels_backward_like(payload: dict) -> bool:
+    if "left" in payload or "right" in payload:
+        left = float(payload.get("left", 0.0))
+        right = float(payload.get("right", 0.0))
+        return left < 0 or right < 0
+    rpm = float(payload.get("rpm", 0.0))
+    return rpm < 0
+
+
+def _arm_manual_reverse_override(seconds: float) -> None:
+    until_ts = time.time() + max(0.0, float(seconds))
+    with nav_state_lock:
+        nav_state["manual_reverse_until"] = until_ts
 
 
 def _clear_forward_latch() -> dict:
@@ -141,6 +157,7 @@ class ParamsHandler:
             "fps": 15,
             "stair_approach_speed_rpm": 45.0,
             "stair_ultra_trigger_cm": 6.0,
+            "manual_reverse_override_s": 1.5,
         }
 
     def load_from_file(self):
@@ -373,6 +390,9 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     )
                     return
 
+                if _is_wheels_backward_like(payload):
+                    _arm_manual_reverse_override(float(self.params_handler.get("manual_reverse_override_s")))
+
                 # Option A: independent wheels
                 if "left" in payload or "right" in payload:
                     left = float(payload.get("left", 0))
@@ -436,6 +456,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 if action in ("backward", "back", "b"):
+                    _arm_manual_reverse_override(float(self.params_handler.get("manual_reverse_override_s")))
                     _with_lock(lambda: self.motor_driver.move_wheels_lr(-speed, -speed))
                     self._send_json(200, {"status": "ok", "action": "backward", "speed": speed}, cors=True)
                     return
@@ -702,9 +723,10 @@ def main():
             snap = _get_nav_state_snapshot()
             approach_active = bool(snap["stair_approach_active"])
             lock_latched = bool(snap["forward_lock_latched"])
+            reverse_override_active = time.time() < float(snap.get("manual_reverse_until", 0.0))
 
             # 1) Wall ahead => immediate stop.
-            if is_wall and motor_driver is not None:
+            if is_wall and (not reverse_override_active) and motor_driver is not None:
                 with motor_lock:
                     motor_driver.stop()
                 approach_active = False
