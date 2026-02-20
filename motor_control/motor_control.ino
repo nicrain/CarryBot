@@ -96,6 +96,16 @@ static inline void verin_level_stop() {
 const uint8_t STOP_BTN_PIN = 22;
 bool stop_btn_reported_pressed = false;
 
+#if SLOT4_AS_TRISTAR2
+// --- 双爬坡电机时序控制 ---
+// 需求：爬坡时，前轴（SLOT3）先转动 1/3（对应电机约 3 圈），再启动后轴（SLOT4）。
+// 这里复用 T_TARGET_PULSES 作为“1/3”阈值。
+bool t_seq_active = false;
+bool t_rear_started = false;
+long t_seq_start_pulse = 0;
+float t_seq_target_rpm = 0;
+#endif
+
 static inline void apply_stop_all() {
   MotorL.reset();
   MotorR.reset();
@@ -123,16 +133,6 @@ const double ULTRA_RESET_CM = 6.0; // 简单迟滞，防止抖动
 bool t_auto_active = false;
 bool t_auto_armed = true;
 long t_start_pulse = 0;
-
-#if SLOT4_AS_TRISTAR2
-// --- 双爬坡电机时序控制 ---
-// 需求：爬坡时，前轴（SLOT3）先转动 1/3（对应电机约 3 圈），再启动后轴（SLOT4）。
-// 这里复用 T_TARGET_PULSES 作为“1/3”阈值。
-bool t_seq_active = false;
-bool t_rear_started = false;
-long t_seq_start_pulse = 0;
-float t_seq_target_rpm = 0;
-#endif
 
 // --- 中断函数 (必须写在这里) ---
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
