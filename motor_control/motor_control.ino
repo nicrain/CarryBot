@@ -102,6 +102,10 @@ static inline void apply_stop_all() {
   MotorT.reset();
 #if SLOT4_AS_TRISTAR2
   MotorT2.reset();
+  t_seq_active = false;
+  t_rear_started = false;
+  t_seq_start_pulse = 0;
+  t_seq_target_rpm = 0;
 #else
   write_verin_pwm_cmd(0);
   verin_level_enabled = false;
@@ -119,6 +123,16 @@ const double ULTRA_RESET_CM = 6.0; // 简单迟滞，防止抖动
 bool t_auto_active = false;
 bool t_auto_armed = true;
 long t_start_pulse = 0;
+
+#if SLOT4_AS_TRISTAR2
+// --- 双爬坡电机时序控制 ---
+// 需求：爬坡时，前轴（SLOT3）先转动 1/3（对应电机约 3 圈），再启动后轴（SLOT4）。
+// 这里复用 T_TARGET_PULSES 作为“1/3”阈值。
+bool t_seq_active = false;
+bool t_rear_started = false;
+long t_seq_start_pulse = 0;
+float t_seq_target_rpm = 0;
+#endif
 
 // --- 中断函数 (必须写在这里) ---
 void isr_L() { if(digitalRead(Encoder_L.getPortB()) == 0) Encoder_L.pulsePosMinus(); else Encoder_L.pulsePosPlus(); }
@@ -303,7 +317,27 @@ void loop() {
         if (!t_auto_active) {
           MotorT.setTarget(val);
 #if SLOT4_AS_TRISTAR2
-          MotorT2.setTarget(val);
+          // 时序：第一次启动时先只跑前轴（SLOT3），达到 1/3 阈值再启动后轴（SLOT4）。
+          if (val == 0) {
+            MotorT2.setTarget(0);
+            t_seq_active = false;
+            t_rear_started = false;
+            t_seq_start_pulse = 0;
+            t_seq_target_rpm = 0;
+          } else {
+            t_seq_target_rpm = val;
+            if (!t_seq_active) {
+              t_seq_active = true;
+              t_rear_started = false;
+              t_seq_start_pulse = Encoder_T.getPulsePos();
+              MotorT2.setTarget(0);
+              Serial.println("TRI_SEQ_START_FRONT");
+            } else {
+              if (t_rear_started) {
+                MotorT2.setTarget(val);
+              }
+            }
+          }
 #endif
         }
         Serial.print("SET_TRISTAR:"); Serial.println(val);
@@ -366,20 +400,30 @@ void loop() {
     lastUltraTime = millis();
     double dist_cm = Ultrasonic.distanceCm();
     if (dist_cm > 0 && dist_cm < 400) {
-      if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM) {
+      // 自动触发仅用于“接近台阶时的单电机动作”，避免在手动爬坡/双电机时序期间干扰。
+      if (!t_auto_active && t_auto_armed && dist_cm <= ULTRA_TRIGGER_CM && MotorT.targetSpeed == 0) {
         t_auto_active = true;
         t_auto_armed = false;
         t_start_pulse = Encoder_T.getPulsePos();
         MotorT.setTarget(T_AUTO_RPM);
-#if SLOT4_AS_TRISTAR2
-        MotorT2.setTarget(T_AUTO_RPM);
-#endif
         Serial.print("AUTO_T_START_CM:"); Serial.println(dist_cm);
       } else if (!t_auto_active && !t_auto_armed && dist_cm >= ULTRA_RESET_CM) {
         t_auto_armed = true;
       }
     }
   }
+
+#if SLOT4_AS_TRISTAR2
+  // 2.8 双爬坡电机时序：前轴达到 1/3 阈值后启动后轴
+  if (t_seq_active && !t_rear_started && !t_auto_active && MotorT.targetSpeed != 0) {
+    long delta_pulse = labs(Encoder_T.getPulsePos() - t_seq_start_pulse);
+    if (delta_pulse >= T_TARGET_PULSES) {
+      MotorT2.setTarget(t_seq_target_rpm);
+      t_rear_started = true;
+      Serial.println("TRI_SEQ_START_REAR");
+    }
+  }
+#endif
 
   // 3. 定时 PID 计算
   if (millis() - lastTime > PID_INTERVAL) {
@@ -408,9 +452,6 @@ void loop() {
       long delta_pulse = labs(Encoder_T.getPulsePos() - t_start_pulse);
       if (delta_pulse >= T_TARGET_PULSES) {
         MotorT.setTarget(0);
-#if SLOT4_AS_TRISTAR2
-        MotorT2.setTarget(0);
-#endif
         t_auto_active = false;
         t_auto_armed = true;
         Serial.println("AUTO_T_DONE");
