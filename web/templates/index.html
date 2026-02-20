@@ -52,15 +52,89 @@
             border-radius: 8px;
             text-align: left;
         }
-        .controls {
+        .motor-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 10px;
-            margin-bottom: 10px;
+            grid-template-columns: 280px 1fr;
+            gap: 14px;
+            align-items: start;
         }
-        .control-section button {
-            margin-top: 0;
+        .motor-card {
+            background: #222;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .card-title {
+            margin: 0 0 10px 0;
+            color: #aaa;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Motor buttons: scoped styles (do not change the Params submit button) */
+        .control-section .m-btn {
+            margin: 0;
+            width: auto;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid #555;
+            background: #444;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .control-section .m-btn:hover { background: #0c0; color: #000; }
+        .control-section .m-btn:active { transform: translateY(1px); }
+        .control-section .m-btn.stop {
+            background: #0f0;
+            color: #000;
+            border-color: #0c0;
+        }
+        .control-section .m-btn.stop:hover { background: #0c0; }
+        .control-section .m-btn.icon {
+            width: 74px;
+            height: 74px;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            font-size: 24px;
+        }
+        .control-section .m-btn.wide {
             width: 100%;
+        }
+
+        /* D-pad layout */
+        .dpad {
+            display: grid;
+            grid-template-columns: repeat(3, 74px);
+            grid-template-rows: repeat(3, 74px);
+            gap: 10px;
+            justify-content: center;
+        }
+        .dpad .up { grid-column: 2; grid-row: 1; }
+        .dpad .left { grid-column: 1; grid-row: 2; }
+        .dpad .stop { grid-column: 2; grid-row: 2; }
+        .dpad .right { grid-column: 3; grid-row: 2; }
+        .dpad .down { grid-column: 2; grid-row: 3; }
+
+        /* Climb controls */
+        .climb-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .climb-grid.three {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 900px) {
+            .motor-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 420px) {
+            .control-section .m-btn.icon { width: 64px; height: 64px; }
+            .dpad { grid-template-columns: repeat(3, 64px); grid-template-rows: repeat(3, 64px); gap: 8px; }
         }
         #motor-status {
             margin: 0;
@@ -86,25 +160,36 @@
         </div>
         <div class="control-section">
           <h2>Motor Control</h2>
-          <div class="controls">
-            <button type="button" onclick="drive('forward')">Forward</button>
-            <button type="button" onclick="drive('backward')">Backward</button>
-            <button type="button" onclick="drive('left')">Left</button>
-            <button type="button" onclick="drive('right')">Right</button>
-            <button type="button" onclick="stopAll()">Stop</button>
-          </div>
+                    <div class="motor-grid">
+                        <div class="motor-card">
+                            <p class="card-title">Drive (D-pad)</p>
+                            <div class="dpad">
+                                <button class="m-btn icon up" type="button" title="Forward" onclick="drive('forward')">▲</button>
+                                <button class="m-btn icon left" type="button" title="Left" onclick="drive('left')">◀</button>
+                                <button class="m-btn icon stop" type="button" title="Stop" onclick="stopAll()">■</button>
+                                <button class="m-btn icon right" type="button" title="Right" onclick="drive('right')">▶</button>
+                                <button class="m-btn icon down" type="button" title="Backward" onclick="drive('backward')">▼</button>
+                            </div>
+                        </div>
 
-          <div class="controls">
-            <button type="button" onclick="drive('up')">Up (Tristar)</button>
-            <button type="button" onclick="drive('down')">Down (Tristar)</button>
-          </div>
+                        <div class="motor-card">
+                            <p class="card-title">Climb</p>
 
-          <div class="controls">
-            <button type="button" onclick="drive('front_up')">Front Up</button>
-            <button type="button" onclick="drive('front_down')">Front Down</button>
-            <button type="button" onclick="drive('rear_up')">Rear Up</button>
-            <button type="button" onclick="drive('rear_down')">Rear Down</button>
-          </div>
+                            <div class="climb-grid">
+                                <button class="m-btn wide" type="button" onclick="drive('up')">Tristar ▲ Up</button>
+                                <button class="m-btn wide" type="button" onclick="drive('down')">Tristar ▼ Down</button>
+                            </div>
+
+                            <div style="height: 10px;"></div>
+
+                            <div class="climb-grid">
+                                <button class="m-btn wide" type="button" onclick="drive('front_up')">Front ▲</button>
+                                <button class="m-btn wide" type="button" onclick="drive('front_down')">Front ▼</button>
+                                <button class="m-btn wide" type="button" onclick="drive('rear_up')">Rear ▲</button>
+                                <button class="m-btn wide" type="button" onclick="drive('rear_down')">Rear ▼</button>
+                            </div>
+                        </div>
+                    </div>
 
           <p id="motor-status" style="font-family: monospace;"></p>
         </div>
