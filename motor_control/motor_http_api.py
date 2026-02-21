@@ -118,13 +118,19 @@ def create_app(driver: MotorDriver) -> Flask:
         # App can omit rpm; server uses DEFAULT_TRISTAR_RPM.
         if action in ("up", "u"):
             rpm = float(payload.get("rpm", DEFAULT_TRISTAR_RPM))
+            if hasattr(driver, "set_tristar2_freewheel"):
+                driver.set_tristar2_freewheel(False)
             driver.move_tristar(abs(rpm))
             return jsonify({"status": "ok", "action": "up", "rpm": abs(rpm)})
 
         if action in ("down", "d"):
             rpm = float(payload.get("rpm", DEFAULT_TRISTAR_RPM))
-            driver.move_tristar(-abs(rpm))
-            return jsonify({"status": "ok", "action": "down", "rpm": -abs(rpm)})
+            if hasattr(driver, "set_tristar2_freewheel") and hasattr(driver, "move_tristar_front"):
+                driver.set_tristar2_freewheel(True)
+                driver.move_tristar_front(abs(rpm))
+                return jsonify({"status": "ok", "action": "down", "rpm": abs(rpm), "tristar2_freewheel": True})
+            driver.move_tristar(abs(rpm))
+            return jsonify({"status": "ok", "action": "down", "rpm": abs(rpm), "tristar2_freewheel": False})
 
         return jsonify({"status": "error", "message": f"Unknown action: {action}"}), 400
 

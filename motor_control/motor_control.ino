@@ -130,6 +130,7 @@ bool t_seq_active = false;
 bool t_rear_started = false;
 long t_seq_start_pulse = 0;
 float t_seq_target_rpm = 0;
+bool t2_freewheel_mode = false;
 
 static inline void apply_stop_all() {
   MotorL.reset();
@@ -155,6 +156,18 @@ static inline void apply_motion_stop() {
   t_rear_started = false;
   t_seq_start_pulse = 0;
   t_seq_target_rpm = 0;
+}
+
+static inline void set_tristar2_freewheel_mode(bool enabled) {
+  t2_freewheel_mode = enabled;
+  if (enabled) {
+    MotorT2.setTarget(0);
+    MotorT2.writePWM(0);
+    t_seq_active = false;
+    t_rear_started = false;
+    t_seq_start_pulse = 0;
+    t_seq_target_rpm = 0;
+  }
 }
 
 // --- T 电机自动触发参数 ---
@@ -308,6 +321,7 @@ void loop() {
       }
       case 'T': case 't': { // 爬楼 T20
         float val = Serial.parseFloat();
+        set_tristar2_freewheel_mode(false);
         MotorT.setTarget(val);
         // 时序：第一次启动时先只跑前轴（SLOT3），达到 1/3 阈值再启动后轴（SLOT4）。
         if (val == 0) {
@@ -348,6 +362,7 @@ void loop() {
 
       case 'R': case 'r': { // 后轴爬坡电机（SLOT4）单独控制: R20
         float val = Serial.parseFloat();
+        set_tristar2_freewheel_mode(false);
         MotorT2.setTarget(val);
         // 独立控制时关闭双电机时序
         t_seq_active = false;
@@ -355,6 +370,13 @@ void loop() {
         t_seq_start_pulse = 0;
         t_seq_target_rpm = 0;
         Serial.print("SET_TRISTAR_REAR:"); Serial.println(val);
+        break;
+      }
+      case 'Q': case 'q': { // Tristar2 freewheel mode: Q1 enable / Q0 disable
+        int en = Serial.parseInt();
+        set_tristar2_freewheel_mode(en != 0);
+        Serial.print("TRI2_FREEWHEEL:");
+        Serial.println(t2_freewheel_mode ? 1 : 0);
         break;
       }
       case 'V': case 'v': {
@@ -408,7 +430,7 @@ void loop() {
   }
 
   // 2.8 双爬坡电机时序：前轴达到 1/3 阈值后启动后轴
-  if (t_seq_active && !t_rear_started && MotorT.targetSpeed != 0) {
+  if (t_seq_active && !t_rear_started && !t2_freewheel_mode && MotorT.targetSpeed != 0) {
     long delta_pulse = labs(Encoder_T.getPulsePos() - t_seq_start_pulse);
     if (delta_pulse >= T_TARGET_PULSES) {
       MotorT2.setTarget(t_seq_target_rpm);
@@ -438,7 +460,11 @@ void loop() {
     MotorL.writePWM(pwmL);
     MotorR.writePWM(pwmR);
     MotorT.writePWM(pwmT);
-    MotorT2.writePWM(pwmT2);
+    if (t2_freewheel_mode) {
+      MotorT2.writePWM(0);
+    } else {
+      MotorT2.writePWM(pwmT2);
+    }
 
     // 4. 定期发送调试信息 (每 100ms 一次)
     static int debugCount = 0;

@@ -408,6 +408,8 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
             if self.path == "/tristar":
                 rpm = float(payload.get("rpm", 20.0))
+                if hasattr(self.motor_driver, "set_tristar2_freewheel"):
+                    _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                 _with_lock(lambda: self.motor_driver.move_tristar(rpm))
                 self._send_json(200, {"status": "ok", "rpm": rpm}, cors=True)
                 return
@@ -475,13 +477,20 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
                 # Stair mechanism (tristar)
                 if action in ("up", "u"):
+                    if hasattr(self.motor_driver, "set_tristar2_freewheel"):
+                        _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                     _with_lock(lambda: self.motor_driver.move_tristar(abs(rpm)))
                     self._send_json(200, {"status": "ok", "action": "up", "rpm": abs(rpm)}, cors=True)
                     return
 
                 if action in ("down", "d"):
-                    _with_lock(lambda: self.motor_driver.move_tristar(-abs(rpm)))
-                    self._send_json(200, {"status": "ok", "action": "down", "rpm": -abs(rpm)}, cors=True)
+                    if hasattr(self.motor_driver, "set_tristar2_freewheel") and hasattr(self.motor_driver, "move_tristar_front"):
+                        _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(True))
+                        _with_lock(lambda: self.motor_driver.move_tristar_front(abs(rpm)))
+                        self._send_json(200, {"status": "ok", "action": "down", "rpm": abs(rpm), "tristar2_freewheel": True}, cors=True)
+                    else:
+                        _with_lock(lambda: self.motor_driver.move_tristar(abs(rpm)))
+                        self._send_json(200, {"status": "ok", "action": "down", "rpm": abs(rpm), "tristar2_freewheel": False}, cors=True)
                     return
 
                 # Independent climb motors (firmware: F/R)
@@ -503,6 +512,8 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
                 if action in ("rear_up", "ru"):
                     if hasattr(self.motor_driver, "move_tristar_rear"):
+                        if hasattr(self.motor_driver, "set_tristar2_freewheel"):
+                            _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                         _with_lock(lambda: self.motor_driver.move_tristar_rear(abs(rpm)))
                         self._send_json(200, {"status": "ok", "action": "rear_up", "rpm": abs(rpm)}, cors=True)
                     else:
@@ -511,6 +522,8 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
                 if action in ("rear_down", "rd"):
                     if hasattr(self.motor_driver, "move_tristar_rear"):
+                        if hasattr(self.motor_driver, "set_tristar2_freewheel"):
+                            _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                         _with_lock(lambda: self.motor_driver.move_tristar_rear(-abs(rpm)))
                         self._send_json(200, {"status": "ok", "action": "rear_down", "rpm": -abs(rpm)}, cors=True)
                     else:
