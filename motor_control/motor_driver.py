@@ -167,8 +167,8 @@ class MotorDriver:
         self._send_command(f"R{rpm:.2f}")
 
     def set_tristar2_freewheel(self, enabled: bool):
-        """设置后轴（三星轮2）自由转模式（固件命令: Q1/Q0）。"""
-        self._send_command(f"Q{1 if enabled else 0}")
+        """设置后轴（三星轮2）自由转模式（固件命令: Y1/Y0）。"""
+        self._send_command(f"Y{1 if enabled else 0}")
 
     def move_verin_pwm(self, pwm):
         """设置推杆/执行器 PWM（-255 ~ 255），对应固件命令 V<val>"""

@@ -372,7 +372,7 @@ void loop() {
         Serial.print("SET_TRISTAR_REAR:"); Serial.println(val);
         break;
       }
-      case 'Q': case 'q': { // Tristar2 freewheel mode: Q1 enable / Q0 disable
+      case 'Y': case 'y': { // Tristar2 freewheel mode: Y1/Y0
         int en = Serial.parseInt();
         set_tristar2_freewheel_mode(en != 0);
         Serial.print("TRI2_FREEWHEEL:");
