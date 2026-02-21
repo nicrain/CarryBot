@@ -7,6 +7,45 @@ import serial.tools.list_ports
 import time
 import threading
 
+
+GROUND_ACTIONS = {"forward", "f", "backward", "back", "b", "left", "l", "right", "r"}
+
+STAIR_ACTIONS = {
+    "up",
+    "u",
+    "down",
+    "d",
+    "front_up",
+    "fu",
+    "front_down",
+    "fd",
+    "rear_up",
+    "ru",
+    "rear_down",
+    "rd",
+}
+
+
+def stop_ground_motors(driver):
+    driver.move_wheels_lr(0.0, 0.0)
+
+
+def stop_stair_motors(driver):
+    if hasattr(driver, "set_tristar2_freewheel"):
+        driver.set_tristar2_freewheel(False)
+    driver.move_tristar(0.0)
+    if hasattr(driver, "move_tristar_front"):
+        driver.move_tristar_front(0.0)
+    if hasattr(driver, "move_tristar_rear"):
+        driver.move_tristar_rear(0.0)
+
+
+def preempt_for(driver, target: str):
+    if target == "ground":
+        stop_stair_motors(driver)
+    elif target == "stair":
+        stop_ground_motors(driver)
+
 class MotorDriver:
     """串口控制 Makeblock 电机控制板 / Contrôle série du contrôleur Makeblock."""
     def __init__(self, port=None, baudrate=115200, timeout=1):

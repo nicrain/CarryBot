@@ -46,9 +46,19 @@ except Exception:
     rs = None
 
 try:
-    from motor_control.motor_driver import MotorDriver
+    from motor_control.motor_driver import (
+        MotorDriver,
+        GROUND_ACTIONS,
+        STAIR_ACTIONS,
+        preempt_for,
+    )
 except Exception:
     MotorDriver = None
+    GROUND_ACTIONS = set()
+    STAIR_ACTIONS = set()
+
+    def preempt_for(driver, target):
+        return None
 
 # --- 全局变量用于线程间通信 ---
 output_frame = None
@@ -370,6 +380,9 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 with lock:
                     return fn()
 
+            def _preempt_for(target: str):
+                _with_lock(lambda: preempt_for(self.motor_driver, target))
+
             if self.path == "/stop":
                 _with_lock(self.motor_driver.stop)
                 self._send_json(200, {"status": "ok"}, cors=True)
@@ -390,6 +403,8 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     )
                     return
 
+                _preempt_for("ground")
+
                 if _is_wheels_backward_like(payload):
                     _arm_manual_reverse_override(float(self.params_handler.get("manual_reverse_override_s")))
 
@@ -408,6 +423,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
             if self.path == "/tristar":
                 rpm = float(payload.get("rpm", 20.0))
+                _preempt_for("stair")
                 if hasattr(self.motor_driver, "set_tristar2_freewheel"):
                     _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                 _with_lock(lambda: self.motor_driver.move_tristar(rpm))
@@ -446,6 +462,11 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                         cors=True,
                     )
                     return
+
+                if action in GROUND_ACTIONS:
+                    _preempt_for("ground")
+                elif action in STAIR_ACTIONS:
+                    _preempt_for("stair")
 
                 if action in ("stop", "s"):
                     _with_lock(self.motor_driver.stop)

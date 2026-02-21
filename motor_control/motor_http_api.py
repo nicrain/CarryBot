@@ -24,7 +24,12 @@ from typing import Any, Dict, Optional
 
 from flask import Flask, jsonify, request
 
-from motor_control.motor_driver import MotorDriver
+from motor_control.motor_driver import (
+    MotorDriver,
+    GROUND_ACTIONS,
+    STAIR_ACTIONS,
+    preempt_for,
+)
 
 
 DEFAULT_WHEEL_SPEED_RPM = 60.0
@@ -63,6 +68,7 @@ def create_app(driver: MotorDriver) -> Flask:
             return ("", 204)
         payload: Dict[str, Any] = request.get_json(force=True, silent=True) or {}
         rpm = float(payload.get("rpm", DEFAULT_TRISTAR_RPM))
+        preempt_for(driver, "stair")
         driver.move_tristar(rpm)
         return jsonify({"status": "ok", "rpm": rpm})
 
@@ -71,6 +77,8 @@ def create_app(driver: MotorDriver) -> Flask:
         if request.method == "OPTIONS":
             return ("", 204)
         payload: Dict[str, Any] = request.get_json(force=True, silent=True) or {}
+
+        preempt_for(driver, "ground")
 
         # Option A: independent wheels
         if "left" in payload or "right" in payload:
@@ -92,6 +100,11 @@ def create_app(driver: MotorDriver) -> Flask:
 
         action = str(payload.get("action", "")).strip().lower()
         speed = float(payload.get("speed", DEFAULT_WHEEL_SPEED_RPM))
+
+        if action in GROUND_ACTIONS:
+            preempt_for(driver, "ground")
+        elif action in STAIR_ACTIONS:
+            preempt_for(driver, "stair")
 
         if action in ("stop", "s"):
             driver.stop()
