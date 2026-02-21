@@ -198,8 +198,8 @@ class ParamsHandler:
         self.defaults = {
             "roi_h_start": 0.2,
             "roi_h_stop": 0.8,
-            "roi_v_start": 0.3,
-            "roi_v_stop": 0.7,
+            "roi_v_start": 0.5,
+            "roi_v_stop": 1.0,
             "median_blur_ksize": 5,
             "min_valid_dist": 0.1,
             "max_valid_dist": 5.0,

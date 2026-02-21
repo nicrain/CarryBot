@@ -43,7 +43,7 @@ def test_load_from_file(populated_config_file):
     assert params.get("roi_h_start") == 0.99
     assert params.get("median_blur_ksize") == 9
     # 未在文件中定义的参数应保持默认值
-    assert params.get("roi_v_start") == 0.3
+    assert params.get("roi_v_start") == 0.5
 
 def test_env_var_priority(populated_config_file):
     """测试环境变量优先级高于配置文件和默认值。"""
