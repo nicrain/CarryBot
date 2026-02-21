@@ -83,6 +83,10 @@ nav_state = {
     "forward_locked": False,
     "forward_lock_reason": "",
     "manual_reverse_until": 0.0,
+    "is_forward_motion": False,
+    "ultra_prev_cm": None,
+    "ultra_shrink_streak": 0,
+    "auto_climb_started": False,
 }
 
 
@@ -133,6 +137,15 @@ def _arm_manual_reverse_override(seconds: float) -> None:
         nav_state["manual_reverse_until"] = until_ts
 
 
+def _set_forward_motion_state(is_forward: bool) -> None:
+    with nav_state_lock:
+        nav_state["is_forward_motion"] = bool(is_forward)
+        if not is_forward:
+            nav_state["ultra_prev_cm"] = None
+            nav_state["ultra_shrink_streak"] = 0
+            nav_state["auto_climb_started"] = False
+
+
 def _clear_forward_latch() -> dict:
     with nav_state_lock:
         nav_state["forward_lock_latched"] = False
@@ -167,6 +180,10 @@ class ParamsHandler:
             "fps": 15,
             "stair_approach_speed_rpm": 45.0,
             "stair_ultra_trigger_cm": 6.0,
+            "stair_auto_climb_trigger_cm": 5.0,
+            "stair_auto_climb_rpm": 20.0,
+            "stair_ultra_shrink_epsilon_cm": 0.2,
+            "stair_ultra_shrink_min_streak": 3,
             "manual_reverse_override_s": 1.5,
         }
 
@@ -385,6 +402,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
             if self.path == "/stop":
                 _with_lock(self.motor_driver.stop)
+                _set_forward_motion_state(False)
                 self._send_json(200, {"status": "ok"}, cors=True)
                 return
 
@@ -408,6 +426,8 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 if _is_wheels_backward_like(payload):
                     _arm_manual_reverse_override(float(self.params_handler.get("manual_reverse_override_s")))
 
+                _set_forward_motion_state(_is_wheels_forward_like(payload))
+
                 # Option A: independent wheels
                 if "left" in payload or "right" in payload:
                     left = float(payload.get("left", 0))
@@ -424,6 +444,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
             if self.path == "/tristar":
                 rpm = float(payload.get("rpm", 20.0))
                 _preempt_for("stair")
+                _set_forward_motion_state(False)
                 if hasattr(self.motor_driver, "set_tristar2_freewheel"):
                     _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                 _with_lock(lambda: self.motor_driver.move_tristar(rpm))
@@ -470,27 +491,32 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
                 if action in ("stop", "s"):
                     _with_lock(self.motor_driver.stop)
+                    _set_forward_motion_state(False)
                     self._send_json(200, {"status": "ok", "action": "stop"}, cors=True)
                     return
 
                 if action in ("forward", "f"):
+                    _set_forward_motion_state(True)
                     _with_lock(lambda: self.motor_driver.move_wheels_lr(speed, speed))
                     self._send_json(200, {"status": "ok", "action": "forward", "speed": speed}, cors=True)
                     return
 
                 if action in ("backward", "back", "b"):
+                    _set_forward_motion_state(False)
                     _arm_manual_reverse_override(float(self.params_handler.get("manual_reverse_override_s")))
                     _with_lock(lambda: self.motor_driver.move_wheels_lr(-speed, -speed))
                     self._send_json(200, {"status": "ok", "action": "backward", "speed": speed}, cors=True)
                     return
 
                 if action in ("left", "l"):
+                    _set_forward_motion_state(False)
                     # Pivot turn: stop left wheel, drive right wheel forward
                     _with_lock(lambda: self.motor_driver.move_wheels_lr(0.0, speed))
                     self._send_json(200, {"status": "ok", "action": "left", "speed": speed}, cors=True)
                     return
 
                 if action in ("right", "r"):
+                    _set_forward_motion_state(False)
                     # Pivot turn: drive left wheel forward, stop right wheel
                     _with_lock(lambda: self.motor_driver.move_wheels_lr(speed, 0.0))
                     self._send_json(200, {"status": "ok", "action": "right", "speed": speed}, cors=True)
@@ -498,6 +524,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
                 # Stair mechanism (tristar)
                 if action in ("up", "u"):
+                    _set_forward_motion_state(False)
                     if hasattr(self.motor_driver, "set_tristar2_freewheel"):
                         _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
                     _with_lock(lambda: self.motor_driver.move_tristar(abs(rpm)))
@@ -505,6 +532,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 if action in ("down", "d"):
+                    _set_forward_motion_state(False)
                     if hasattr(self.motor_driver, "move_tristar_front"):
                         if hasattr(self.motor_driver, "move_tristar_rear"):
                             _with_lock(lambda: self.motor_driver.move_tristar_rear(0.0))
@@ -517,6 +545,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
                 # Independent climb motors (firmware: F/R)
                 if action in ("front_up", "fu"):
+                    _set_forward_motion_state(False)
                     if hasattr(self.motor_driver, "move_tristar_front"):
                         _with_lock(lambda: self.motor_driver.move_tristar_front(abs(rpm)))
                         self._send_json(200, {"status": "ok", "action": "front_up", "rpm": abs(rpm)}, cors=True)
@@ -525,6 +554,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 if action in ("front_down", "fd"):
+                    _set_forward_motion_state(False)
                     if hasattr(self.motor_driver, "move_tristar_front"):
                         _with_lock(lambda: self.motor_driver.move_tristar_front(-abs(rpm)))
                         self._send_json(200, {"status": "ok", "action": "front_down", "rpm": -abs(rpm)}, cors=True)
@@ -533,6 +563,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 if action in ("rear_up", "ru"):
+                    _set_forward_motion_state(False)
                     if hasattr(self.motor_driver, "move_tristar_rear"):
                         if hasattr(self.motor_driver, "set_tristar2_freewheel"):
                             _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
@@ -543,6 +574,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 if action in ("rear_down", "rd"):
+                    _set_forward_motion_state(False)
                     if hasattr(self.motor_driver, "move_tristar_rear"):
                         if hasattr(self.motor_driver, "set_tristar2_freewheel"):
                             _with_lock(lambda: self.motor_driver.set_tristar2_freewheel(False))
@@ -759,6 +791,10 @@ def main():
             approach_active = bool(snap["stair_approach_active"])
             lock_latched = bool(snap["forward_lock_latched"])
             reverse_override_active = time.time() < float(snap.get("manual_reverse_until", 0.0))
+            is_forward_motion = bool(snap.get("is_forward_motion", False))
+            ultra_prev_cm = snap.get("ultra_prev_cm")
+            ultra_shrink_streak = int(snap.get("ultra_shrink_streak", 0))
+            auto_climb_started = bool(snap.get("auto_climb_started", False))
 
             # 1) Wall ahead => immediate stop.
             if is_wall and (not reverse_override_active) and motor_driver is not None:
@@ -766,13 +802,25 @@ def main():
                     motor_driver.stop()
                 approach_active = False
 
-            # 2) Stair ahead => auto approach until ultrasonic trigger.
-            if (is_stairs_up and (not approach_active) and (not lock_latched) and (not is_wall)):
+            # 2) Stair ahead + currently forward => keep approach behavior.
+            if (is_stairs_up and is_forward_motion and (not approach_active) and (not lock_latched) and (not is_wall)):
                 if motor_driver is not None:
                     approach_speed = float(params.get("stair_approach_speed_rpm"))
                     with motor_lock:
                         motor_driver.move_wheels_lr(approach_speed, approach_speed)
                 approach_active = True
+
+            # Ultrasonic shrinking trend while moving forward to stairs.
+            if ultra_cm is not None and ultra_cm > 0:
+                shrink_eps = float(params.get("stair_ultra_shrink_epsilon_cm"))
+                if ultra_prev_cm is not None and ultra_cm <= (float(ultra_prev_cm) - shrink_eps):
+                    ultra_shrink_streak += 1
+                elif ultra_prev_cm is not None and ultra_cm >= (float(ultra_prev_cm) + shrink_eps):
+                    ultra_shrink_streak = 0
+                ultra_prev_cm = ultra_cm
+            else:
+                ultra_prev_cm = None
+                ultra_shrink_streak = 0
 
             ultra_trigger_cm = float(params.get("stair_ultra_trigger_cm"))
             ultra_hit = (
@@ -782,8 +830,34 @@ def main():
                 and ultra_cm <= ultra_trigger_cm
             )
 
+            auto_climb_trigger_cm = float(params.get("stair_auto_climb_trigger_cm"))
+            auto_climb_rpm = float(params.get("stair_auto_climb_rpm"))
+            min_streak = int(params.get("stair_ultra_shrink_min_streak"))
+
+            should_start_auto_climb = (
+                is_stairs_up
+                and is_forward_motion
+                and (not auto_climb_started)
+                and ultra_cm is not None
+                and ultra_cm > 0
+                and ultra_cm <= auto_climb_trigger_cm
+                and ultra_shrink_streak >= min_streak
+                and motor_driver is not None
+            )
+
+            if should_start_auto_climb:
+                with motor_lock:
+                    preempt_for(motor_driver, "stair")
+                    if hasattr(motor_driver, "set_tristar2_freewheel"):
+                        motor_driver.set_tristar2_freewheel(False)
+                    motor_driver.move_tristar(abs(auto_climb_rpm))
+                approach_active = False
+                auto_climb_started = True
+                ultra_shrink_streak = 0
+                _set_forward_motion_state(False)
+
             # 3) Ultrasonic trigger reached => stop and latch forward lock.
-            if ultra_hit:
+            if ultra_hit and (not should_start_auto_climb):
                 if motor_driver is not None:
                     with motor_lock:
                         motor_driver.stop()
@@ -799,7 +873,10 @@ def main():
                 is_stairs_up=is_stairs_up,
                 is_stairs_down=is_stairs_down,
                 ultra_cm=ultra_cm,
+                ultra_prev_cm=ultra_prev_cm,
+                ultra_shrink_streak=ultra_shrink_streak,
                 stair_approach_active=approach_active,
+                auto_climb_started=auto_climb_started,
                 forward_lock_latched=lock_latched,
                 forward_locked=forward_locked,
                 forward_lock_reason=lock_reason,
