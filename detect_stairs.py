@@ -47,19 +47,42 @@ except Exception:
     rs = None
 
 try:
-    from motor_control.motor_driver import (
-        MotorDriver,
-        GROUND_ACTIONS,
-        STAIR_ACTIONS,
-        preempt_for,
-    )
+    from motor_control.motor_driver import MotorDriver
 except Exception:
     MotorDriver = None
-    GROUND_ACTIONS = set()
-    STAIR_ACTIONS = set()
+
+try:
+    from motor_control.motor_driver import GROUND_ACTIONS, STAIR_ACTIONS, preempt_for
+except Exception:
+    GROUND_ACTIONS = {"forward", "f", "backward", "back", "b", "left", "l", "right", "r"}
+    STAIR_ACTIONS = {
+        "up",
+        "u",
+        "down",
+        "d",
+        "front_up",
+        "fu",
+        "front_down",
+        "fd",
+        "rear_up",
+        "ru",
+        "rear_down",
+        "rd",
+    }
 
     def preempt_for(driver, target):
-        return None
+        if target == "ground":
+            if hasattr(driver, "set_tristar2_freewheel"):
+                driver.set_tristar2_freewheel(False)
+            if hasattr(driver, "move_tristar"):
+                driver.move_tristar(0.0)
+            if hasattr(driver, "move_tristar_front"):
+                driver.move_tristar_front(0.0)
+            if hasattr(driver, "move_tristar_rear"):
+                driver.move_tristar_rear(0.0)
+        elif target == "stair":
+            if hasattr(driver, "move_wheels_lr"):
+                driver.move_wheels_lr(0.0, 0.0)
 
 # --- 全局变量用于线程间通信 ---
 output_frame = None
@@ -85,6 +108,7 @@ nav_state = {
     "ultra_cm": None,
     "stair_approach_active": False,
     "forward_lock_latched": False,
+    "forward_lock_latched_at": 0.0,
     "forward_locked": False,
     "forward_lock_reason": "",
     "manual_reverse_until": 0.0,
@@ -154,6 +178,7 @@ def _set_forward_motion_state(is_forward: bool) -> None:
 def _clear_forward_latch() -> dict:
     with nav_state_lock:
         nav_state["forward_lock_latched"] = False
+        nav_state["forward_lock_latched_at"] = 0.0
         forward_locked, lock_reason = _recompute_forward_lock(
             is_wall=bool(nav_state.get("is_wall", False)),
             lock_latched=False,
@@ -193,6 +218,7 @@ class ParamsHandler:
             "stair_auto_climb_rpm": 20.0,
             "stair_ultra_shrink_epsilon_cm": 0.2,
             "stair_ultra_shrink_min_streak": 3,
+            "forward_lock_timeout_s": 3.0,
             "manual_reverse_override_s": 1.5,
         }
 
@@ -862,6 +888,7 @@ def main():
             snap = _get_nav_state_snapshot()
             approach_active = bool(snap["stair_approach_active"])
             lock_latched = bool(snap["forward_lock_latched"])
+            lock_latched_at = float(snap.get("forward_lock_latched_at", 0.0))
             reverse_override_active = time.time() < float(snap.get("manual_reverse_until", 0.0))
             is_forward_motion = bool(snap.get("is_forward_motion", False))
             ultra_prev_cm = snap.get("ultra_prev_cm")
@@ -936,6 +963,14 @@ def main():
                         motor_driver.stop()
                 approach_active = False
                 lock_latched = True
+                lock_latched_at = time.time()
+
+            # 3.1) Auto-release stale stair lock to avoid persistent deadlock.
+            lock_timeout_s = float(params.get("forward_lock_timeout_s"))
+            if lock_latched and (not is_wall) and lock_latched_at > 0:
+                if (time.time() - lock_latched_at) >= lock_timeout_s:
+                    lock_latched = False
+                    lock_latched_at = 0.0
 
             forward_locked, lock_reason = _recompute_forward_lock(
                 is_wall=is_wall,
@@ -951,6 +986,7 @@ def main():
                 stair_approach_active=approach_active,
                 auto_climb_started=auto_climb_started,
                 forward_lock_latched=lock_latched,
+                forward_lock_latched_at=lock_latched_at,
                 forward_locked=forward_locked,
                 forward_lock_reason=lock_reason,
             )
