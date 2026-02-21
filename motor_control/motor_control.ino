@@ -123,14 +123,25 @@ static inline void verin_level_stop() {
 const uint8_t STOP_BTN_PIN = 22;
 bool stop_btn_reported_pressed = false;
 
-// --- 双爬坡电机时序控制 ---
-// 需求：爬坡时，前轴（SLOT3）先转动 1/3（对应电机约 3 圈），再启动后轴（SLOT4）。
+// --- 上台阶步进辅助时序 ---
+// 需求：爬坡时，前轴每转动 1/3（对应电机约 3 圈），
+// 停止爬坡并让底盘前进 1 秒（m80），然后继续爬坡。
 // 这里复用 T_TARGET_PULSES 作为“1/3”阈值。
 bool t_seq_active = false;
 bool t_rear_started = false;
 long t_seq_start_pulse = 0;
 float t_seq_target_rpm = 0;
 bool t2_freewheel_mode = false;
+bool t_step_assist_active = false;
+unsigned long t_step_assist_start_ms = 0;
+
+const float T_STEP_FORWARD_REQ_RPM = 80.0; // 等效串口指令 m80
+const unsigned long T_STEP_FORWARD_MS = 1000;
+
+static inline void clear_tristar_step_assist() {
+  t_step_assist_active = false;
+  t_step_assist_start_ms = 0;
+}
 
 static inline void apply_stop_all() {
   MotorL.reset();
@@ -141,6 +152,7 @@ static inline void apply_stop_all() {
   t_rear_started = false;
   t_seq_start_pulse = 0;
   t_seq_target_rpm = 0;
+  clear_tristar_step_assist();
 
   verin_output_stop();
   verin_level_enabled = false;
@@ -156,6 +168,7 @@ static inline void apply_motion_stop() {
   t_rear_started = false;
   t_seq_start_pulse = 0;
   t_seq_target_rpm = 0;
+  clear_tristar_step_assist();
 }
 
 static inline void set_tristar2_freewheel_mode(bool enabled) {
@@ -167,6 +180,7 @@ static inline void set_tristar2_freewheel_mode(bool enabled) {
     t_rear_started = false;
     t_seq_start_pulse = 0;
     t_seq_target_rpm = 0;
+    clear_tristar_step_assist();
   }
 }
 
@@ -297,6 +311,7 @@ void loop() {
         float val = -req;
         MotorL.setTarget(val);
         MotorR.setTarget(val);
+        clear_tristar_step_assist();
         Serial.print("SET_WHEELS_REQ:"); Serial.println(req);
         Serial.print("SET_WHEELS_APPLIED:"); Serial.println(val);
         break;
@@ -309,6 +324,7 @@ void loop() {
         float right_val = -right_req;
         MotorL.setTarget(left_val);
         MotorR.setTarget(right_val);
+        clear_tristar_step_assist();
         Serial.print("SET_WHEELS_LR_REQ:");
         Serial.print(left_req);
         Serial.print(",");
@@ -323,25 +339,25 @@ void loop() {
         float val = Serial.parseFloat();
         set_tristar2_freewheel_mode(false);
         MotorT.setTarget(val);
-        // 时序：第一次启动时先只跑前轴（SLOT3），达到 1/3 阈值再启动后轴（SLOT4）。
+        // 时序：前轴每达到 1/3 阈值，暂停爬坡并前进 1 秒（m80），再继续爬坡。
         if (val == 0) {
           MotorT2.setTarget(0);
           t_seq_active = false;
           t_rear_started = false;
           t_seq_start_pulse = 0;
           t_seq_target_rpm = 0;
+          clear_tristar_step_assist();
         } else {
           t_seq_target_rpm = val;
+          clear_tristar_step_assist();
           if (!t_seq_active) {
             t_seq_active = true;
-            t_rear_started = false;
+            t_rear_started = true;
             t_seq_start_pulse = Encoder_T.getPulsePos();
-            MotorT2.setTarget(0);
-            Serial.println("TRI_SEQ_START_FRONT");
+            MotorT2.setTarget(val);
+            Serial.println("TRI_STEP_ASSIST_START");
           } else {
-            if (t_rear_started) {
-              MotorT2.setTarget(val);
-            }
+            MotorT2.setTarget(val);
           }
         }
         Serial.print("SET_TRISTAR:"); Serial.println(val);
@@ -356,6 +372,7 @@ void loop() {
         t_rear_started = false;
         t_seq_start_pulse = 0;
         t_seq_target_rpm = 0;
+        clear_tristar_step_assist();
         Serial.print("SET_TRISTAR_FRONT:"); Serial.println(val);
         break;
       }
@@ -369,6 +386,7 @@ void loop() {
         t_rear_started = false;
         t_seq_start_pulse = 0;
         t_seq_target_rpm = 0;
+        clear_tristar_step_assist();
         Serial.print("SET_TRISTAR_REAR:"); Serial.println(val);
         break;
       }
@@ -429,13 +447,32 @@ void loop() {
     }
   }
 
-  // 2.8 双爬坡电机时序：前轴达到 1/3 阈值后启动后轴
-  if (t_seq_active && !t_rear_started && !t2_freewheel_mode && MotorT.targetSpeed != 0) {
+  // 2.8 上台阶步进辅助：前轴每达到 1/3 阈值，暂停爬坡并前进 1 秒（m80），再恢复爬坡
+  if (t_seq_active && !t2_freewheel_mode && t_seq_target_rpm != 0) {
     long delta_pulse = labs(Encoder_T.getPulsePos() - t_seq_start_pulse);
-    if (delta_pulse >= T_TARGET_PULSES) {
+    if (!t_step_assist_active && delta_pulse >= T_TARGET_PULSES) {
+      // 停止爬坡轴
+      MotorT.setTarget(0);
+      MotorT2.setTarget(0);
+
+      // 轮子前进 1 秒：等效 m80（M 命令内部会做符号翻转）
+      MotorL.setTarget(-T_STEP_FORWARD_REQ_RPM);
+      MotorR.setTarget(-T_STEP_FORWARD_REQ_RPM);
+
+      t_step_assist_active = true;
+      t_step_assist_start_ms = millis();
+      Serial.println("TRI_STEP_ASSIST_FORWARD");
+    }
+
+    if (t_step_assist_active && (millis() - t_step_assist_start_ms >= T_STEP_FORWARD_MS)) {
+      // 结束前进脉冲并恢复爬坡
+      MotorL.setTarget(0);
+      MotorR.setTarget(0);
+      MotorT.setTarget(t_seq_target_rpm);
       MotorT2.setTarget(t_seq_target_rpm);
-      t_rear_started = true;
-      Serial.println("TRI_SEQ_START_REAR");
+      t_seq_start_pulse = Encoder_T.getPulsePos();
+      clear_tristar_step_assist();
+      Serial.println("TRI_STEP_ASSIST_RESUME");
     }
   }
 
