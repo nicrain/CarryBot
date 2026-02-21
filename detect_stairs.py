@@ -26,6 +26,7 @@ import time
 import threading
 import http.server
 import socketserver
+from collections import deque
 from typing import Optional, Tuple
 
 # Heavy runtime deps (camera/vision). Keep imports optional so unit tests that
@@ -70,6 +71,10 @@ motor_lock = threading.Lock()
 
 # --- Depth OSD smoothing (helps reduce jumpy distance readout) ---
 dist_display_ema_m = None
+
+# --- Temporal stair-state smoothing (reduce UP/DOWN flicker) ---
+stair_vote_history = deque(maxlen=30)
+stair_stable_mode = None  # "up" | "down" | None
 
 # --- Navigation safety state shared by camera loop and HTTP API ---
 nav_state_lock = threading.Lock()
@@ -178,6 +183,10 @@ class ParamsHandler:
             "step_height_th": 0.05,
             "noise_filtering_area_min_th": 1000,
             "fps": 15,
+            "stair_vote_window_size": 30,
+            "stair_vote_majority_ratio": 0.6,
+            "stair_vote_min_ud_samples": 6,
+            "stair_vote_reset_none_ratio": 0.8,
             "stair_approach_speed_rpm": 45.0,
             "stair_ultra_trigger_cm": 6.0,
             "stair_auto_climb_trigger_cm": 5.0,
@@ -655,6 +664,7 @@ def main():
     """主循环：采集、检测、可视化与流输出 / Boucle principale capture-detect-affichage."""
     global output_frame
     global dist_display_ema_m
+    global stair_stable_mode
     
     # --- 初始化 ---
     args = parse_args()
@@ -736,6 +746,8 @@ def main():
             
             # 状态判定
             is_wall = is_stairs_down = is_stairs_up = False
+            raw_is_stairs_down = False
+            raw_is_stairs_up = False
             
             if np.sum(valid_mask) > valid_mask.size * 0.1:
                 # 下行 (洞)
@@ -747,7 +759,7 @@ def main():
                     num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(hole_mask, 4)
                     if num_labels > 1:
                         largest_area = np.max(stats[1:, cv2.CC_STAT_AREA])
-                        is_stairs_down = largest_area > params.get('noise_filtering_area_min_th')
+                        raw_is_stairs_down = largest_area > params.get('noise_filtering_area_min_th')
 
                 # 上行 (台阶)
                 mid = roi.shape[0] // 2
@@ -757,7 +769,7 @@ def main():
                     top_m = np.mean(roi_filtered[:mid, :][top])
                     btm_m = np.mean(roi_filtered[mid:, :][btm])
                     diff_m = (top_m - btm_m) / 1000.0
-                    is_stairs_up = diff_m > params.get('step_height_th')
+                    raw_is_stairs_up = diff_m > params.get('step_height_th')
 
                 # Wall detection: close + flat surface.
                 # IMPORTANT: if stairs are detected, don't classify as WALL.
@@ -775,9 +787,48 @@ def main():
                 is_wall = (
                     (mean_dist_mm < wall_dist_th_mm)
                     and (iqr_mm < wall_iqr_th_mm)
-                    and (not is_stairs_down)
-                    and (not is_stairs_up)
+                    and (not raw_is_stairs_down)
+                    and (not raw_is_stairs_up)
                 )
+
+            # --- Stair vote smoothing: majority over recent frames ---
+            window_size = max(5, int(params.get("stair_vote_window_size")))
+            if stair_vote_history.maxlen != window_size:
+                stair_vote_history = deque(stair_vote_history, maxlen=window_size)
+
+            if raw_is_stairs_up:
+                stair_vote_history.append("up")
+            elif raw_is_stairs_down:
+                stair_vote_history.append("down")
+            else:
+                stair_vote_history.append("none")
+
+            up_count = sum(1 for x in stair_vote_history if x == "up")
+            down_count = sum(1 for x in stair_vote_history if x == "down")
+            none_count = sum(1 for x in stair_vote_history if x == "none")
+            ud_total = up_count + down_count
+
+            vote_ratio = float(params.get("stair_vote_majority_ratio"))
+            min_ud = max(1, int(params.get("stair_vote_min_ud_samples")))
+            reset_none_ratio = float(params.get("stair_vote_reset_none_ratio"))
+
+            if len(stair_vote_history) > 0 and (none_count / len(stair_vote_history)) >= reset_none_ratio:
+                stair_stable_mode = None
+            elif ud_total >= min_ud:
+                up_ratio = up_count / ud_total
+                if up_ratio >= vote_ratio:
+                    stair_stable_mode = "up"
+                elif (1.0 - up_ratio) >= vote_ratio:
+                    stair_stable_mode = "down"
+
+            is_stairs_up = raw_is_stairs_up
+            is_stairs_down = raw_is_stairs_down
+            if stair_stable_mode == "up":
+                is_stairs_up = True
+                is_stairs_down = False
+            elif stair_stable_mode == "down":
+                is_stairs_down = True
+                is_stairs_up = False
 
             # --- D. Navigation state + safety behavior ---
             ultra_cm: Optional[float] = None
