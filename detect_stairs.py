@@ -847,15 +847,16 @@ def main():
             ultra_prev_cm = snap.get("ultra_prev_cm")
             ultra_shrink_streak = int(snap.get("ultra_shrink_streak", 0))
             auto_climb_started = bool(snap.get("auto_climb_started", False))
+            stairs_up_context = bool(is_stairs_up or stair_stable_mode == "up")
 
             # 1) Wall ahead => immediate stop.
-            if is_wall and (not reverse_override_active) and motor_driver is not None:
+            if is_wall and (not reverse_override_active) and (not (is_forward_motion and stairs_up_context)) and motor_driver is not None:
                 with motor_lock:
                     motor_driver.stop()
                 approach_active = False
 
             # 2) Stair ahead + currently forward => keep approach behavior.
-            if (is_stairs_up and is_forward_motion and (not approach_active) and (not lock_latched) and (not is_wall)):
+            if (stairs_up_context and is_forward_motion and (not approach_active) and (not lock_latched) and (not is_wall)):
                 if motor_driver is not None:
                     approach_speed = float(params.get("stair_approach_speed_rpm"))
                     with motor_lock:
@@ -887,7 +888,7 @@ def main():
             min_streak = int(params.get("stair_ultra_shrink_min_streak"))
 
             should_start_auto_climb = (
-                is_stairs_up
+                stairs_up_context
                 and is_forward_motion
                 and (not auto_climb_started)
                 and ultra_cm is not None
@@ -909,7 +910,7 @@ def main():
                 _set_forward_motion_state(False)
 
             # 3) Ultrasonic trigger reached => stop and latch forward lock.
-            if ultra_hit and (not should_start_auto_climb):
+            if ultra_hit and (not should_start_auto_climb) and (not (is_forward_motion and stairs_up_context)):
                 if motor_driver is not None:
                     with motor_lock:
                         motor_driver.stop()
