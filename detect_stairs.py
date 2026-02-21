@@ -664,6 +664,7 @@ def main():
     """主循环：采集、检测、可视化与流输出 / Boucle principale capture-detect-affichage."""
     global output_frame
     global dist_display_ema_m
+    global stair_vote_history
     global stair_stable_mode
     
     # --- 初始化 ---
