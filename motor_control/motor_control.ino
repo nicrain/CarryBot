@@ -145,6 +145,18 @@ static inline void apply_stop_all() {
   verin_level_enabled = false;
 }
 
+static inline void apply_motion_stop() {
+  // 停止底盘/爬坡电机，但不改变推杆自动调平开关状态。
+  MotorL.reset();
+  MotorR.reset();
+  MotorT.reset();
+  MotorT2.reset();
+  t_seq_active = false;
+  t_rear_started = false;
+  t_seq_start_pulse = 0;
+  t_seq_target_rpm = 0;
+}
+
 // --- T 电机自动触发参数 ---
 const int T_PULSE_PER_REV = 8; // Encoder_T.setPulse
 const int T_RATIO = 75;        // Encoder_T.setRatio (电机轴参数 / param moteur)
@@ -359,7 +371,7 @@ void loop() {
         break;
       }
       case 'S': case 's': { // 停止 S
-        apply_stop_all();
+        apply_motion_stop();
         Serial.println("STOP");
         break;
       }
