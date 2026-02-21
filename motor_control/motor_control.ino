@@ -339,7 +339,7 @@ void loop() {
         float val = Serial.parseFloat();
         set_tristar2_freewheel_mode(false);
         MotorT.setTarget(val);
-        // 时序：前轴每达到 1/3 阈值，暂停爬坡并前进 1 秒（m80），再继续爬坡。
+        // 时序：启动时先前轴单独转 1/3，再启动后轴；之后进入步进辅助循环。
         if (val == 0) {
           MotorT2.setTarget(0);
           t_seq_active = false;
@@ -352,12 +352,12 @@ void loop() {
           clear_tristar_step_assist();
           if (!t_seq_active) {
             t_seq_active = true;
-            t_rear_started = true;
+            t_rear_started = false;
             t_seq_start_pulse = Encoder_T.getPulsePos();
-            MotorT2.setTarget(val);
-            Serial.println("TRI_STEP_ASSIST_START");
+            MotorT2.setTarget(0);
+            Serial.println("TRI_SEQ_START_FRONT");
           } else {
-            MotorT2.setTarget(val);
+            MotorT2.setTarget(t_rear_started ? val : 0);
           }
         }
         Serial.print("SET_TRISTAR:"); Serial.println(val);
@@ -447,10 +447,22 @@ void loop() {
     }
   }
 
-  // 2.8 上台阶步进辅助：前轴每达到 1/3 阈值，暂停爬坡并前进 1 秒（m80），再恢复爬坡
+  // 2.8 上台阶时序：首次前轴 1/3 后启动后轴；随后每 1/3 进行一次步进辅助
   if (t_seq_active && !t2_freewheel_mode && t_seq_target_rpm != 0) {
     long delta_pulse = labs(Encoder_T.getPulsePos() - t_seq_start_pulse);
-    if (!t_step_assist_active && delta_pulse >= T_TARGET_PULSES) {
+
+    // 阶段1：刚开始上台阶，前轴先转 1/3，再启动后轴
+    if (!t_rear_started) {
+      if (delta_pulse >= T_TARGET_PULSES) {
+        MotorT2.setTarget(t_seq_target_rpm);
+        t_rear_started = true;
+        t_seq_start_pulse = Encoder_T.getPulsePos();
+        Serial.println("TRI_SEQ_START_REAR");
+      }
+    }
+
+    // 阶段2：后轴已启动后，执行“1/3 -> 前进1秒 -> 恢复爬坡”循环
+    if (t_rear_started && !t_step_assist_active && delta_pulse >= T_TARGET_PULSES) {
       // 停止爬坡轴
       MotorT.setTarget(0);
       MotorT2.setTarget(0);
