@@ -433,6 +433,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 _preempt_for("ground")
 
                 if _is_wheels_backward_like(payload):
+                    _clear_forward_latch()
                     _arm_manual_reverse_override(float(self.params_handler.get("manual_reverse_override_s")))
 
                 _set_forward_motion_state(_is_wheels_forward_like(payload))
@@ -464,6 +465,25 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                 action = str(payload.get("action", "")).strip().lower()
                 speed = float(payload.get("speed", 60.0))
                 rpm = float(payload.get("rpm", 20.0))
+
+                if action in (
+                    "backward",
+                    "back",
+                    "b",
+                    "up",
+                    "u",
+                    "down",
+                    "d",
+                    "front_up",
+                    "fu",
+                    "front_down",
+                    "fd",
+                    "rear_up",
+                    "ru",
+                    "rear_down",
+                    "rd",
+                ):
+                    _clear_forward_latch()
 
                 if action in ("unlock_forward", "unlock", "uf"):
                     snap = _clear_forward_latch()
@@ -850,7 +870,7 @@ def main():
             stairs_up_context = bool(is_stairs_up or stair_stable_mode == "up")
 
             # 1) Wall ahead => immediate stop.
-            if is_wall and (not reverse_override_active) and (not (is_forward_motion and stairs_up_context)) and motor_driver is not None:
+            if is_wall and is_forward_motion and (not reverse_override_active) and (not stairs_up_context) and motor_driver is not None:
                 with motor_lock:
                     motor_driver.stop()
                 approach_active = False
