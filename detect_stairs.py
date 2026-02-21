@@ -443,7 +443,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
 
             if self.path == "/wheels":
                 snap = _get_nav_state_snapshot()
-                if snap["forward_locked"] and _is_wheels_forward_like(payload):
+                if snap["forward_locked"] and snap.get("forward_lock_reason") == "wall" and _is_wheels_forward_like(payload):
                     _with_lock(self.motor_driver.stop)
                     self._send_json(
                         423,
@@ -526,7 +526,7 @@ class StreamingHandler(http.server.BaseHTTPRequestHandler):
                     return
 
                 snap = _get_nav_state_snapshot()
-                if snap["forward_locked"] and _is_drive_action_forward_like(action):
+                if snap["forward_locked"] and snap.get("forward_lock_reason") == "wall" and _is_drive_action_forward_like(action):
                     _with_lock(self.motor_driver.stop)
                     self._send_json(
                         423,
