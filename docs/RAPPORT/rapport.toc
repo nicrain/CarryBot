@@ -1,0 +1,44 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{Table des figures}{3}{section*.2}%
+\contentsline {section}{Glossaire}{4}{section*.3}%
+\contentsline {section}{\numberline {1}Présentation du projet}{5}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Éléments généraux du projet}{5}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Contexte}{5}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Objectif général}{5}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}Finalités du projet}{5}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.4}Population concernée}{5}{subsubsection.1.1.4}%
+\contentsline {subsection}{\numberline {1.2}Organisation du projet}{6}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Éléments de macro-planning}{6}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Répartition des rôles au sein de l’équipe}{7}{subsubsection.1.2.2}%
+\contentsline {section}{\numberline {2}État de l’art}{7}{section.2}%
+\contentsline {subsection}{\numberline {2.1}L’usage des robots en milieu clinique et au quotidien}{7}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Défis et solutions: montée d’escaliers et auto-équilibrage}{9}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Synthèse et positionnement de CarryBot}{11}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Analyse des besoins}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Analyse des besoins utilisateurs}{11}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Formulaire d’analyse des besoins}{12}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Personas — Public cible}{12}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Exigences}{14}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Exigences fonctionnelles}{14}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Exigences qualité (non fonctionnelles)}{14}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Exigences légales et réglementaires}{14}{subsection.4.3}%
+\contentsline {section}{\numberline {5}Description du système ou produit}{15}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Domaine couvert et périmètre du projet}{15}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}Domaine couvert}{15}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}Périmètre du projet}{15}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}Hors périmètre}{15}{subsubsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.2}Architecture}{15}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Matériel}{16}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Logiciel}{17}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Acteurs}{18}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Solutions et orientations}{18}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Solutions techniques retenues}{18}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Contraintes et orientations de conception}{18}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Perspectives d’évolution}{19}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Validation et tests utilisateurs}{19}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Critères de validation — Tests techniques et fonctionnels}{19}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Scénario UX 1 — Personne à Mobilité Réduite (PMR)}{20}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Discussion, limites et axes d’amélioration}{20}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Limites observées}{20}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Améliorations prioritaires}{21}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Conclusion opérationnelle}{21}{subsection.8.3}%
