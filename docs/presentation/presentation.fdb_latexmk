@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex presentation"] 1771843919.99938 "presentation.aux" "presentation.bbl" "presentation" 1771844274.62306 0
+["bibtex presentation"] 1771845005.20085 "presentation.aux" "presentation.bbl" "presentation" 1771845015.35155 0
   "./references.bib" 1771843763.21053 1493 fd0c6fbefabe05eaf3cd764b5a0be9c8 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "presentation.aux" 1771844273.50344 9978 8585fed107bc7b092d91e4ed4dab8a0f "pdflatex"
+  "presentation.aux" 1771845014.24987 8980 6751d8d50897c9aa643093dd0aff5772 "pdflatex"
   (generated)
   "presentation.bbl"
   "presentation.blg"
   (rewritten before read)
-["pdflatex"] 1771844264.7416 "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" "presentation.pdf" "presentation" 1771844274.62376 0
+["pdflatex"] 1771845005.55812 "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" "presentation.pdf" "presentation" 1771845015.35202 0
   "../img/CB-detail.png" 1771775618.05989 533968 83bee64356cd5dc0a224107c51170698 ""
   "../img/CB-global.png" 1771775618.06179 410743 5b9db077c40d894331989ffdb79315f0 ""
   "../img/care-o-bot.png" 1771775618.0727 771765 ab6dc45258c0e31389aa030649651f08 ""
@@ -17,7 +17,7 @@
   "../img/rosa.png" 1771775618.11232 811114 a31f49e8d8f2ee51998c19fa525ffae8 ""
   "../img/tug.png" 1771775618.116 253671 baabf6b660b8532e3e96fdc11175dc15 ""
   "../img/wheel.png" 1771775618.11736 240945 46d747c2e107af919f910e1433f8bec0 ""
-  "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" 1771844264.26122 23472 f343b94e91377f1f46e0985801a4e6e3 ""
+  "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" 1771844993.69218 22095 ff433e7b4ffa2764c20de55eb9bbbf77 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecsi0700.tfm" 1136768653 3584 0720b4ccd5fa2debb05d019875c8e532 ""
@@ -252,12 +252,12 @@
   "images/tri-star.png" 1771620690.90475 606922 1f0ac4e062ae053ea366780c73bf78b4 ""
   "images/xinqi.jpg" 1771620690.91045 1867328 70836fdfec37e741a07c6afd5384e03b ""
   "images/zhaoyu.jpg" 1771620690.91746 988272 3fc88ff918d899d9690ce475c4c8df4a ""
-  "presentation.aux" 1771844273.50344 9978 8585fed107bc7b092d91e4ed4dab8a0f "pdflatex"
-  "presentation.bbl" 1771843920.3484 359 b8b4a8efcf589621997a70b50e85ab77 "bibtex presentation"
-  "presentation.nav" 1771844273.50852 6124 78cf77f9f1b0679e6bec8f3b9f9f5197 "pdflatex"
-  "presentation.out" 1771844273.50774 1966 d017b3bf8278b32a3d8cd9e0e7325fd3 "pdflatex"
-  "presentation.tex" 1771844264.26122 23472 f343b94e91377f1f46e0985801a4e6e3 ""
-  "presentation.toc" 1771844273.50886 831 a14337a0e59510f9a9e70040ba98dda8 "pdflatex"
+  "presentation.aux" 1771845014.24987 8980 6751d8d50897c9aa643093dd0aff5772 "pdflatex"
+  "presentation.bbl" 1771845005.54413 359 b8b4a8efcf589621997a70b50e85ab77 "bibtex presentation"
+  "presentation.nav" 1771845014.25552 5600 184703cc1627ff6a826293cc9323a11c "pdflatex"
+  "presentation.out" 1771845014.25445 1718 3c9b15353a8d327f6efd6c48376fec05 "pdflatex"
+  "presentation.tex" 1771844993.69218 22095 ff433e7b4ffa2764c20de55eb9bbbf77 ""
+  "presentation.toc" 1771845014.25578 609 c05c28a98dc16adcac4ad6fee08e7a69 "pdflatex"
   (generated)
   "presentation.aux"
   "presentation.log"

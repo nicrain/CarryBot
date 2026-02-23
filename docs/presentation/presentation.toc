@@ -9,8 +9,4 @@
 \beamer@sectionintoc {8}{Logique de contrôle}{40}{0}{8}
 \beamer@sectionintoc {9}{Application}{42}{0}{9}
 \beamer@sectionintoc {10}{Technologies}{43}{0}{10}
-\beamer@sectionintoc {11}{Exigences principales}{44}{0}{11}
-\beamer@sectionintoc {12}{Avancement}{45}{0}{12}
-\beamer@sectionintoc {13}{Détection par caméra}{46}{0}{13}
-\beamer@sectionintoc {14}{Perspectives}{47}{0}{14}
-\beamer@sectionintoc {15}{Bibliographie}{48}{0}{15}
+\beamer@sectionintoc {12}{Perspectives}{45}{0}{11}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 11:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 12:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -761,12 +761,12 @@ Package french.ldf Warning: Please load the "natbib" package
 
 LaTeX Info: Redefining \up on input line 48.
 (./presentation.nav)
-<images/logo-p8.jpg, id=89, 903.375pt x 903.375pt>
+<images/logo-p8.jpg, id=81, 903.375pt x 903.375pt>
 File: images/logo-p8.jpg Graphic file (type jpg)
 <use images/logo-p8.jpg>
 Package pdftex.def Info: images/logo-p8.jpg  used on input line 56.
 (pdftex.def)             Requested size: 71.12737pt x 71.13188pt.
-<images/logo-handi.png, id=90, 337.26pt x 337.26pt>
+<images/logo-handi.png, id=82, 337.26pt x 337.26pt>
 File: images/logo-handi.png Graphic file (type png)
 <use images/logo-handi.png>
 Package pdftex.def Info: images/logo-handi.png  used on input line 56.
@@ -792,22 +792,22 @@ LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inpu
  (/usr/local/texlive/2025/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
 )
-<images/Lenaa.jpg, id=140, 1173.38374pt x 1931.215pt>
+<images/Lenaa.jpg, id=124, 1173.38374pt x 1931.215pt>
 File: images/Lenaa.jpg Graphic file (type jpg)
 <use images/Lenaa.jpg>
 Package pdftex.def Info: images/Lenaa.jpg  used on input line 121.
 (pdftex.def)             Requested size: 71.13188pt x 117.04662pt.
-<images/zhaoyu.jpg, id=141, 1861.95625pt x 3262.1875pt>
+<images/zhaoyu.jpg, id=125, 1861.95625pt x 3262.1875pt>
 File: images/zhaoyu.jpg Graphic file (type jpg)
 <use images/zhaoyu.jpg>
 Package pdftex.def Info: images/zhaoyu.jpg  used on input line 121.
 (pdftex.def)             Requested size: 67.43289pt x 118.1206pt.
-<images/xinqi.jpg, id=142, 2503.3525pt x 3982.88pt>
+<images/xinqi.jpg, id=126, 2503.3525pt x 3982.88pt>
 File: images/xinqi.jpg Graphic file (type jpg)
 <use images/xinqi.jpg>
 Package pdftex.def Info: images/xinqi.jpg  used on input line 121.
 (pdftex.def)             Requested size: 74.54608pt x 118.56964pt.
-<images/Lou.png, id=143, 135.50626pt x 207.77625pt>
+<images/Lou.png, id=127, 135.50626pt x 207.77625pt>
 File: images/Lou.png Graphic file (type png)
 <use images/Lou.png>
 Package pdftex.def Info: images/Lou.png  used on input line 121.
@@ -866,7 +866,7 @@ Overfull \hbox (3.30608pt too wide) in paragraph at lines 121--121
 [14
 
 ]
-<../img/tug.png, id=328, 274.626pt x 302.3295pt>
+<../img/tug.png, id=308, 274.626pt x 302.3295pt>
 File: ../img/tug.png Graphic file (type png)
 <use ../img/tug.png>
 Package pdftex.def Info: ../img/tug.png  used on input line 245.
@@ -876,7 +876,7 @@ Package pdftex.def Info: ../img/tug.png  used on input line 245.
 [15
 
  <../img/tug.png>]
-<../img/care-o-bot.png, id=335, 345.9324pt x 259.6902pt>
+<../img/care-o-bot.png, id=315, 345.9324pt x 259.6902pt>
 File: ../img/care-o-bot.png Graphic file (type png)
 <use ../img/care-o-bot.png>
 Package pdftex.def Info: ../img/care-o-bot.png  used on input line 278.
@@ -886,7 +886,7 @@ Package pdftex.def Info: ../img/care-o-bot.png  used on input line 278.
 [16
 
  <../img/care-o-bot.png>]
-<../img/labrador.png, id=343, 247.6452pt x 236.5638pt>
+<../img/labrador.png, id=323, 247.6452pt x 236.5638pt>
 File: ../img/labrador.png Graphic file (type png)
 <use ../img/labrador.png>
 Package pdftex.def Info: ../img/labrador.png  used on input line 311.
@@ -904,7 +904,7 @@ Package pdftex.def Info: ../img/labrador.png  used on input line 311.
 [19
 
 ]
-<../img/rosa.png, id=374, 295.3434pt x 315.579pt>
+<../img/rosa.png, id=353, 295.3434pt x 315.579pt>
 File: ../img/rosa.png Graphic file (type png)
 <use ../img/rosa.png>
 Package pdftex.def Info: ../img/rosa.png  used on input line 390.
@@ -918,7 +918,7 @@ Package pdftex.def Info: ../img/rosa.png  used on input line 390.
 [21
 
 ]
-<../img/wheel.png, id=386, 289.08pt x 171.5208pt>
+<../img/wheel.png, id=366, 289.08pt x 171.5208pt>
 File: ../img/wheel.png Graphic file (type png)
 <use ../img/wheel.png>
 Package pdftex.def Info: ../img/wheel.png  used on input line 441.
@@ -956,7 +956,7 @@ Package pdftex.def Info: ../img/wheel.png  used on input line 441.
 [29
 
 ]
-<../img/marie.png, id=458, 734.745pt x 553.06625pt>
+<../img/marie.png, id=438, 734.745pt x 553.06625pt>
 File: ../img/marie.png Graphic file (type png)
 <use ../img/marie.png>
 Package pdftex.def Info: ../img/marie.png  used on input line 533.
@@ -966,7 +966,7 @@ Package pdftex.def Info: ../img/marie.png  used on input line 533.
 [30
 
  <../img/marie.png>]
-<../img/lucas.png, id=477, 628.3475pt x 473.77pt>
+<../img/lucas.png, id=457, 628.3475pt x 473.77pt>
 File: ../img/lucas.png Graphic file (type png)
 <use ../img/lucas.png>
 Package pdftex.def Info: ../img/lucas.png  used on input line 564.
@@ -996,12 +996,12 @@ Package pdftex.def Info: ../img/lucas.png  used on input line 564.
 [36
 
 ]
-<../img/CB-global.png, id=519, 354.32375pt x 283.0575pt>
+<../img/CB-global.png, id=499, 354.32375pt x 283.0575pt>
 File: ../img/CB-global.png Graphic file (type png)
 <use ../img/CB-global.png>
 Package pdftex.def Info: ../img/CB-global.png  used on input line 600.
 (pdftex.def)             Requested size: 142.26378pt x 113.6529pt.
-<../img/CB-detail.png, id=520, 354.32375pt x 268.00125pt>
+<../img/CB-detail.png, id=500, 354.32375pt x 268.00125pt>
 File: ../img/CB-detail.png Graphic file (type png)
 <use ../img/CB-detail.png>
 Package pdftex.def Info: ../img/CB-detail.png  used on input line 600.
@@ -1011,7 +1011,7 @@ Package pdftex.def Info: ../img/CB-detail.png  used on input line 600.
 [37
 
  <../img/CB-global.png> <../img/CB-detail.png>]
-<images/tri-star.png, id=530, 425.59pt x 414.54875pt>
+<images/tri-star.png, id=509, 425.59pt x 414.54875pt>
 File: images/tri-star.png Graphic file (type png)
 <use images/tri-star.png>
 Package pdftex.def Info: images/tri-star.png  used on input line 630.
@@ -1021,7 +1021,7 @@ Package pdftex.def Info: images/tri-star.png  used on input line 630.
 [38
 
  <./images/tri-star.png>]
-<images/carryBot.jpg, id=536, 4047.12pt x 3035.34pt>
+<images/carryBot.jpg, id=515, 4047.12pt x 3035.34pt>
 File: images/carryBot.jpg Graphic file (type jpg)
 <use images/carryBot.jpg>
 Package pdftex.def Info: images/carryBot.jpg  used on input line 654.
@@ -1039,12 +1039,12 @@ Package pdftex.def Info: images/carryBot.jpg  used on input line 654.
 [41
 
 ]
-<images/accueil.png, id=593, 1084.05pt x 2409.0pt>
+<images/accueil.png, id=573, 1084.05pt x 2409.0pt>
 File: images/accueil.png Graphic file (type png)
 <use images/accueil.png>
 Package pdftex.def Info: images/accueil.png  used on input line 736.
 (pdftex.def)             Requested size: 73.97733pt x 164.38326pt.
-<images/interface-Collab.png, id=594, 1084.05pt x 2409.0pt>
+<images/interface-Collab.png, id=574, 1084.05pt x 2409.0pt>
 File: images/interface-Collab.png Graphic file (type png)
 <use images/interface-Collab.png>
 Package pdftex.def Info: images/interface-Collab.png  used on input line 736.
@@ -1062,34 +1062,26 @@ Overfull \vbox (2.91008pt too high) detected at line 736
 [43
 
 ]
-
-[44
-
-]
-
-[45
-
-]
-<images/camera.png, id=691, 1470.49374pt x 925.4575pt>
+<images/camera.png, id=624, 1470.49374pt x 925.4575pt>
 File: images/camera.png Graphic file (type png)
 <use images/camera.png>
-Package pdftex.def Info: images/camera.png  used on input line 881.
+Package pdftex.def Info: images/camera.png  used on input line 811.
 (pdftex.def)             Requested size: 206.51929pt x 129.97269pt.
 
 
-[46
+[44
 
  <./images/camera.png>]
 
-[47
+[45
 
 ] (./presentation.bbl)
 
-[48
+[46
 
 ]
 
-[49
+[47
 
 ]
 \tf@nav=\write6
@@ -1107,21 +1099,21 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `presentation.out' has not changed.
-(rerunfilecheck)             Checksum: D017B3BF8278B32A3D8CD9E0E7325FD3;1966.
+(rerunfilecheck)             Checksum: 3C9B15353A8D327F6EFD6C48376FEC05;1718.
  ) 
 Here is how much of TeX's memory you used:
- 24941 strings out of 473190
- 482063 string characters out of 5715799
- 859492 words of memory out of 5000000
- 47573 multiletter control sequences out of 15000+600000
+ 24904 strings out of 473190
+ 481030 string characters out of 5715799
+ 856492 words of memory out of 5000000
+ 47542 multiletter control sequences out of 15000+600000
  576565 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,14n,123p,446b,834s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsi0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsi0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx2488.pfb>
-Output written on presentation.pdf (49 pages, 9832881 bytes).
+Output written on presentation.pdf (47 pages, 9821495 bytes).
 PDF statistics:
- 832 PDF objects out of 1000 (max. 8388607)
- 541 compressed objects within 6 object streams
- 117 named destinations out of 1000 (max. 500000)
- 1243 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 765 PDF objects out of 1000 (max. 8388607)
+ 496 compressed objects within 5 object streams
+ 111 named destinations out of 1000 (max. 500000)
+ 1113 words of extra memory for PDF output out of 10000 (max. 10000000)
 
