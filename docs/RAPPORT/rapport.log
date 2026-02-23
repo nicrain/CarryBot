@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  22 FEB 2026 17:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 14:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -269,33 +269,52 @@ Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 \f@nch@widthC=\skip67
 \f@nch@widthR=\skip68
 \@temptokenb=\toks26
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (/usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen168
+\captionmargin=\dimen169
+\caption@leftmargin=\dimen170
+\caption@rightmargin=\dimen171
+\caption@width=\dimen172
+\caption@indent=\dimen173
+\caption@parindent=\dimen174
+\caption@hangindent=\dimen175
+Package caption Info: Standard document class detected.
+Package caption Info: french babel package is loaded.
+)
+\c@caption@flags=\count296
+\c@continuedfloat=\count297
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count296
+\l__color_backend_stack_int=\count298
 \l__pdf_internal_box=\box56
 ) (./rapport.aux)
 \openout1 = `rapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Info: Redefining \degres on input line 29.
-LaTeX Info: Redefining \up on input line 29.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Info: Redefining \degres on input line 31.
+LaTeX Info: Redefining \up on input line 31.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -333,16 +352,16 @@ LaTeX Info: Redefining \up on input line 29.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count297
-\scratchdimen=\dimen168
+\scratchcounter=\count299
+\scratchdimen=\dimen176
 \scratchbox=\box57
-\nofMPsegments=\count298
-\nofMParguments=\count299
+\nofMPsegments=\count300
+\nofMParguments=\count301
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count300
-\MPscratchDim=\dimen169
-\MPnumerator=\count301
-\makeMPintoPDFobject=\count302
+\MPscratchCnt=\count302
+\MPscratchDim=\dimen177
+\MPnumerator=\count303
+\makeMPintoPDFobject=\count304
 \everyMPtoPDFconversion=\toks28
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -350,39 +369,41 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring ON on input line 29.
+Package hyperref Info: Link coloring ON on input line 31.
  (./rapport.out) (./rapport.out)
 \@outlinefile=\write3
 \openout3 = `rapport.out'.
 
-<../img/logo-p8.jpg, id=176, 903.375pt x 903.375pt>
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+<../img/logo-p8.jpg, id=180, 903.375pt x 903.375pt>
 File: ../img/logo-p8.jpg Graphic file (type jpg)
 <use ../img/logo-p8.jpg>
-Package pdftex.def Info: ../img/logo-p8.jpg  used on input line 37.
+Package pdftex.def Info: ../img/logo-p8.jpg  used on input line 39.
 (pdftex.def)             Requested size: 122.9161pt x 122.91527pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 38.
+(Font)              <12> on input line 40.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 38.
+(Font)              <8> on input line 40.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 38.
-<../img/logo-handi.png, id=177, 337.26pt x 337.26pt>
+(Font)              <6> on input line 40.
+<../img/logo-handi.png, id=181, 337.26pt x 337.26pt>
 File: ../img/logo-handi.png Graphic file (type png)
 <use ../img/logo-handi.png>
-Package pdftex.def Info: ../img/logo-handi.png  used on input line 42.
+Package pdftex.def Info: ../img/logo-handi.png  used on input line 44.
 (pdftex.def)             Requested size: 102.42923pt x 102.42929pt.
-<../img/carryBot.png, id=178, 179.67125pt x 111.41624pt>
+<../img/carryBot.png, id=182, 179.67125pt x 111.41624pt>
 File: ../img/carryBot.png Graphic file (type png)
 <use ../img/carryBot.png>
-Package pdftex.def Info: ../img/carryBot.png  used on input line 58.
+Package pdftex.def Info: ../img/carryBot.png  used on input line 60.
 (pdftex.def)             Requested size: 172.99498pt x 107.28479pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--69
+Underfull \hbox (badness 10000) in paragraph at lines 66--71
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--74
+Underfull \hbox (badness 10000) in paragraph at lines 73--76
 
  []
 
@@ -396,7 +417,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 71--74
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.42 ....1}Limites observ√©es}{20}{subsection.8.1}
+l.43 ....1}Limites observ√©es}{23}{subsection.8.1}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `rapport.toc'.
@@ -410,349 +431,306 @@ l.42 ....1}Limites observ√©es}{20}{subsection.8.1}
 
 
 [3]
-Underfull \hbox (badness 2310) in paragraph at lines 112--112
+Underfull \hbox (badness 2310) in paragraph at lines 114--114
 \T1/cmr/m/n/12 moyeu ro-ta-tif, per-met-tant le fran-chis-se-ment de pe-tites
  []
 
 
 
 [4]
-<../img/GANTT-CarryBot.png, id=284, 770.88pt x 578.16pt>
+<../img/GANTT-CarryBot.png, id=295, 770.88pt x 578.16pt>
 File: ../img/GANTT-CarryBot.png Graphic file (type png)
 <use ../img/GANTT-CarryBot.png>
-Package pdftex.def Info: ../img/GANTT-CarryBot.png  used on input line 189.
+Package pdftex.def Info: ../img/GANTT-CarryBot.png  used on input line 191.
 (pdftex.def)             Requested size: 500.77129pt x 375.579pt.
 
-Overfull \hbox (45.52718pt too wide) in paragraph at lines 189--190
+Overfull \hbox (45.52718pt too wide) in paragraph at lines 191--192
  [][] 
  []
 
 
 
 [5]
-Overfull \hbox (14.37201pt too wide) in paragraph at lines 196--209
+Overfull \hbox (14.37201pt too wide) in paragraph at lines 198--211
 [][] 
  []
 
 
 
-[6
-pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.211 
-       <../img/GANTT-CarryBot.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+[6 <../img/GANTT-CarryBot.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 225--226
 
  []
 
-<../img/tug.png, id=305, 274.626pt x 302.3295pt>
+<../img/tug.png, id=315, 274.626pt x 302.3295pt>
 File: ../img/tug.png Graphic file (type png)
 <use ../img/tug.png>
-Package pdftex.def Info: ../img/tug.png  used on input line 228.
+Package pdftex.def Info: ../img/tug.png  used on input line 230.
 (pdftex.def)             Requested size: 204.85846pt x 225.52406pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--231
+Underfull \hbox (badness 10000) in paragraph at lines 227--233
 
  []
 
 
 
 [7]
-<../img/care-o-bot.png, id=324, 345.9324pt x 259.6902pt>
+<../img/care-o-bot.png, id=335, 345.9324pt x 259.6902pt>
 File: ../img/care-o-bot.png Graphic file (type png)
 <use ../img/care-o-bot.png>
-Package pdftex.def Info: ../img/care-o-bot.png  used on input line 240.
+Package pdftex.def Info: ../img/care-o-bot.png  used on input line 242.
 (pdftex.def)             Requested size: 204.85846pt x 153.79044pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--243
+Underfull \hbox (badness 10000) in paragraph at lines 239--245
 
  []
 
 
 
-[8
-pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.246 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.246 
-       <../img/tug.png> <../img/care-o-bot.png>]
-<../img/labrador.png, id=336, 247.6452pt x 236.5638pt>
+[8 <../img/tug.png> <../img/care-o-bot.png>]
+<../img/labrador.png, id=346, 247.6452pt x 236.5638pt>
 File: ../img/labrador.png Graphic file (type png)
 <use ../img/labrador.png>
-Package pdftex.def Info: ../img/labrador.png  used on input line 251.
+Package pdftex.def Info: ../img/labrador.png  used on input line 253.
 (pdftex.def)             Requested size: 213.96529pt x 204.39383pt.
-<../img/rosa.png, id=337, 295.3434pt x 315.579pt>
+<../img/rosa.png, id=347, 295.3434pt x 315.579pt>
 File: ../img/rosa.png Graphic file (type png)
 <use ../img/rosa.png>
-Package pdftex.def Info: ../img/rosa.png  used on input line 258.
+Package pdftex.def Info: ../img/rosa.png  used on input line 260.
 (pdftex.def)             Requested size: 191.20169pt x 204.31012pt.
 
 
-[9
-pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.279 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.279 
-       <../img/labrador.png> <../img/rosa.png>]
-<../img/rox.png, id=354, 665.48625pt x 473.77pt>
+[9 <../img/labrador.png> <../img/rosa.png>]
+<../img/rox.png, id=364, 665.48625pt x 473.77pt>
 File: ../img/rox.png Graphic file (type png)
 <use ../img/rox.png>
-Package pdftex.def Info: ../img/rox.png  used on input line 283.
+Package pdftex.def Info: ../img/rox.png  used on input line 285.
 (pdftex.def)             Requested size: 204.85846pt x 145.84064pt.
-<../img/wheel.png, id=359, 289.08pt x 171.5208pt>
+<../img/wheel.png, id=369, 289.08pt x 171.5208pt>
 File: ../img/wheel.png Graphic file (type png)
 <use ../img/wheel.png>
-Package pdftex.def Info: ../img/wheel.png  used on input line 296.
+Package pdftex.def Info: ../img/wheel.png  used on input line 298.
 (pdftex.def)             Requested size: 204.85846pt x 121.54768pt.
 
 
-[10
-pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.300 \subsection
-                 {Synth√®se et positionnement de CarryBot}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <../img/rox.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 316--321
+[10{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <../img/rox.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 318--323
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--345
+Underfull \hbox (badness 10000) in paragraph at lines 345--347
 
  []
 
 
 
-[11
-pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.350 
-       <../img/wheel.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 399--400
+[11 <../img/wheel.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 401--402
 []\T1/cmr/m/n/12 Importance d'un bou-ton d'ar-rÍt d'ur-gence ?
  []
 
 
-Underfull \hbox (badness 2512) in paragraph at lines 400--401
+Underfull \hbox (badness 2512) in paragraph at lines 402--403
 []\T1/cmr/m/n/12 InquiÈtude face aux col-li-sions ou mou-ve-ments
  []
 
 
-Underfull \hbox (badness 1189) in paragraph at lines 401--402
+Underfull \hbox (badness 1189) in paragraph at lines 403--404
 []\T1/cmr/m/n/12 SensibilitÈ ‡ l'Èqui-libre des ob-jets trans-por-tÈs ?
  []
 
-<../img/marie.png, id=379, 734.745pt x 553.06625pt>
+<../img/marie.png, id=389, 734.745pt x 553.06625pt>
 File: ../img/marie.png Graphic file (type png)
 <use ../img/marie.png>
-Package pdftex.def Info: ../img/marie.png  used on input line 438.
+Package pdftex.def Info: ../img/marie.png  used on input line 440.
 (pdftex.def)             Requested size: 273.14923pt x 205.61024pt.
 
 
-[12
-pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.441 \end{figure}
-                  ]
-<../img/lucas.png, id=387, 628.3475pt x 473.77pt>
+[12]
+<../img/lucas.png, id=398, 628.3475pt x 473.77pt>
 File: ../img/lucas.png Graphic file (type png)
 <use ../img/lucas.png>
-Package pdftex.def Info: ../img/lucas.png  used on input line 446.
+Package pdftex.def Info: ../img/lucas.png  used on input line 448.
 (pdftex.def)             Requested size: 273.14923pt x 205.95093pt.
 
-Underfull \hbox (badness 6708) in paragraph at lines 463--463
+Underfull \hbox (badness 6708) in paragraph at lines 465--465
 []|\T1/cmr/m/n/12 Interruption im-mÈ-diate
  []
 
 
-Underfull \hbox (badness 2134) in paragraph at lines 467--467
+Underfull \hbox (badness 2134) in paragraph at lines 469--469
 []|\T1/cmr/m/n/12 SystËme de roues Tri-
  []
 
 
-Underfull \hbox (badness 6792) in paragraph at lines 471--471
+Underfull \hbox (badness 6792) in paragraph at lines 473--473
 []|\T1/cmr/m/n/12 Transport d'ob-jets lÈ-
  []
 
 
-Overfull \hbox (13.56468pt too wide) in paragraph at lines 456--475
+Overfull \hbox (13.56468pt too wide) in paragraph at lines 458--477
 [][] 
  []
 
 
 
-[13
-pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.477 
-      
-pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.477 
-       <../img/marie.png> <../img/lucas.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 486--486
+[13 <../img/marie.png> <../img/lucas.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 488--488
 []|\T1/cmr/m/n/12 AccessibilitÈ UI,
  []
 
 
-Underfull \hbox (badness 3240) in paragraph at lines 488--488
+Underfull \hbox (badness 3240) in paragraph at lines 490--490
 []|\T1/cmr/m/n/12 RÈsistance des com-po-
  []
 
 
-Overfull \hbox (13.56468pt too wide) in paragraph at lines 480--493
+Overfull \hbox (13.56468pt too wide) in paragraph at lines 482--495
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 502--502
+Underfull \hbox (badness 10000) in paragraph at lines 504--504
 []|\T1/cmr/m/n/12 Respect des normes
  []
 
 
-Overfull \hbox (13.56468pt too wide) in paragraph at lines 498--509
+Overfull \hbox (13.56468pt too wide) in paragraph at lines 500--511
 [][] 
  []
 
 
 
 [14]
-<../img/CB-global.png, id=398, 354.32375pt x 283.0575pt>
+<../img/CB-global.png, id=409, 354.32375pt x 283.0575pt>
 File: ../img/CB-global.png Graphic file (type png)
 <use ../img/CB-global.png>
-Package pdftex.def Info: ../img/CB-global.png  used on input line 557.
+Package pdftex.def Info: ../img/CB-global.png  used on input line 559.
 (pdftex.def)             Requested size: 218.51521pt x 174.56953pt.
-<../img/CB-detail.png, id=399, 354.32375pt x 268.00125pt>
+<../img/CB-detail.png, id=410, 354.32375pt x 268.00125pt>
 File: ../img/CB-detail.png Graphic file (type png)
 <use ../img/CB-detail.png>
-Package pdftex.def Info: ../img/CB-detail.png  used on input line 563.
+Package pdftex.def Info: ../img/CB-detail.png  used on input line 565.
 (pdftex.def)             Requested size: 218.51521pt x 165.28392pt.
 
 
 [15]
-<../img/monter.png, id=404, 354.32375pt x 317.185pt>
+<../img/monter.png, id=415, 354.32375pt x 317.185pt>
 File: ../img/monter.png Graphic file (type png)
 <use ../img/monter.png>
-Package pdftex.def Info: ../img/monter.png  used on input line 576.
+Package pdftex.def Info: ../img/monter.png  used on input line 578.
 (pdftex.def)             Requested size: 218.51521pt x 195.61693pt.
-<../img/descente.png, id=405, 354.32375pt x 313.17pt>
+<../img/descente.png, id=416, 354.32375pt x 313.17pt>
 File: ../img/descente.png Graphic file (type png)
 <use ../img/descente.png>
-Package pdftex.def Info: ../img/descente.png  used on input line 582.
+Package pdftex.def Info: ../img/descente.png  used on input line 584.
 (pdftex.def)             Requested size: 218.51521pt x 193.14076pt.
 
 
-[16
-pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.599     \item \textbf
-                       {Module UPS d‚Äôalimentation embarqu√©:} Le syst√®me ...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.599     \item \textbf
-                       {Module UPS d‚Äôalimentation embarqu√©:} Le syst√®me ...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.599     \item \textbf
-                       {Module UPS d‚Äôalimentation embarqu√©:} Le syst√®me ...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.13}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.599     \item \textbf
-                       {Module UPS d‚Äôalimentation embarqu√©:} Le syst√®me ... <../img/CB-global.png> <../img/CB-detail.png> <../img/monter.png> <../img/descente.png>]
-<../img/appli-figma.png, id=414, 201.75375pt x 422.57875pt>
+[16 <../img/CB-global.png> <../img/CB-detail.png> <../img/monter.png> <../img/descente.png>]
+<../img/appli-figma.png, id=425, 201.75375pt x 422.57875pt>
 File: ../img/appli-figma.png Graphic file (type png)
 <use ../img/appli-figma.png>
-Package pdftex.def Info: ../img/appli-figma.png  used on input line 608.
+Package pdftex.def Info: ../img/appli-figma.png  used on input line 610.
 (pdftex.def)             Requested size: 168.4381pt x 352.80363pt.
-<../img/appli-and.png, id=415, 273.02pt x 519.9425pt>
-File: ../img/appli-and.png Graphic file (type png)
-<use ../img/appli-and.png>
-Package pdftex.def Info: ../img/appli-and.png  used on input line 614.
-(pdftex.def)             Requested size: 168.4381pt x 320.77429pt.
+<../img/prototype.jpg, id=426, 3035.34pt x 4047.12pt>
+File: ../img/prototype.jpg Graphic file (type jpg)
+<use ../img/prototype.jpg>
+Package pdftex.def Info: ../img/prototype.jpg  used on input line 616.
+(pdftex.def)             Requested size: 250.38564pt x 333.84212pt.
 
 
-[17
-pdfTeX warning (ext4): destination with the same identifier (name{figure.14}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.633     \item \textbf
-                       {Microcontr√¥leurs additionnels (si requis):} gestion...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.15}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.633     \item \textbf
-                       {Microcontr√¥leurs additionnels (si requis):} gestion...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.16}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.633     \item \textbf
-                       {Microcontr√¥leurs additionnels (si requis):} gestion... <../img/appli-figma.png> <../img/appli-and.png>]
+[17 <../img/appli-figma.png> <../img/prototype.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 643--645
 
-[18]
+ []
 
-[19]
+<../img/home.png, id=432, 1084.05pt x 2409.0pt>
+File: ../img/home.png Graphic file (type png)
+<use ../img/home.png>
+Package pdftex.def Info: ../img/home.png  used on input line 655.
+(pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
+<../img/add.png, id=433, 1084.05pt x 2409.0pt>
+File: ../img/add.png Graphic file (type png)
+<use ../img/add.png>
+Package pdftex.def Info: ../img/add.png  used on input line 661.
+(pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
-[20]
+
+[18 <../img/home.png> <../img/add.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 678--679
+
+ []
+
+<../img/connect.png, id=441, 1084.05pt x 2409.0pt>
+File: ../img/connect.png Graphic file (type png)
+<use ../img/connect.png>
+Package pdftex.def Info: ../img/connect.png  used on input line 684.
+(pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
+
+
+[19 <../img/connect.png>]
+<../img/language.png, id=448, 1084.05pt x 2409.0pt>
+File: ../img/language.png Graphic file (type png)
+<use ../img/language.png>
+Package pdftex.def Info: ../img/language.png  used on input line 709.
+(pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
+<..//img/contrast.png, id=449, 1084.05pt x 2409.0pt>
+File: ..//img/contrast.png Graphic file (type png)
+<use ..//img/contrast.png>
+Package pdftex.def Info: ..//img/contrast.png  used on input line 715.
+(pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
+
+
+[20 <../img/language.png> <..//img/contrast.png>]
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 818--819
+
+[22]
+
+[23]
+
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 918--919
 
  []
 
 
-Underfull \hbox (badness 3579) in paragraph at lines 857--858
+Underfull \hbox (badness 3579) in paragraph at lines 957--958
 []\T1/cmr/m/n/12 Salwa, M., & Kr-zysz-to-fik, I. (2025). In-fluence of Control Sys-tem Ar-chi-
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 857--858
+Underfull \hbox (badness 1748) in paragraph at lines 957--958
 \T1/cmr/m/n/12 tec-ture on Mo-bile Ro-bot Sta-bi-lity and Per-for-mance. \T1/cmr/m/it/12 Sen-sors\T1/cmr/m/n/12 , 25(23), 7353.
  []
 
 
 
-[22]
+[25]
 
-[23] (./rapport.aux)
+[26] (./rapport.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: ACCBC95FE2F5D640E986EFE26E96969A;8527.
+(rerunfilecheck)             Checksum: 3D03E4C0913AE743DA0E96C1AF3DDFA8;8683.
  ) 
 Here is how much of TeX's memory you used:
- 12539 strings out of 473190
- 201856 string characters out of 5715799
- 632410 words of memory out of 5000000
- 35529 multiletter control sequences out of 15000+600000
+ 13871 strings out of 473190
+ 228101 string characters out of 5715799
+ 654344 words of memory out of 5000000
+ 36848 multiletter control sequences out of 15000+600000
  571630 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,837b,708s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on rapport.pdf (24 pages, 6923926 bytes).
+Output written on rapport.pdf (27 pages, 11242446 bytes).
 PDF statistics:
- 542 PDF objects out of 1000 (max. 8388607)
- 455 compressed objects within 5 object streams
- 114 named destinations out of 1000 (max. 500000)
- 435 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 580 PDF objects out of 1000 (max. 8388607)
+ 481 compressed objects within 5 object streams
+ 121 named destinations out of 1000 (max. 500000)
+ 468 words of extra memory for PDF output out of 10000 (max. 10000000)
 

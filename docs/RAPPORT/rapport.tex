@@ -25,6 +25,8 @@
 
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0.4pt}
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
 
 \begin{document}
 
@@ -197,13 +199,13 @@ Le déroulement du projet suit les jalons suivants:
 \hline
 \textbf{Membre} & \textbf{Responsabilités principales} \\ \hline
 
-Lena Bessa & Rédaction du cahier des charges (format LaTeX), analyse des besoins, élaboration des scénarios d’usage, contribution à la conception fonctionnelle et ergonomique. \\ \hline
+Lena Bessa & Chef de projet, rédaction du cahier des charges, analyse des besoins, élaboration des scénarios d’usage, contribution à la conception fonctionnelle et ergonomique, collaboration avec chaque membres \\ \hline
 
 Zhaoyu Wang & Modélisation 3D du système Tri-Star, sélection et analyse des solutions matérielles (Raspberry Pi, capteurs), participation à la conception technique. \\ \hline
 
 Xinqi Tang & Développement de l’application Android, intégration des fonctionnalités d’accessibilité, contribution à l’architecture logicielle. \\ \hline
 
-Lou Lopez & Réalisation de l’état de l’art, recherche documentaire, veille technologique et participation à la conception globale du projet. \\ \hline
+Lou Lopez & Réalisation de l’état de l’art, recherche documentaire, veille technologique et participation à une partie de la conception du projet. \\ \hline
 
 \end{tabular}
 
@@ -609,10 +611,10 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
         \caption{Prototype Figma}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.37\linewidth}
+    \begin{minipage}{0.55\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/appli-and.png}
-        \caption{interface application Android}
+        \includegraphics[width=\linewidth]{../img/prototype.jpg}
+        \caption{Prototype à la main}
     \end{minipage}
     \caption{Interface principale de l’application CarryBot}
     \label{fig:carrybot_series1}
@@ -631,6 +633,104 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
     \item \textbf{Application Android:} développée sous Android Studio en Java, intégrant une interface à pictogrammes et des fonctionnalités d’accessibilité.
     
     \item \textbf{Microcontrôleurs additionnels (si requis):} gestion dédiée des capteurs ou actionneurs via interfaces GPIO ou bus série, en communication avec la Raspberry Pi.
+
+
+    % -------------------------------------------------------------
+% Application Android détaillée
+% -------------------------------------------------------------
+\subsection{Application Android}
+
+L’application mobile constitue l’interface principale d’interaction entre l’utilisateur et CarryBot. 
+Elle a été développée sous Android Studio en Java et repose sur une architecture client-serveur communiquant avec la Raspberry Pi via réseau local (adresse IP).\\
+
+L’objectif principal de cette application est de proposer un contrôle simple, sécurisé et accessible du robot, tout en permettant une évolutivité vers un déploiement multi-équipements.
+
+% -------------------------------------------------------------
+% Figure 1: Connexion et gestion appareils
+% -------------------------------------------------------------
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{../img/home.png}
+        \caption{Gestion des robots enregistrés \& HOME}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{../img/add.png}
+        \caption{Écran de connexion IP}
+    \end{minipage}
+    \hfill
+\end{figure}
+
+\subsubsection*{Connexion et gestion multi-robots}
+
+L’application permet:
+
+\begin{itemize}
+    \item la saisie manuelle de l’adresse IP du robot;
+    \item l’enregistrement de plusieurs dispositifs (CarryBot 1, CarryBot 2, etc.) ;
+    \item la sélection rapide de l’appareil actif;
+    \item la suppression d’un robot enregistré.
+\end{itemize}
+
+Cette architecture permet une utilisation évolutive en contexte domestique ou institutionnel (EHPAD, centre hospitalier), où plusieurs robots peuvent coexister sur un même réseau.\\
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{../img/connect.png}
+        \caption{Interface principale de pilotage}
+    \end{minipage}
+\end{figure}
+
+\vspace{2cm}
+\subsubsection*{Interface de pilotage}
+L’interface principale propose:
+
+\begin{itemize}
+    \item des commandes directionnelles (avant, arrière, gauche, droite) ;
+    \item des commandes spécifiques de franchissement (monter / descendre) ;
+    \item un indicateur d’état du robot;
+    \item un bouton d’arrêt logiciel sécurisé.
+\end{itemize}
+
+Le design privilégie des pictogrammes larges, un contraste élevé et une hiérarchie visuelle claire afin de limiter la charge cognitive.
+
+% -------------------------------------------------------------
+% Figure 2: Accessibilité
+% -------------------------------------------------------------
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{../img/language.png}
+        \caption{Sélection de langue}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{..//img/contrast.png}
+        \caption{Mode contraste et options TTS}
+    \end{minipage}
+    \caption{Fonctionnalités d’accessibilité intégrées}
+    \label{fig:app_accessibility}
+\end{figure}
+
+\subsubsection*{Accessibilité et personnalisation}
+
+L’application intègre plusieurs fonctionnalités d’accessibilité:
+
+\begin{itemize}
+    \item sélection multilingue (Français, English, chinois) ;
+    \item mode contraste élevé;
+    \item activation d’un système Text-To-Speech (TTS) ;
+    \item interface épurée adaptée aux personnes âgées ou PMR.
+\end{itemize}
+
+Ces choix répondent aux exigences d’ergonomie et d’inclusion définies dans l’analyse des besoins utilisateurs.
 \end{itemize}
 
 
@@ -747,13 +847,13 @@ Ce matin, installé dans sa chambre à l’étage, Lucas souhaite récupérer se
 
 Il ouvre l’application mobile. L’interface propose un mode unique de pilotage manuel, avec des commandes directionnelles simples (avant, arrière, gauche, droite, montée).
 
-Lucas dirige le robot depuis le rez-de-chaussée vers l’escalier. Une fois positionné correctement, il active la commande de montée. Le robot entame l’ascension de manière contrôlée. L’application affiche un retour d’état : “Montée en cours”.
+Lucas dirige le robot depuis le rez-de-chaussée vers l’escalier. Une fois positionné correctement, il active la commande de montée. Le robot entame l’ascension de manière contrôlée. L’application affiche un retour d’état: “Montée en cours”.
 
 Lucas observe la progression. La stabilisation du plateau s’active automatiquement pour maintenir les objets à niveau. Arrivé à l’étage, Lucas reprend le contrôle directionnel pour guider CarryBot jusqu’à sa chambre.
 
 Le robot s’arrête devant lui. Lucas ouvre le compartiment, récupère ses médicaments, puis pilote le robot pour le renvoyer au rez-de-chaussée.
 
-L’interaction reste simple, directe et maîtrisée : l’utilisateur conserve le contrôle total du déplacement, ce qui renforce la sensation de sécurité et de fiabilité.
+L’interaction reste simple, directe et maîtrisée: l’utilisateur conserve le contrôle total du déplacement, ce qui renforce la sensation de sécurité et de fiabilité.
 
 \subsubsection*{Questionnaire utilisateur — Scénario Lucas}
 
@@ -785,18 +885,18 @@ Le prototype CarryBot a permis de valider une partie des choix de conception (in
 \subsection{Limites observées}
 
 \begin{itemize}
-    \item \textbf{Motorisation insuffisante :} les moteurs utilisés se sont révélés trop faibles au regard des contraintes dynamiques (friction, couple requis, variations de charge, franchissement). Cette limite impacte directement la fiabilité du déplacement et la capacité à maintenir un comportement stable dans des situations exigeantes.
-    \item \textbf{Navigation semi-autonome non intégrée :} le suivi de ligne automatique initialement prévu n’a pas pu être implémenté faute de temps. Le prototype final se limite donc à un \textbf{pilotage manuel supervisé}.
-    \item \textbf{Marge de progression sur la robustesse d’intégration :} la stabilité globale (câblage, maintien mécanique, tolérances d’impression 3D, qualité de contact au sol) peut être améliorée pour augmenter la répétabilité des tests et réduire les dérives comportementales.
+    \item \textbf{Motorisation insuffisante:} les moteurs utilisés se sont révélés trop faibles au regard des contraintes dynamiques (friction, couple requis, variations de charge, franchissement). Cette limite impacte directement la fiabilité du déplacement et la capacité à maintenir un comportement stable dans des situations exigeantes.
+    \item \textbf{Navigation semi-autonome non intégrée:} le suivi de ligne automatique initialement prévu n’a pas pu être implémenté faute de temps. Le prototype final se limite donc à un \textbf{pilotage manuel supervisé}.
+    \item \textbf{Marge de progression sur la robustesse d’intégration:} la stabilité globale (câblage, maintien mécanique, tolérances d’impression 3D, qualité de contact au sol) peut être améliorée pour augmenter la répétabilité des tests et réduire les dérives comportementales.
 \end{itemize}
 
 \subsection{Améliorations prioritaires}
 
 \begin{itemize}
-    \item \textbf{Re-dimensionnement de la motorisation :} choix de moteurs plus coupleux, optimisation des rapports de réduction, et calibration de l’alimentation (tension/courant) en cohérence avec la charge et les pentes à franchir.
-    \item \textbf{Optimisation mécanique :} réduction des pertes (friction/jeu), renforcement des pièces sollicitées, amélioration de la géométrie et de la répartition des masses (centre de gravité).
-    \item \textbf{Intégration du suivi de ligne :} implémentation d’un mode semi-autonome (capteurs + logique de contrôle), avec stratégie de sécurité (arrêt en cas de perte de trace / obstacle) et protocole de validation.
-    \item \textbf{Montée en maturité des tests :} scénarios de test standardisés, métriques reproductibles (vitesse, couple, autonomie, stabilité), et journalisation (logs) pour analyser les défaillances.
+    \item \textbf{Re-dimensionnement de la motorisation:} choix de moteurs plus coupleux, optimisation des rapports de réduction, et calibration de l’alimentation (tension/courant) en cohérence avec la charge et les pentes à franchir.
+    \item \textbf{Optimisation mécanique:} réduction des pertes (friction/jeu), renforcement des pièces sollicitées, amélioration de la géométrie et de la répartition des masses (centre de gravité).
+    \item \textbf{Intégration du suivi de ligne:} implémentation d’un mode semi-autonome (capteurs + logique de contrôle), avec stratégie de sécurité (arrêt en cas de perte de trace / obstacle) et protocole de validation.
+    \item \textbf{Montée en maturité des tests:} scénarios de test standardisés, métriques reproductibles (vitesse, couple, autonomie, stabilité), et journalisation (logs) pour analyser les défaillances.
 \end{itemize}
 
 \subsection{Conclusion opérationnelle}
