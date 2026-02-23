@@ -662,7 +662,7 @@ du plan de travail au salon.
 
 \section{Logique de contrôle}
 
-\begin{frame}{\textbf{Du capteur à l’actionneur: Raspberry Pi}}
+\begin{frame}{\textbf{Rôle du Raspberry Pi}}
 
 \begin{block}{Rôle principal}
 Agir comme \textbf{cerveau décisionnel} du système.
@@ -684,7 +684,7 @@ Entrées: caméra + télémétrie MegaPi \hspace{0.3cm} Sorties: commandes moteu
 \end{frame}
 
 
-\begin{frame}{\textbf{Du capteur à l’actionneur: MegaPi}}
+\begin{frame}{\textbf{Rôle du MegaPi}}
 
 \begin{block}{Rôle principal}
 Exécuter les commandes bas niveau et piloter les actionneurs.
@@ -970,6 +970,21 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
 \centering
 \includegraphics[width=\linewidth]{../images/axeFixe.jpg}\\
 {\scriptsize Illustration : renforcement / fixation de l’axe Tri-Star}
+}
+\only<5>{
+\centering
+\includegraphics[width=\linewidth]{../images/l293d.jpg}\\
+{\scriptsize Illustration : ajout du pont en H L293D pour le vérin}
+}
+\only<6>{
+\centering
+\includegraphics[width=\linewidth]{../images/upsShield.jpeg}\\
+{\scriptsize Illustration : alimentation Raspberry Pi via UPS Shield}
+}
+\only<7>{
+\centering
+\includegraphics[width=\linewidth]{../images/secondeMoteur.jpg}\\
+{\scriptsize Illustration : ajout d’un second moteur arrière}
 }
 \end{columns}
 
