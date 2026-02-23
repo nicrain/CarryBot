@@ -395,11 +395,12 @@ du plan de travail au salon.
 \column{0.65\textwidth}
 \begin{itemize}
     \item Raspberry Pi 5 + caméra Intel RealSense.
-    \item 4 capteurs ultrason + IMU.
+    \item 1 Carte Makeblock MegaPi.
+    \item 1 Capteurs ultrason + IMU.
     \item 4 Roues Tri-Star imprimées en 3D.
     \item 1 Vérin linéaire pour stabilisation (12V).
     \item 2 Boutons STOP physiques.
-    \item 1 Moteur DC 9V (Makeblock MegaPi).
+    \item 4 Moteur DC 9V.
 \end{itemize}
 
 % ------- Colonne droite: image -------
@@ -434,6 +435,56 @@ du plan de travail au salon.
 \end{columns}
 
 \end{frame}
+
+% -------------------------------------------------------------
+% SLIDE Logique
+% -------------------------------------------------------------
+
+\section{Logique de contrôle}
+
+\begin{frame}{\textbf{Du capteur à l’actionneur : Raspberry Pi}}
+
+\begin{block}{Rôle principal}
+Agir comme \textbf{cerveau décisionnel} du système.
+\end{block}
+
+\begin{itemize}
+    \item Traite les données caméra (vision + profondeur).
+    \item Prend les décisions de déplacement (détection de murs/escaliers).
+    \item Expose les services \textbf{HTTP} (interface \textbf{Web/API}) pour le pilotage à distance.
+    \item Diffuse un \textbf{flux vidéo} en temps réel pour la supervision.
+    \item Communique avec MegaPi (envoi des commandes, réception de la télémétrie).
+    \item Assure la connectivité réseau en \textbf{Wi-Fi} (mode point d’accès).
+\end{itemize}
+
+\begin{alertblock}{Entrées / sorties}
+Entrées : caméra + télémétrie MegaPi \hspace{0.3cm} Sorties : commandes moteurs.
+\end{alertblock}
+
+\end{frame}
+
+
+\begin{frame}{\textbf{Du capteur à l’actionneur : MegaPi}}
+
+\begin{block}{Rôle principal}
+Exécuter les commandes bas niveau et piloter les actionneurs.
+\end{block}
+
+\begin{itemize}
+    \item Contrôle les moteurs de roues et du mécanisme Tri-Star.
+    \item Lecture des capteurs embarqués (ultrason, IMU).
+    \item Renvoie au Raspberry Pi les données de télémétrie.
+    \item Gestion de l’exécution temps réel des ordres reçus.
+    \item Ajuste l’équilibre en pilotant le vérin à partir des données IMU.
+\end{itemize}
+
+\begin{alertblock}{Résultat}
+Transformation de la décision logicielle en mouvement physique du robot.
+\end{alertblock}
+
+\end{frame}
+
+
 
 % -------------------------------------------------------------
 % SLIDE Application Android
