@@ -87,6 +87,41 @@ Salvatore ANZALONE\\[1.2cm]
 
 \newpage
 
+% =========================
+% ABSTRACT (EN) + RÉSUMÉ (FR)
+% À placer après la page de garde (avant la table des matières si souhaité)
+% =========================
+
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+CarryBot is an academic prototype developed within the Master 2 MIASHS (Technology \& Disability) program at Universit\'e Paris 8. The project explores the design and implementation of a lightweight indoor mobile assistance robot dedicated to transporting small objects in controlled environments such as homes, rehabilitation centers, and medico-social institutions.
+
+The increasing aging population, combined with mobility limitations affecting elderly individuals and persons with motor impairments, highlights the need for accessible and safe assistive technologies. CarryBot aims to reduce physical strain associated with transporting everyday objects (medication, documents, small equipment) while preserving user control and ensuring system safety.
+
+The robot integrates a Tri-Star wheel mechanism enabling the crossing of small obstacles and low-height steps, combined with a linear actuator-based stabilization system designed to maintain platform balance during vertical transitions. The system architecture follows a hierarchical model separating high-level supervision (Raspberry Pi 5) from real-time execution (Makeblock MegaPi), ensuring modularity, robustness, and evolvability. Perception is supported by an Intel RealSense depth camera, ultrasonic sensing, and inertial measurement (IMU). User interaction is achieved through an accessible Android application featuring simplified directional controls, multilingual support, high-contrast mode, and secure emergency stop mechanisms.
+
+Technical validation addressed mobility, stabilization time, load capacity (up to 2~kg), and obstacle detection. Ergonomic evaluation was conducted with 12 participants, including persons with reduced mobility and elderly users, based on Bastien \& Scapin usability criteria. Results indicate satisfactory perceived control, low cognitive load, and good interface comprehensibility.
+
+Although advanced autonomous navigation (e.g., SLAM) was intentionally excluded from the current scope, CarryBot provides a coherent demonstrator integrating mechanical, electronic, and software components. The project establishes a solid foundation for future developments toward semi-autonomous navigation, enhanced stabilization, and industrial-grade robustness.
+
+\vspace{0.8cm}
+\newpage
+\section*{R\'esum\'e}
+\addcontentsline{toc}{section}{R\'esum\'e}
+
+CarryBot est un prototype acad\'emique d\'evelopp\'e dans le cadre du Master 2 MIASHS (Technologie \& Handicap) de l’Universit\'e Paris 8. Le projet vise \`a concevoir et int\'egrer un robot mobile l\'eger d’assistance au transport d’objets en environnement int\'erieur contr\^ol\'e (domicile, centre de r\'e\'education, structures m\'edico-sociales).
+
+Le vieillissement de la population et la pr\'evalence des limitations motrices chez les personnes \^ag\'ees et les personnes \`a mobilit\'e r\'eduite renforcent l’int\'er\^et de solutions d’assistance accessibles et s\'ecuris\'ees. CarryBot a pour objectif de r\'eduire la charge physique li\'ee au transport d’objets du quotidien (m\'edicaments, documents, petit mat\'eriel) tout en conservant un contr\^ole utilisateur explicite et un haut niveau de s\'ecurit\'e d’usage.
+
+Le robot s’appuie sur un m\'ecanisme de roues Tri-Star permettant le franchissement de petites irr\'egularit\'es et de marches de faible hauteur, associ\'e \`a un syst\`eme de stabilisation par v\'erin lin\'eaire visant \`a maintenir l’horizontalit\'e de la plateforme lors des transitions verticales. L’architecture suit une approche hi\'erarchique s\'eparant la supervision haut niveau (Raspberry Pi~5) de l’ex\'ecution temps r\'eel (Makeblock MegaPi), afin de garantir modularit\'e, robustesse et \'evolutivit\'e. La perception repose sur une cam\'era de profondeur Intel RealSense, un capteur ultrason et une unit\'e inertielle (IMU). L’interaction utilisateur est assur\'ee par une application Android accessible, int\'egrant commandes directionnelles simplifi\'ees, multilinguisme, mode contraste \'elev\'e et dispositifs d’arr\^et d’urgence physiques et logiciels.
+
+La validation a port\'e sur la mobilit\'e, la stabilisation, la capacit\'e d’emport (jusqu’\`a 2~kg) et la d\'etection d’obstacles. Une \'evaluation ergonomique a \'et\'e men\'ee aupr\`es de 12 participants, incluant des personnes \`a mobilit\'e r\'eduite et des personnes \^ag\'ees, selon les crit\`eres de Bastien \& Scapin. Les r\'esultats indiquent une bonne compr\'ehension de l’interface, une charge cognitive limit\'ee et un contr\^ole per\c{c}u satisfaisant.
+
+Les fonctionnalit\'es de navigation autonome avanc\'ee (ex.~SLAM) ont \'et\'e exclues du p\'erim\`etre actuel. CarryBot constitue n\'eanmoins un d\'emonstrateur coh\'erent int\'egrant m\'ecanique, \'electronique et logiciel, et fournit une base solide pour des \'evolutions vers un mode semi-autonome, une stabilisation optimis\'ee et une robustesse accrue.
+
+\newpage
+
 % -------------------------------------------------------------
 % TABLE DES MATIERES
 % -------------------------------------------------------------
@@ -144,8 +179,8 @@ RGAA & Référentiel Général d’Accessibilité pour les Administrations, norm
 
 \subsubsection{Contexte}
 CarryBot s’inscrit dans un projet académique visant à explorer la robotique mobile d’assistance au sein d’environnements intérieurs contrôlés. 
-Dans le cadre d’un enseignement universitaire, le robot constitue un support de travail permettant d’aborder la mécatronique, les technologies embarquées et les problématiques d’accessibilité.  
-Le projet s’appuie sur une démarche de conception centrée utilisateur afin d’illustrer comment une solution robotique peut répondre à des besoins concrets d’aide au transport d’objets.
+Dans le cadre du cours de Projet collaboratif du Master MIASHS technologie et handicap de l’Université Paris 8,Vincennes Saint Denis, la construction complète d’un prototype de robot a été pour nous un support de travail permettant d’aborder la mécatronique, les technologies embarquées dans un objectif d’accessibilité.  
+Le projet vise à s’appuyer sur une démarche de conception centrée utilisateur afin de proposer une solution robotique qui puisse répondre à des besoins concrets d’aide au transport d’objets.
 
 \subsubsection{Objectif général}
 L’objectif principal est de développer un prototype fonctionnel de robot capable de transporter des objets légers de manière sécurisée et accessible.  
@@ -276,7 +311,7 @@ Les robots thérapeutiques et d’assistance sont aussi étudiés sous l’angle
 
 La revue de Seo et al. (2023) synthétise les mécanismes de franchissement d’escaliers, enjeu majeur en robotique de service intérieur \cite{seo2023}. La variabilité géométrique des escaliers (giron, contremarche, nez de marche) constitue une contrainte critique, avec des normes de construction différentes selon pays et usages. Plusieurs risques techniques sont identifiés: friction insuffisante en l’absence de contremarche, limitation du franchissement par le rayon de roue, et risques de basculement/glissement sur fortes pentes.
 
-Les auteurs distinguent plusieurs familles de robots: chenilles, pattes, roues et liaisons, hybrides roues-pattes (dont tri-star). Le dispositif ROSA, bien que pertinent, sort partiellement de certaines classifications car orienté usage logistique vertical.
+Les auteurs distinguent plusieurs familles de robots: chenilles, pattes, roues et liaisons, hybrides roues-pattes (dont tri-star). Le dispositif ROSA, bien que pertinent, sort d’ailleurs de cette classification, dans la mesure où il n’utilise qu’une seule patte (et pas ses roues) pour monter les escaliers.
 
 \subsubsection*{Solution tri-star: principes et exemples}
 
@@ -295,7 +330,7 @@ L’auto-équilibrage s’appuie sur le concept du pendule inversé: le robot es
 
 \subsubsection*{Exemples de solutions d’auto-équilibrage}
 
-Zhao et al. (2023) décrivent un robot d’inspection sur deux roues intégrant capteur 360° et gyroscope, capable de se stabiliser rapidement et de supporter une charge significative \cite{zhao2023}. Une approche alternative consiste à stabiliser via mécanismes physiques: Quaglia et al. (2011) présentent \textbf{Wheelchair.q}, fauteuil roulant motorisé avec capacité de franchissement et gestion du centre de masse via liaison à quatre barres, limitant le basculement lors de la montée \cite{quaglia2011}.
+Zhao et al. (2023) décrivent un robot d’inspection sur deux roues intégrant capteur 360° et gyroscope MPU 6050, capable de se stabiliser rapidement et de supporter une charge significative \cite{zhao2023}. Une approche alternative consiste à stabiliser via mécanismes physiques: Quaglia et al. (2011) présentent \textbf{Wheelchair.q}, fauteuil roulant motorisé avec capacité de franchissement et gestion du centre de masse via liaison à quatre barres, limitant le basculement lors de la montée \cite{quaglia2011}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.45\linewidth]{../img/wheel.png}

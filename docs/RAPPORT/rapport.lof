@@ -1,25 +1,25 @@
 \babel@toc {french}{}\relax 
-\contentsline {figure}{\numberline {1}{\ignorespaces Diagramme de Gantt du projet CarryBot}}{6}{figure.caption.6}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Robot logistique hospitalier TUG (Aethon)}}{8}{figure.caption.8}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Care-O-Bot – Robot d’assistance domestique}}{8}{figure.caption.10}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Labrador Retriever}}{9}{figure.caption.11}%
-\contentsline {figure}{\numberline {5}{\ignorespaces ROSA }}{9}{figure.caption.11}%
-\contentsline {figure}{\numberline {6}{\ignorespaces Principe mécanique d’un système tri-star}}{10}{figure.caption.15}%
-\contentsline {figure}{\numberline {7}{\ignorespaces Modélisation du pendule inversé pour robot auto-équilibré}}{11}{figure.caption.18}%
-\contentsline {figure}{\numberline {8}{\ignorespaces Persona 1: Marie, 75 ans, retraitée}}{13}{figure.caption.20}%
-\contentsline {figure}{\numberline {9}{\ignorespaces Persona 2: Lucas, 30 ans, à mobilité réduite}}{13}{figure.caption.21}%
-\contentsline {figure}{\numberline {10}{\ignorespaces CarryBot en vue globale}}{16}{figure.caption.24}%
-\contentsline {figure}{\numberline {11}{\ignorespaces Détail de la motorisation et des roues Tri-Star}}{16}{figure.caption.24}%
-\contentsline {figure}{\numberline {12}{\ignorespaces La montée de la palette motorisée}}{17}{figure.caption.25}%
-\contentsline {figure}{\numberline {13}{\ignorespaces La descente de la palette motorisée}}{17}{figure.caption.25}%
-\contentsline {figure}{\numberline {14}{\ignorespaces Architecture logique globale de CarryBot}}{17}{figure.caption.27}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Architecture fonctionnelle globale de CarryBot: séparation client, supervision Raspberry Pi et exécution MegaPi}}{19}{figure.caption.33}%
-\contentsline {figure}{\numberline {16}{\ignorespaces Prototype Figma}}{21}{figure.caption.38}%
-\contentsline {figure}{\numberline {17}{\ignorespaces Prototype à la main}}{21}{figure.caption.38}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Interface principale de l’application CarryBot}}{21}{figure.caption.38}%
-\contentsline {figure}{\numberline {19}{\ignorespaces Gestion des robots enregistrés \& HOME}}{22}{figure.caption.39}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Écran de connexion IP}}{22}{figure.caption.39}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Interface principale de pilotage}}{23}{figure.caption.41}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Sélection de langue}}{24}{figure.caption.43}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Mode contraste et options TTS}}{24}{figure.caption.43}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Fonctionnalités d’accessibilité intégrées}}{24}{figure.caption.43}%
+\contentsline {figure}{\numberline {1}{\ignorespaces Diagramme de Gantt du projet CarryBot}}{8}{figure.caption.8}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Robot logistique hospitalier TUG (Aethon)}}{10}{figure.caption.10}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Care-O-Bot – Robot d’assistance domestique}}{10}{figure.caption.12}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Labrador Retriever}}{11}{figure.caption.13}%
+\contentsline {figure}{\numberline {5}{\ignorespaces ROSA }}{11}{figure.caption.13}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Principe mécanique d’un système tri-star}}{12}{figure.caption.17}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Modélisation du pendule inversé pour robot auto-équilibré}}{13}{figure.caption.20}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Persona 1: Marie, 75 ans, retraitée}}{15}{figure.caption.22}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Persona 2: Lucas, 30 ans, à mobilité réduite}}{15}{figure.caption.23}%
+\contentsline {figure}{\numberline {10}{\ignorespaces CarryBot en vue globale}}{18}{figure.caption.26}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Détail de la motorisation et des roues Tri-Star}}{18}{figure.caption.26}%
+\contentsline {figure}{\numberline {12}{\ignorespaces La montée de la palette motorisée}}{19}{figure.caption.27}%
+\contentsline {figure}{\numberline {13}{\ignorespaces La descente de la palette motorisée}}{19}{figure.caption.27}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Architecture logique globale de CarryBot}}{19}{figure.caption.29}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Architecture fonctionnelle globale de CarryBot: séparation client, supervision Raspberry Pi et exécution MegaPi}}{21}{figure.caption.35}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Prototype Figma}}{23}{figure.caption.40}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Prototype à la main}}{23}{figure.caption.40}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Interface principale de l’application CarryBot}}{23}{figure.caption.40}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Gestion des robots enregistrés \& HOME}}{24}{figure.caption.41}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Écran de connexion IP}}{24}{figure.caption.41}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Interface principale de pilotage}}{25}{figure.caption.43}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Sélection de langue}}{26}{figure.caption.45}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Mode contraste et options TTS}}{26}{figure.caption.45}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Fonctionnalités d’accessibilité intégrées}}{26}{figure.caption.45}%
