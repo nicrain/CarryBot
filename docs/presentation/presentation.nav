@@ -105,22 +105,23 @@
 \headcommand {\sectionentry {11}{Détection par caméra}{51}{Détection par caméra}{0}}
 \headcommand {\slideentry {11}{0}{1}{51/51}{}{0}}
 \headcommand {\beamer@framepages {51}{51}}
-\headcommand {\beamer@sectionpages {51}{51}}
-\headcommand {\beamer@subsectionpages {51}{51}}
-\headcommand {\sectionentry {12}{Perspectives}{52}{Perspectives}{0}}
-\headcommand {\slideentry {12}{0}{1}{52/52}{}{0}}
+\headcommand {\slideentry {11}{0}{2}{52/52}{}{0}}
 \headcommand {\beamer@framepages {52}{52}}
-\headcommand {\beamer@sectionpages {52}{52}}
-\headcommand {\beamer@subsectionpages {52}{52}}
-\headcommand {\sectionentry {13}{Bibliographie}{53}{Bibliographie}{0}}
-\headcommand {\slideentry {13}{0}{1}{53/53}{}{0}}
-\headcommand {\beamer@framepages {53}{53}}
-\headcommand {\slideentry {13}{0}{2}{54/54}{}{0}}
-\headcommand {\beamer@framepages {54}{54}}
-\headcommand {\slideentry {13}{0}{3}{55/55}{}{0}}
-\headcommand {\beamer@framepages {55}{55}}
-\headcommand {\beamer@partpages {1}{55}}
-\headcommand {\beamer@subsectionpages {53}{55}}
-\headcommand {\beamer@sectionpages {53}{55}}
-\headcommand {\beamer@documentpages {55}}
-\headcommand {\gdef \inserttotalframenumber {41}}
+\headcommand {\slideentry {11}{0}{3}{53/58}{}{0}}
+\headcommand {\beamer@framepages {53}{58}}
+\headcommand {\slideentry {11}{0}{4}{59/59}{}{0}}
+\headcommand {\beamer@framepages {59}{59}}
+\headcommand {\beamer@sectionpages {51}{59}}
+\headcommand {\beamer@subsectionpages {51}{59}}
+\headcommand {\sectionentry {12}{Bibliographie}{60}{Bibliographie}{0}}
+\headcommand {\slideentry {12}{0}{1}{60/60}{}{0}}
+\headcommand {\beamer@framepages {60}{60}}
+\headcommand {\slideentry {12}{0}{2}{61/61}{}{0}}
+\headcommand {\beamer@framepages {61}{61}}
+\headcommand {\slideentry {12}{0}{3}{62/62}{}{0}}
+\headcommand {\beamer@framepages {62}{62}}
+\headcommand {\beamer@partpages {1}{62}}
+\headcommand {\beamer@subsectionpages {60}{62}}
+\headcommand {\beamer@sectionpages {60}{62}}
+\headcommand {\beamer@documentpages {62}}
+\headcommand {\gdef \inserttotalframenumber {43}}

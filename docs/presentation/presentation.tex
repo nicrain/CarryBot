@@ -165,7 +165,7 @@ en environnement intérieur de manière stable et sécurisée.
 
 
 % -------------------------------------------------------------
-% SLIDE : État de l’art
+% SLIDE: État de l’art
 % -------------------------------------------------------------
 \section{État de l’art}
 % Slide 1
@@ -194,15 +194,15 @@ Transition accélérée vers la téléprésence et la robotisation des services 
 \begin{frame}{Les robots d’assistance et leurs effets}
 
 \begin{itemize}
-    \item \textbf{Teng et al. (2022)} :
+    \item \textbf{Teng et al. (2022)}:
     revue systématique de 33 études —
     téléprésence, aide au diagnostic, distribution médicamenteuse.
     
-    \item \textbf{Wang et al. (2024)} :
+    \item \textbf{Wang et al. (2024)}:
     revue de 31 robots médicaux,
     dont 9 dispositifs dédiés au transport.
     
-    \item \textbf{Li et al. (2023)} :
+    \item \textbf{Li et al. (2023)}:
     usage quotidien favorisant le mieux-être psychologique.
 \end{itemize}
 
@@ -218,7 +218,7 @@ Transition accélérée vers la téléprésence et la robotisation des services 
 \column{0.55\textwidth}
 \centering
 \includegraphics[width=5.5cm]{../img/tug.png}\\
-{\scriptsize Source : aethon.com}
+{\scriptsize Source: aethon.com}
 
 \column{0.45\textwidth}
 
@@ -250,7 +250,7 @@ Transition accélérée vers la téléprésence et la robotisation des services 
 \column{0.55\textwidth}
 \centering
 \includegraphics[width=5cm]{../img/care-o-bot.png}\\
-{\scriptsize Source : care-o-bot.de}
+{\scriptsize Source: care-o-bot.de}
 
 \column{0.45\textwidth}
 
@@ -283,7 +283,7 @@ Transition accélérée vers la téléprésence et la robotisation des services 
 \column{0.55\textwidth}
 \centering
 \includegraphics[width=5cm]{../img/labrador.png}\\
-{\scriptsize Source : labradorsystems.com}
+{\scriptsize Source: labradorsystems.com}
 
 \column{0.45\textwidth}
 
@@ -311,7 +311,7 @@ Transition accélérée vers la téléprésence et la robotisation des services 
 % -------------------------------------------------------------
 \begin{frame}{2. Les défis identifiés}
 
-Après analyse des robots existants, CarryBot doit :
+Après analyse des robots existants, CarryBot doit:
 
 \begin{itemize}
     \item Être capable de \textbf{monter les escaliers}.
@@ -331,9 +331,9 @@ dans un format compact.
 \begin{frame}{Monter les escaliers}
 
 \begin{itemize}
-    \item \textbf{Seo et al. (2023)} :
+    \item \textbf{Seo et al. (2023)}:
     défi majeur en robotique de service intérieur.
-    \item DARPA Robotics Challenge (2015) :
+    \item DARPA Robotics Challenge (2015):
     taux de réussite $\approx$ 30\%.
     \item Forte variabilité géométrique des escaliers
     (hauteur, angle, contexte culturel).
@@ -341,7 +341,7 @@ dans un format compact.
 
 \vspace{0.3cm}
 
-\textbf{Catégories identifiées :}
+\textbf{Catégories identifiées:}
 \begin{itemize}
     \item Robots à chenilles.
     \item Robots à pattes.
@@ -361,7 +361,7 @@ dans un format compact.
 \column{0.55\textwidth}
 \centering
 \includegraphics[width=5cm]{../img/rosa.png}\\
-{\scriptsize Source : robotshop.com}
+{\scriptsize Source: robotshop.com}
 
 \column{0.45\textwidth}
 
@@ -391,12 +391,12 @@ dans un format compact.
 \begin{frame}{S’auto-équilibrer}
 
 \begin{itemize}
-    \item \textbf{Salwa \& Krzysztofik (2025)} :
+    \item \textbf{Salwa \& Krzysztofik (2025)}:
     modèle du \textbf{pendule inversé}.
     
     \item Système intrinsèquement instable.
     
-    \item Système \textbf{sous-actionné} :
+    \item Système \textbf{sous-actionné}:
     moins d’actionneurs que de degrés de liberté.
     
     \item Forte exigence de précision temporelle.
@@ -476,7 +476,7 @@ dans un format compact.
 \end{frame}
 
 % -------------------------------------------------------------
-% SLIDE : Limitation temporelle
+% SLIDE: Limitation temporelle
 % -------------------------------------------------------------
 \begin{frame}{\textbf{Limites du périmètre actuel}}
 
@@ -488,7 +488,7 @@ Le mode de pilotage automatique par \textbf{suivi de ligne au sol}
 \vspace{0.3cm}
 
 \begin{alertblock}{Arbitrage projet}
-En raison des contraintes temporelles liées :
+En raison des contraintes temporelles liées:
 \begin{itemize}
     \item à l’assemblage mécanique,
     \item à l’intégration électronique,
@@ -502,7 +502,7 @@ dans la version actuelle du prototype.
 \end{frame}
 
 % -------------------------------------------------------------
-% SLIDE : Personas
+% SLIDE: Personas
 % -------------------------------------------------------------
 \begin{frame}{\textbf{Persona 1 — Marie, 73 ans}}
 
@@ -662,7 +662,7 @@ du plan de travail au salon.
 
 \section{Logique de contrôle}
 
-\begin{frame}{\textbf{Du capteur à l’actionneur : Raspberry Pi}}
+\begin{frame}{\textbf{Du capteur à l’actionneur: Raspberry Pi}}
 
 \begin{block}{Rôle principal}
 Agir comme \textbf{cerveau décisionnel} du système.
@@ -678,13 +678,13 @@ Agir comme \textbf{cerveau décisionnel} du système.
 \end{itemize}
 
 \begin{alertblock}{Entrées / sorties}
-Entrées : caméra + télémétrie MegaPi \hspace{0.3cm} Sorties : commandes moteurs.
+Entrées: caméra + télémétrie MegaPi \hspace{0.3cm} Sorties: commandes moteurs.
 \end{alertblock}
 
 \end{frame}
 
 
-\begin{frame}{\textbf{Du capteur à l’actionneur : MegaPi}}
+\begin{frame}{\textbf{Du capteur à l’actionneur: MegaPi}}
 
 \begin{block}{Rôle principal}
 Exécuter les commandes bas niveau et piloter les actionneurs.
@@ -828,9 +828,8 @@ Transformation de la décision logicielle en mouvement physique du robot.
 
 
 % =============================================================
-% SLIDE: Technologies utilisées
+% SLIDE: technolologies utilisées
 % =============================================================
-
 \section{Technologies}
 
 \begin{frame}{\textbf{Technologies utilisées}}
@@ -838,9 +837,9 @@ Transformation de la décision logicielle en mouvement physique du robot.
 \begin{block}{Traitement caméra}
 
 \begin{itemize}
-    \item \textbf{pyrealsense2}: accès aux données de profondeur.
-    \item \textbf{OpenCV2}: traitement d’image et détection.
-    \item \textbf{NumPy}: calculs matriciels et analyse des données.
+    \item \textbf{pyrealsense2}: acquisition profondeur/couleur (RealSense).
+    \item \textbf{OpenCV (cv2)}: traitement d’image et détection.
+    \item \textbf{NumPy}: calcul matriciel et logique de décision.
 \end{itemize}
 
 \end{block}
@@ -848,9 +847,9 @@ Transformation de la décision logicielle en mouvement physique du robot.
 \begin{block}{Commande des moteurs}
 
 \begin{itemize}
-    \item \textbf{pyserial}: communication série avec la carte.
-    \item \textbf{threading}: gestion multitâche.
-    \item \textbf{MeMegaPi.h}: pilotage moteurs (Makeblock MegaPi).
+    \item \textbf{pyserial}: communication série Raspberry Pi $\leftrightarrow$ MegaPi.
+    \item \textbf{threading}: exécution concurrente (vision, API, I/O série).
+    \item \textbf{MeMegaPi.h / MeGyro.h / MeUltrasonicSensor.h}: pilotage moteurs et lecture capteurs.
 \end{itemize}
 
 \end{block}
@@ -858,14 +857,13 @@ Transformation de la décision logicielle en mouvement physique du robot.
 \begin{block}{Surveillance et contrôle web}
 
 \begin{itemize}
-    \item \textbf{http.server}: serveur web embarqué.
-    \item \textbf{socketserver}: gestion des connexions réseau.
+    \item \textbf{http.server + socketserver}: API de contrôle et service web intégrés.
+    \item \textbf{Flux vidéo MJPEG}: diffusion temps réel via \texttt{/video\_feed}.
 \end{itemize}
 
 \end{block}
 
 \end{frame}
-
 % =============================================================
 
 % =============================================================
@@ -900,26 +898,107 @@ la présence d’un mur et d’adapter le comportement du robot.
 \end{block}
 
 \end{frame}
+
+% -------------------------------------------------------------
+
+
+\begin{frame}{Validation ergonomique – Synthèse des tests}
+
+\textbf{Cadre d’évaluation:}
+\begin{itemize}
+    \item Analyse fondée sur les critères de Bastien \& Scapin
+    \item Scénario complet: connexion → pilotage → montée → arrêt
+    \item Observation des erreurs, compréhension et sentiment de sécurité
+\end{itemize}
+
+\vspace{0.5cm}
+
+\textbf{Population testée:}
+
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Profil} & \textbf{Nombre} \\
+\hline
+Personnes en situation de PMR & 4 \\
+Personnes âgées & 3 \\
+Utilisateurs sans limitation spécifique & 5 \\
+\hline
+\textbf{Total} & \textbf{12} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.4cm}
+
+\textbf{Résultat global:}
+Interface jugée intuitive, compréhensible et adaptée aux publics cibles,
+avec un bon niveau de contrôle perçu et une charge cognitive limitée.
+
+\end{frame}
+
+% -------------------------------------------------------------
+
+\begin{frame}{Défis techniques et solutions apportées}
+
+\textbf{Défis identifiés}
+\begin{itemize}
+    \item<1-> Rigidité et alignement du mécanisme Tri-Star
+    \item<2-> Résistance au pivot (nombre de roues élevé)
+    \item<3-> Détection arrière limitée en montée
+    \item<4-> Visibilité insuffisante en descente
+    \item<5-> Ports moteurs saturés (ajout vérin)
+    \item<6-> Alimentation Raspberry Pi inadaptée
+\end{itemize}
+
+\vspace{0.4cm}
+
+\textbf{Solutions mises en œuvre}
+\begin{itemize}
+    \item Ajout d’un second moteur arrière
+    \item UPS Shield + 4 batteries 18650 (5A stable)
+    \item Pilotage vérin via pont en H L293D
+    \item Structure modulaire Makeblock
+    \item Roues Tri-Star imprimées en 3D
+\end{itemize}
+
+\end{frame}
+% -------------------------------------------------------------
+% -------------------------------------------------------------
+
+
 % -------------------------------------------------------------
 % SLIDE Perspectives
 % -------------------------------------------------------------
 
-\section{Perspectives}
+\begin{frame}{Perspectives et axes d’amélioration}
 
-\begin{frame}{\textbf{Perspectives}}
-
-\begin{block}{Développements à venir}
-
+\textbf{Améliorations mécaniques}
 \begin{itemize}
-    \item Intégration du suivi de ligne.
-    \item Optimisation mécanique.
-    \item Re-dimensionnement de la motorisation.
-    \item Amélioration de l'application 
-    \item Version plus grande \textbf{capacité}.
-
+    \item Axe de roue renforcé
+    \item Transmission rigidifiée
+    \item Augmentation de l’empattement
+    \item Stabilisation active optimisée (contact sol permanent)
 \end{itemize}
 
-\end{block}
+\vspace{0.4cm}
+
+\textbf{Améliorations capteurs et perception}
+\begin{itemize}
+    \item Ajout d’un second ultrason arrière
+    \item Support caméra à angle réglable
+    \item Support ultrason orientable
+\end{itemize}
+
+\vspace{0.4cm}
+
+\textbf{Améliorations système}
+\begin{itemize}
+    \item Supervision et affichage du niveau batterie
+    \item Alertes critiques côté application
+    \item Intégration future d’un mode semi-autonome
+\end{itemize}
+
 \end{frame}
 
 %--------------------------------------------------------------

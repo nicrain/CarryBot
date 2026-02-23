@@ -9,4 +9,3 @@
 \beamer@sectionintoc {8}{Logique de contrôle}{42}{0}{8}
 \beamer@sectionintoc {9}{Application}{45}{0}{9}
 \beamer@sectionintoc {10}{Technologies}{50}{0}{10}
-\beamer@sectionintoc {12}{Perspectives}{52}{0}{11}
