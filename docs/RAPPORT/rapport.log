@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 15:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 16:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -705,17 +705,17 @@ Package pdftex.def Info: ..//img/contrast.png  used on input line 866.
 [26]
 
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1070
+Underfull \hbox (badness 10000) in paragraph at lines 1090--1091
 
  []
 
 
-Underfull \hbox (badness 3579) in paragraph at lines 1108--1109
+Underfull \hbox (badness 3579) in paragraph at lines 1129--1130
 []\T1/cmr/m/n/12 Salwa, M., & Kr-zysz-to-fik, I. (2025). In-fluence of Control Sys-tem Ar-chi-
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 1108--1109
+Underfull \hbox (badness 1748) in paragraph at lines 1129--1130
 \T1/cmr/m/n/12 tec-ture on Mo-bile Ro-bot Sta-bi-lity and Per-for-mance. \T1/cmr/m/it/12 Sen-sors\T1/cmr/m/n/12 , 25(23), 7353.
  []
 
@@ -729,18 +729,18 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 6BF69DED4DE9748A3BF4337181E0D7FD;9018.
+(rerunfilecheck)             Checksum: 35E259EBCCCA0FDF1E75C9E8BDA04F5D;8977.
  ) 
 Here is how much of TeX's memory you used:
  13900 strings out of 473190
- 228629 string characters out of 5715799
- 655420 words of memory out of 5000000
+ 228619 string characters out of 5715799
+ 655415 words of memory out of 5000000
  36859 multiletter control sequences out of 15000+600000
  571630 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,837b,692s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on rapport.pdf (30 pages, 11433914 bytes).
+Output written on rapport.pdf (30 pages, 11435183 bytes).
 PDF statistics:
  624 PDF objects out of 1000 (max. 8388607)
  517 compressed objects within 6 object streams
