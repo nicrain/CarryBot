@@ -545,6 +545,34 @@ Les fonctionnalités suivantes sont exclues de ce prototype:
     \item intégration de systèmes de \textbf{communication en réseau étendue} (IoT, cloud).
 \end{itemize}
 
+% -------------------------------------------------------------
+
+\subsection*{Spécifications synthétiques du prototype}
+
+Afin de présenter de manière consolidée les caractéristiques du prototype CarryBot, le tableau
+suivant regroupe les paramètres critiques. Les valeurs marquées « à renseigner » sont à compléter
+par des mesures expérimentales (balance, mètre ruban, chronométrage, logs capteurs).
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{|p{5cm}|p{9.5cm}|}
+\hline
+\textbf{Paramètre} & \textbf{Valeur / statut} \\ \hline
+Masse totale & \textit{À renseigner (mesure réelle)} \\ \hline
+Dimensions (L $\times$ l $\times$ h) & \textit{À renseigner} \\ \hline
+Charge utile & $\approx$ 2 kg (objectif) \\ \hline
+Franchissement & $\approx$ 4 cm (validé en essais internes) \\ \hline
+Autonomie & Objectif: 5 h (à mesurer selon 2 ou 4 cellules 18650) \\ \hline
+Vitesse moyenne & \textit{8 $\approx$ 10 (cm/s)} \\ \hline
+Sécurité & 2 arrêts d’urgence physiques + arrêt logiciel Android \\ \hline
+Capteurs & RealSense D435 + 1 ultrason + IMU \\ \hline
+Commande & Raspberry Pi 5 (supervision) + MegaPi (actionneurs) \\ \hline
+\end{tabular}
+\caption{Spécifications synthétiques du prototype CarryBot (mesurées / à compléter)}
+\end{table}
+
 \vspace{0,5cm}
 \subsection{Architecture}
 L’architecture de CarryBot repose sur une intégration cohérente entre l’électronique embarquée, la motorisation, les systèmes de détection et la couche logicielle de supervision. Elle se structure comme suit:
@@ -587,13 +615,136 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
 \end{figure}
 
 
+%------ 
+% =============================================================
+\subsubsection{Architecture logique et communication inter-modules}
+% =============================================================
 
+L’architecture logique de CarryBot repose sur une séparation claire entre la
+\textbf{supervision haut niveau} (Raspberry Pi 5) et la couche
+\textbf{exécution temps réel} (Makeblock MegaPi).
+Cette organisation permet d’isoler les traitements intensifs
+(vision, réseau, API) des opérations critiques liées au pilotage moteur
+et à la stabilisation.
+
+% -------------------------------------------------------------
+% Figure : Diagramme logique global
+% -------------------------------------------------------------
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{../img/architecture-Glob.png}
+    \caption{Architecture logique globale de CarryBot}
+    \label{fig:architecture_logique}
+\end{figure}
+
+La Figure~\ref{fig:architecture_logique} illustre l’organisation hiérarchique
+du système et les flux de communication entre les différents modules.
+
+% =============================================================
+\subsubsection*{1. Raspberry Pi 5 — Supervision et services réseau}
+% =============================================================
+
+La Raspberry Pi 5 constitue le \textbf{cerveau décisionnel} du système.
+Elle assure les fonctions suivantes :
+
+\begin{itemize}
+    \item Hébergement d’un \textbf{service HTTP} (WEB + API) permettant la communication avec l’application Android via Wi-Fi.
+    \item Gestion du réseau local (mode point d’accès ou connexion Wi-Fi).
+    \item Traitement des données issues de la caméra Intel RealSense D435i (connexion USB).
+    \item Analyse de la profondeur et détection d’obstacles.
+    \item Transmission des commandes vers la MegaPi via liaison USB (communication série).
+\end{itemize}
+
+L’alimentation est assurée par un module \textbf{UPS Shield}
+connecté au port GPIO 40 broches.
+Ce module garantit une alimentation stabilisée (5.1 V / 5 A)
+et une continuité de service en cas de déconnexion externe.
+
+% =============================================================
+\subsubsection*{2. Makeblock MegaPi — Exécution bas niveau}
+% =============================================================
+
+La carte Makeblock MegaPi exécute les commandes reçues
+et pilote directement les actionneurs.
+
+Ses principales responsabilités sont :
+
+\begin{itemize}
+    \item Commande des \textbf{4 moteurs DC} (slots 1 à 4).
+    \item Lecture des capteurs via ports RJ25 :
+    \begin{itemize}
+        \item IMU (slot 6) pour la mesure d’inclinaison.
+        \item Capteur ultrason (slot 7) pour la détection d’obstacles à courte distance.
+    \end{itemize}
+    \item Pilotage du vérin linéaire via module L293D.
+    \item Gestion matérielle du bouton d’arrêt d’urgence.
+\end{itemize}
+
+La MegaPi assure ainsi les tâches critiques nécessitant
+une exécution stable et déterministe.
+
+% =============================================================
+\subsubsection*{3. Gestion du vérin et arrêt d’urgence}
+% =============================================================
+
+Le vérin linéaire, chargé de la stabilisation du plateau,
+est contrôlé par un module \textbf{L293D}
+connecté aux broches numériques (D23, D24, D25).
+
+Un \textbf{bouton d’arrêt d’urgence} est relié à la broche D22.
+En cas d’activation :
+
+\begin{itemize}
+    \item Interruption immédiate des moteurs,
+    \item Blocage du vérin,
+    \item Mise en sécurité du système.
+\end{itemize}
+
+Cette architecture garantit une sécurité indépendante
+de la couche logicielle haut niveau.
+
+% =============================================================
+\subsubsection*{4. Chaîne de communication fonctionnelle}
+% =============================================================
+
+Le flux opérationnel suit la séquence suivante :
+
+\begin{enumerate}
+    \item L’utilisateur envoie une commande depuis l’application Android.
+    \item La Raspberry Pi reçoit la requête via le service HTTP.
+    \item La logique décisionnelle est traitée.
+    \item Une commande série est envoyée à la MegaPi.
+    \item La MegaPi active moteurs ou vérin.
+    \item Les capteurs renvoient un retour d’état.
+\end{enumerate}
+
+% =============================================================
+\subsubsection*{5. Synthèse architecturale}
+% =============================================================
+
+L’organisation hiérarchique peut être résumée ainsi :
+
+\begin{center}
+Application $\rightarrow$ Raspberry Pi $\rightarrow$ MegaPi $\rightarrow$ Actionneurs
+\end{center}
+
+Cette séparation fonctionnelle améliore :
+
+\begin{itemize}
+    \item la maintenabilité,
+    \item la robustesse temporelle du contrôle moteur,
+    \item la clarté des responsabilités,
+    \item la possibilité d’évolution future (navigation autonome, SLAM).
+\end{itemize}
+
+
+% =============================================================
 
 \subsection{Matériel}
 \begin{itemize}
     \item \textbf{Carte principale:} Raspberry Pi 5 (8\,GB), équipée d’une carte microSD 32\,GB, d’un refroidisseur \textit{Active Cooler} et d’un câble d’extension GPIO 40\,broches.
     \item \textbf{Caméra de perception:} Intel RealSense D435 pour la capture de profondeur et la détection avancée de l’environnement.
-    \item \textbf{Capteurs ultrason:} 4 modules pour la détection d’obstacles à courte distance.
+    \item \textbf{Capteurs ultrason:} 1 module pour la détection d’obstacles à courte distance.
     \item \textbf{Unité inertielle (IMU):} module inclinomètre / accéléromètre / gyroscope (Makeblock) pour la mesure de l’inclinaison et la stabilisation.
     \item \textbf{Roues Tri-Star:} 20 roues (14 à l’avant, 6 à l’arrière) (Makeblock), imprimées en 3D, adaptées au franchissement de petites marches et irrégularités.
     \item \textbf{Motorisation:} 4 moteurs à courant continu (185\,RPM, 9\,V) assurant propulsion et direction.
