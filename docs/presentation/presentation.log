@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 17:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 17:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1103,28 +1103,34 @@ Overfull \vbox (4.63107pt too high) detected at line 824
 [49
 
  <../img/contrast.png> <../img/language.png>]
+<../images/ArchitectureFoncGlob.png, id=604, 1411.77437pt x 869.2475pt>
+File: ../images/ArchitectureFoncGlob.png Graphic file (type png)
+<use ../images/ArchitectureFoncGlob.png>
+Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 832.
+(pdftex.def)             Requested size: 326.9845pt x 201.32866pt.
+
 
 [50
 
-]
-<../images/camera.png, id=648, 1470.49374pt x 925.4575pt>
-File: ../images/camera.png Graphic file (type png)
-<use ../images/camera.png>
-Package pdftex.def Info: ../images/camera.png  used on input line 900.
-(pdftex.def)             Requested size: 206.51929pt x 129.97269pt.
-
+ <../images/ArchitectureFoncGlob.png>]
 
 [51
 
- <../images/camera.png>]
+]
+<../images/camera.png, id=655, 1470.49374pt x 925.4575pt>
+File: ../images/camera.png Graphic file (type png)
+<use ../images/camera.png>
+Package pdftex.def Info: ../images/camera.png  used on input line 906.
+(pdftex.def)             Requested size: 206.51929pt x 129.97269pt.
+
 
 [52
 
-{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+ <../images/camera.png>]
 
 [53
 
-]
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
 [54
 
@@ -1152,26 +1158,30 @@ Package pdftex.def Info: ../images/camera.png  used on input line 900.
 
 [60
 
- </usr/local/texlive/2025/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>]
+]
 
 [61
+
+ </usr/local/texlive/2025/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>]
+
+[62
 
 ]
 File: ../images/logo-p8.jpg Graphic file (type jpg)
 <use ../images/logo-p8.jpg>
-Package pdftex.def Info: ../images/logo-p8.jpg  used on input line 1027.
+Package pdftex.def Info: ../images/logo-p8.jpg  used on input line 1033.
 (pdftex.def)             Requested size: 71.12737pt x 71.13188pt.
 File: ../img/carryBot.png Graphic file (type png)
 <use ../img/carryBot.png>
-Package pdftex.def Info: ../img/carryBot.png  used on input line 1027.
+Package pdftex.def Info: ../img/carryBot.png  used on input line 1033.
 (pdftex.def)             Requested size: 91.76544pt x 56.9055pt.
 File: ../images/logo-handi.png Graphic file (type png)
 <use ../images/logo-handi.png>
-Package pdftex.def Info: ../images/logo-handi.png  used on input line 1027.
+Package pdftex.def Info: ../images/logo-handi.png  used on input line 1033.
 (pdftex.def)             Requested size: 71.13031pt x 71.13188pt.
 
 
-[62
+[63
 
 ]
 \tf@nav=\write5
@@ -1190,18 +1200,18 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 24881 strings out of 473190
- 482136 string characters out of 5715799
+ 24892 strings out of 473190
+ 482459 string characters out of 5715799
  854062 words of memory out of 5000000
- 47492 multiletter control sequences out of 15000+600000
+ 47501 multiletter control sequences out of 15000+600000
  576405 words of font info for 69 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,14n,123p,449b,834s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsi0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx2488.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on presentation.pdf (62 pages, 10488052 bytes).
+Output written on presentation.pdf (63 pages, 10592110 bytes).
 PDF statistics:
- 888 PDF objects out of 1000 (max. 8388607)
- 589 compressed objects within 6 object streams
- 139 named destinations out of 1000 (max. 500000)
- 1122 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 895 PDF objects out of 1000 (max. 8388607)
+ 593 compressed objects within 6 object streams
+ 141 named destinations out of 1000 (max. 500000)
+ 1127 words of extra memory for PDF output out of 10000 (max. 10000000)
 

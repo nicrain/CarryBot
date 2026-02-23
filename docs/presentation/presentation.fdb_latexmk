@@ -1,5 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1771864037.92116 "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" "presentation.pdf" "presentation" 1771864045.06201 0
+["pdflatex"] 1771865107.40885 "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" "presentation.pdf" "presentation" 1771865115.10559 0
+  "../images/ArchitectureFoncGlob.png" 1771860755.21868 132917 8a07f3be948b57646cd446130d633947 ""
   "../images/Lenaa.jpg" 1771620690.89858 345540 9872f5cba0c45ec6fcf394cbac34487b ""
   "../images/Lou.png" 1771620690.85227 195110 51057586d54d13f69183095c8fdad5d6 ""
   "../images/camera.png" 1771620690.86175 1674225 5a4d7fcfb17a329e21ee2de47b38edb3 ""
@@ -25,7 +26,7 @@
   "../img/rosa.png" 1771775618.11232 811114 a31f49e8d8f2ee51998c19fa525ffae8 ""
   "../img/tug.png" 1771775618.116 253671 baabf6b660b8532e3e96fdc11175dc15 ""
   "../img/wheel.png" 1771775618.11736 240945 46d747c2e107af919f910e1433f8bec0 ""
-  "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" 1771864044.52787 27731 f4bdbd0eabe352e9dbb153928f3a6059 ""
+  "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" 1771865102.08036 28059 2722e174f00db15a1059e2b1f4eea7ac ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -251,10 +252,10 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1765882013 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1765881960 3345729 a8f9567bc53af137e47b4baab6a70a04 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "presentation.aux" 1771864044.73315 12670 7ff8cfa91565b3a7777d995aef2d782c "pdflatex"
-  "presentation.nav" 1771864044.73816 6195 6253d65611e1c0f35406e89dc09e7052 "pdflatex"
-  "presentation.tex" 1771864044.52787 27731 f4bdbd0eabe352e9dbb153928f3a6059 ""
-  "presentation.toc" 1771864044.73847 558 2ea1c88d00f23d7a2bb76602cfce143f "pdflatex"
+  "presentation.aux" 1771865114.79551 12798 38953496b6b08ada1aa382b53981fac8 "pdflatex"
+  "presentation.nav" 1771865114.80126 6287 5d2d6af23eefec5088727fa9f4fa61fd "pdflatex"
+  "presentation.tex" 1771865102.08036 28059 2722e174f00db15a1059e2b1f4eea7ac ""
+  "presentation.toc" 1771865114.80151 558 423d84c049c086e3b827392e622d019f "pdflatex"
   (generated)
   "presentation.aux"
   "presentation.log"
