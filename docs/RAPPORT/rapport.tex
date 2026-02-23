@@ -620,7 +620,7 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
 
 %------ 
 % =============================================================
-\subsubsection{Architecture logique et communication inter-modules}
+\subsubsection*{Architecture logique et communication inter-modules}
 % =============================================================
 
 L’architecture logique de CarryBot repose sur une séparation claire entre la
@@ -631,7 +631,7 @@ Cette organisation permet d’isoler les traitements intensifs
 et à la stabilisation.
 
 % -------------------------------------------------------------
-% Figure : Diagramme logique global
+% Figure: Diagramme logique global
 % -------------------------------------------------------------
 \begin{figure}[H]
     \centering
@@ -648,7 +648,7 @@ du système et les flux de communication entre les différents modules.
 % =============================================================
 
 La Raspberry Pi 5 constitue le \textbf{cerveau décisionnel} du système.
-Elle assure les fonctions suivantes :
+Elle assure les fonctions suivantes:
 
 \begin{itemize}
     \item Hébergement d’un \textbf{service HTTP} (WEB + API) permettant la communication avec l’application Android via Wi-Fi.
@@ -670,11 +670,11 @@ et une continuité de service en cas de déconnexion externe.
 La carte Makeblock MegaPi exécute les commandes reçues
 et pilote directement les actionneurs.
 
-Ses principales responsabilités sont :
+Ses principales responsabilités sont:
 
 \begin{itemize}
     \item Commande des \textbf{4 moteurs DC} (slots 1 à 4).
-    \item Lecture des capteurs via ports RJ25 :
+    \item Lecture des capteurs via ports RJ25:
     \begin{itemize}
         \item IMU (slot 6) pour la mesure d’inclinaison.
         \item Capteur ultrason (slot 7) pour la détection d’obstacles à courte distance.
@@ -695,7 +695,7 @@ est contrôlé par un module \textbf{L293D}
 connecté aux broches numériques (D23, D24, D25).
 
 Un \textbf{bouton d’arrêt d’urgence} est relié à la broche D22.
-En cas d’activation :
+En cas d’activation:
 
 \begin{itemize}
     \item Interruption immédiate des moteurs,
@@ -710,7 +710,7 @@ de la couche logicielle haut niveau.
 \subsubsection*{4. Chaîne de communication fonctionnelle}
 % =============================================================
 
-Le flux opérationnel suit la séquence suivante :
+Le flux opérationnel suit la séquence suivante:
 
 \begin{enumerate}
     \item L’utilisateur envoie une commande depuis l’application Android.
@@ -724,7 +724,7 @@ Le flux opérationnel suit la séquence suivante :
 
 
 % =============================================================
-\subsubsection{Architecture fonctionnelle globale du système}
+\subsubsection*{Architecture fonctionnelle globale du système}
 % =============================================================
 
 L’architecture de CarryBot repose sur une organisation hiérarchique
@@ -1119,7 +1119,7 @@ Réduction de l’effort cognitif et moteur requis pour accomplir une tâche. &
 • Nombre limité d’actions pour piloter le robot.  
 • Boutons larges adaptés PMR/personnes âgées.  
 • Absence d’informations inutiles à l’écran.  
-• Mesure : nombre moyen de clics pour réaliser une tâche complète. \\
+• Mesure: nombre moyen de clics pour réaliser une tâche complète. \\
 \hline
 
 \textbf{Contrôle explicite} &
@@ -1127,7 +1127,7 @@ L’utilisateur reste maître des actions ; absence de comportements imprévus. 
 • Aucune activation moteur sans commande.  
 • Bouton STOP toujours visible.  
 • Arrêt immédiat sans confirmation bloquante.  
-• Mesure : latence commande → action (< 300 ms). \\
+• Mesure: latence commande → action (< 300 ms). \\
 \hline
 
 \textbf{Adaptabilité} &
@@ -1143,7 +1143,7 @@ Prévention, détection et récupération efficace des erreurs. &
 • Message clair si IP invalide.  
 • Notification en cas de perte Wi-Fi.  
 • Blocage sécurisé si obstacle critique.  
-• Mesure : taux de récupération autonome > 80\%. \\
+• Mesure: taux de récupération autonome > 80\%. \\
 \hline
 
 \textbf{Homogénéité / Cohérence} &
@@ -1249,31 +1249,102 @@ L’interaction reste simple, directe et maîtrisée: l’utilisateur conserve l
 
 % -------------------------------------------------------------
 % DISCUSSION / LIMITES
-% -------------------------------------------------------------
-\section{Discussion, limites et axes d’amélioration}
+% =========================================================================================================================
+% Défis et pistes d’amélioration
+% =============================================================
 
-Le prototype CarryBot a permis de valider une partie des choix de conception (intégration mécanique, architecture embarquée, pilotage via application, sécurisation par arrêt d’urgence). Néanmoins, plusieurs limites ont été identifiées lors des essais et de l’intégration finale.
+\subsection*{Synthèse — Défis et pistes d’amélioration}
 
-\subsection{Limites observées}
-
+\begin{enumerate}
+\item \textbf{Mécanisme Tri-Star}
 \begin{itemize}
-    \item \textbf{Motorisation insuffisante:} les moteurs utilisés se sont révélés trop faibles au regard des contraintes dynamiques (friction, couple requis, variations de charge, franchissement). Cette limite impacte directement la fiabilité du déplacement et la capacité à maintenir un comportement stable dans des situations exigeantes.
-    \item \textbf{Navigation semi-autonome non intégrée:} le suivi de ligne automatique initialement prévu n’a pas pu être implémenté faute de temps. Le prototype final se limite donc à un \textbf{pilotage manuel supervisé}.
-    \item \textbf{Marge de progression sur la robustesse d’intégration:} la stabilité globale (câblage, maintien mécanique, tolérances d’impression 3D, qualité de contact au sol) peut être améliorée pour augmenter la répétabilité des tests et réduire les dérives comportementales.
+    \item Axe de roue trop fin.
+    \item Transmission mécanique à rigidifier.
+    \item Alignement gauche/droite à améliorer.
 \end{itemize}
 
-\subsection{Améliorations prioritaires}
-
+\item \textbf{Manœuvrabilité}
 \begin{itemize}
-    \item \textbf{Re-dimensionnement de la motorisation:} choix de moteurs plus coupleux, optimisation des rapports de réduction, et calibration de l’alimentation (tension/courant) en cohérence avec la charge et les pentes à franchir.
-    \item \textbf{Optimisation mécanique:} réduction des pertes (friction/jeu), renforcement des pièces sollicitées, amélioration de la géométrie et de la répartition des masses (centre de gravité).
-    \item \textbf{Intégration du suivi de ligne:} implémentation d’un mode semi-autonome (capteurs + logique de contrôle), avec stratégie de sécurité (arrêt en cas de perte de trace / obstacle) et protocole de validation.
-    \item \textbf{Montée en maturité des tests:} scénarios de test standardisés, métriques reproductibles (vitesse, couple, autonomie, stabilité), et journalisation (logs) pour analyser les défaillances.
+    \item Résistance accrue au pivot (nombre de roues).
+    \item Torsion possible de l’axe avant.
 \end{itemize}
 
-\subsection{Conclusion opérationnelle}
+\item \textbf{Contrôle axe arrière en montée}
+\begin{itemize}
+    \item Détection limitée.
+    \item Ajouter un second capteur ultrason arrière.
+\end{itemize}
 
-CarryBot constitue un démonstrateur pertinent sur le plan pédagogique et technique. Les résultats mettent en évidence des verrous concrets (notamment la puissance moteur et la non-intégration de la navigation semi-autonome) qui structurent clairement la feuille de route d’industrialisation du prototype.
+\item \textbf{Perception en descente}
+\begin{itemize}
+    \item Visibilité insuffisante.
+    \item Supports caméra et ultrason à angle réglable.
+\end{itemize}
+
+\item \textbf{Stabilisation Tri-Star}
+\begin{itemize}
+    \item Objectif: deux roues en contact stable.
+\end{itemize}
+
+\item \textbf{Énergie}
+\begin{itemize}
+    \item Affichage niveau batterie + alertes.
+    \item Exploiter l’API UPS côté Raspberry Pi.
+\end{itemize}
+
+\item \textbf{Châssis}
+\begin{itemize}
+    \item Augmenter l’empattement.
+\end{itemize}
+\end{enumerate}
+
+% =============================================================
+% Problèmes rencontrés et solutions
+% =============================================================
+
+\subsection*{Problèmes rencontrés et solutions appliquées}
+
+\begin{enumerate}
+
+\item \textbf{Franchissement de marche}
+\begin{itemize}
+    \item Problème: puissance insuffisante avec un seul moteur.
+    \item Solution: ajout d’un second moteur sur l’axe arrière.
+\end{itemize}
+
+\item \textbf{Alimentation Raspberry Pi}
+\begin{itemize}
+    \item Problèmes: secteur non mobile, power bank insuffisante (3A).
+    \item Solution: UPS Shield + 4 batteries 18650.
+\end{itemize}
+
+\item \textbf{Commande vérin}
+\begin{itemize}
+    \item Problème: ports moteurs saturés.
+    \item Solution: pont en H L293D dédié.
+\end{itemize}
+
+\item \textbf{Assemblage}
+\begin{itemize}
+    \item Structure modulaire Makeblock.
+    \item Roues Tri-Star imprimées 3D.
+\end{itemize}
+
+\end{enumerate}
+
+% =============================================================
+% CONCLUSION
+% =============================================================
+
+\subsection{Conclusion}
+
+CarryBot constitue un démonstrateur cohérent et pertinent, tant sur le plan pédagogique que technique. Le prototype a permis de valider l’intégration mécanique (système Tri-Star, châssis modulaire), l’architecture embarquée hiérarchisée (Raspberry Pi / MegaPi) ainsi que le pilotage via application mobile accessible.  
+
+Les expérimentations ont toutefois mis en évidence plusieurs verrous technologiques structurants, notamment la puissance et le dimensionnement de la motorisation, la stabilité dynamique lors des franchissements, ainsi que l’absence d’un mode semi-autonome initialement envisagé. Ces limites ne remettent pas en cause la faisabilité du concept, mais soulignent les points critiques à traiter dans une perspective d’industrialisation ou de montée en maturité technologique.
+
+En ce sens, CarryBot remplit pleinement son rôle de prototype exploratoire : il permet d’identifier les contraintes réelles d’intégration, de hiérarchiser les priorités d’amélioration et de définir une feuille de route claire pour les itérations futures. Les axes prioritaires concernent le re-dimensionnement mécanique, l’optimisation énergétique, l’intégration de fonctionnalités semi-autonomes sécurisées et la formalisation de protocoles de tests reproductibles.
+
+Ainsi, le projet constitue une base solide pour une évolution vers un système plus robuste, stable et adaptable aux contextes médico-sociaux ciblés.
 
 %-------------------------------------------------------------
 % RÉFÉRENCES

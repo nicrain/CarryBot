@@ -188,8 +188,8 @@ INPUT /usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.en
 INPUT ./rapport.toc
 INPUT ./rapport.toc
 INPUT rapport.toc
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm
 OUTPUT rapport.toc
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm
 INPUT ./rapport.lof
 INPUT ./rapport.lof
 INPUT rapport.lof
