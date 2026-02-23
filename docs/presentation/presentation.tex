@@ -34,16 +34,16 @@
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{hyperref}
+\usepackage{bookmark}
 
 % ----------- MÉTADONNÉES -------------------
 \title{\textbf{CarryBot}\\\large Robot compagnon d’assistance pour transport d’objets légers en intérieur}
 \author{Lena BESSA — Zhaoyu WANG — Xinqi TANG — Lou LOPEZ}
 \institute{Master 2 MIASHS — Technologie \& Handicap\\Université Paris 8}
 \titlegraphic{\includegraphics[height=2.5cm]{images/logo-p8.jpg} 
-\hspace{2cm} \includegraphics[height=2.5cm]{images/logo-handi.png}}
+\hspace{1cm} \includegraphics[height=2cm]{../img/carryBot.png}
+\hspace{1cm} \includegraphics[height=2.5cm]{images/logo-handi.png}}
 
-\usepackage[numbers]{natbib}
-\bibliographystyle{unsrt}
 % -------------------------------------------------------------
 \begin{document}
 % -------------------------------------------------------------
@@ -179,20 +179,16 @@ en environnement intérieur de manière stable et sécurisée.
 \begin{itemize}
     \item Vieillissement rapide de la population mondiale.
     \item Manque croissant de personnel hospitalier.
-    \item Développement du secteur robotique comme réponse structurelle
-    \cite{bloss2011}.
+    \item Développement du secteur robotique comme réponse structurelle (Bloss, 2011).
 \end{itemize}
 
 \vspace{0.3cm}
 
 \begin{block}{Impact COVID-19}
-Transition accélérée vers la téléprésence et la robotisation des services
-\cite{bourdon2023}.
+Transition accélérée vers la téléprésence et la robotisation des services (Bourdon, 2023).
 \end{block}
 
 \end{frame}
-
-% -------------------------------------------------------------
 % Slide 2
 % -------------------------------------------------------------
 \begin{frame}{Les robots d’assistance et leurs effets}
@@ -456,6 +452,10 @@ dans un format compact.
 % SLIDE Analyse des besoins
 % -------------------------------------------------------------
 \section{Analyse des besoins}
+\begin{frame}{Plan de la présentation}
+\tableofcontents[currentsection, ]
+\end{frame}
+
 \begin{frame}{\textbf{Analyse des besoins}}
 
 \begin{itemize}
@@ -583,8 +583,11 @@ du plan de travail au salon.
 % SLIDE Architecture CarryBot (images à mettre)
 % -------------------------------------------------------------
 \section{Architecture du CarryBot}
-\begin{frame}{\textbf{Architecture du CarryBot}}
+\begin{frame}{Plan de la présentation}
+\tableofcontents[currentsection, ]
+\end{frame}
 
+\begin{frame}{\textbf{Architecture du CarryBot}}
 \begin{columns}
 \column{0.5\textwidth}
 \centering
@@ -707,33 +710,114 @@ Transformation de la décision logicielle en mouvement physique du robot.
 % SLIDE Application Android
 % -------------------------------------------------------------
 \section{Application}
+\begin{frame}{Plan de la présentation}
+\tableofcontents[currentsection, ]
+\end{frame}
 
-\begin{frame}{\textbf{Application Android}}
+% -------------------------------------------------------------
+\begin{frame}{\textbf{Connexion au robot}}
 
 \begin{columns}
 
 \column{0.5\textwidth}
 \centering
-\includegraphics[width=2.6cm]{images/accueil.png}\\
-{\scriptsize Connexion}
+\includegraphics[width=3.2cm]{../img/home.png}\\
+{\scriptsize Écran d'accueil de l'application}
 
 \column{0.5\textwidth}
+
+\begin{itemize}
+    \item Sélection rapide de l’appareil actif.
+    \item Suppression d’un robot enregistré.
+    \item Architecture évolutive et multi-équipements.
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
+
+%-------------------------------------------------------------
+
+% -------------------------------------------------------------
+\begin{frame}{\textbf{Gestion des appareils}}
+
+\begin{columns}
+
+\column{0.55\textwidth}
 \centering
-\includegraphics[width=2.6cm]{images/interface-Collab.png}\\
-{\scriptsize Pilotage}
+\includegraphics[width=3.2cm]{../img/add.png}\\
+{\scriptsize Sélection et gestion des robots enregistrés}
+
+\column{0.45\textwidth}
+
+\begin{itemize}
+        \item Saisie de l’adresse IP du robot.
+    \item Ajout et enregistrement d’un appareil.
+    \item Interface simple et minimaliste.
+    \item Validation rapide de la connexion.
+
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
+% -------------------------------------------------------------
+
+% -------------------------------------------------------------
+\begin{frame}{\textbf{Pilotage manuel}}
+
+\begin{columns}
+
+\column{0.55\textwidth}
+\centering
+\includegraphics[width=3.2cm]{../img/connect.png}\\
+{\scriptsize Interface de contrôle directionnel}
+
+\column{0.45\textwidth}
+
+\begin{itemize}
+    \item Commandes directionnelles (avant, arrière, gauche, droite).
+    \item Mode \textbf{monter} / \textbf{descendre} les marches.
+    \item Indicateur d’état du robot.
+    \item Bouton d’arrêt logiciel sécurisé.
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
+
+%--------------------------------------------------------------
+
+% -------------------------------------------------------------
+\begin{frame}{\textbf{Accessibilité et personnalisation}}
+\begin{columns}
+
+% -------- Image 1 --------
+\column{0.35\textwidth}
+\centering
+\includegraphics[width=2.8cm]{../img/contrast.png}\\
+{\scriptsize Mode contraste élevé}
+
+
+% -------- Image 2 --------
+\column{0.35\textwidth}
+\centering
+\includegraphics[width=2.8cm]{../img/language.png}\\
+{\scriptsize Sélection multilingue}
 
 \end{columns}
 
 \vspace{0.3cm}
 
 \begin{itemize}
-    \item Connexion par IP.
-    \item Commandes directionnelles.
-    \item Mode monter/descendre de marches.
-    \item Bouton d’arrêt logiciel.
+    \item Sélection de langue (Français, English, Chinois).
+    \item Activation du mode contraste élevé.
+    \item Option TTS (Text-to-Speech).
 \end{itemize}
-
 \end{frame}
+
+
+%--------------------------------------------------------------
 
 
 % =============================================================
@@ -820,30 +904,42 @@ la présence d’un mur et d’adapter le comportement du robot.
 \begin{block}{Développements à venir}
 
 \begin{itemize}
-    \item Suivi de ligne.
+    \item Intégration du suivi de ligne.
+    \item Optimisation mécanique.
+    \item Re-dimensionnement de la motorisation.
+    \item Amélioration de l'application 
+    \item Version plus grande \textbf{capacité}.
 
 \end{itemize}
 
 \end{block}
 \end{frame}
 
-
 %--------------------------------------------------------------
 \section*{Bibliographie}
 %--------------------------------------------------------------
+% Bibliography handled manually below to avoid BibTeX warnings.
+% The automatic \bibliography{references} was removed.
+% A manual thebibliography environment is provided later in the file.
 \begin{frame}[allowframebreaks]{Bibliographie}
 \footnotesize
-\bibliography{references}
+\begin{thebibliography}{9}
+\bibitem{bloss2011} Bloss, A. (2011). Titre de l'article ou rapport. Source institutionnelle.
+\bibitem{bourdon2023} Bourdon, B. (2023). Titre de l'article. Nom de la revue ou site.
+\end{thebibliography}
 \end{frame}
-
-
-% -------------------------------------------------------------
-% SLIDE Finale
 % -------------------------------------------------------------
 \begin{frame}
 \centering
 \Huge \textbf{Merci pour votre attention}\\[0.5cm]
 \Large Questions?
 \end{frame}
+
+% -------------------------------------------------------------
+\begin{frame}
+    \titlepage
+\end{frame}
+% -------------------------------------------------------------
+
 
 \end{document}

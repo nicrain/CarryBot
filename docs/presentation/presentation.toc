@@ -4,9 +4,9 @@
 \beamer@sectionintoc {3}{Objectifs}{8}{0}{3}
 \beamer@sectionintoc {4}{État de l’art}{12}{0}{4}
 \beamer@sectionintoc {5}{Analyse des besoins}{28}{0}{5}
-\beamer@sectionintoc {6}{Architecture du CarryBot}{37}{0}{6}
-\beamer@sectionintoc {7}{Composants matériels}{38}{0}{7}
-\beamer@sectionintoc {8}{Logique de contrôle}{40}{0}{8}
-\beamer@sectionintoc {9}{Application}{42}{0}{9}
-\beamer@sectionintoc {10}{Technologies}{43}{0}{10}
-\beamer@sectionintoc {12}{Perspectives}{45}{0}{11}
+\beamer@sectionintoc {6}{Architecture du CarryBot}{38}{0}{6}
+\beamer@sectionintoc {7}{Composants matériels}{40}{0}{7}
+\beamer@sectionintoc {8}{Logique de contrôle}{42}{0}{8}
+\beamer@sectionintoc {9}{Application}{44}{0}{9}
+\beamer@sectionintoc {10}{Technologies}{49}{0}{10}
+\beamer@sectionintoc {12}{Perspectives}{51}{0}{11}
