@@ -40,8 +40,8 @@
 \contentsline {subsection}{\numberline {6.3}Perspectives d’évolution}{26}{subsection.6.3}%
 \contentsline {section}{\numberline {7}Validation et tests utilisateurs}{26}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Critères de validation — Tests techniques et fonctionnels}{26}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Scénario UX 1 — Personne à Mobilité Réduite (PMR)}{27}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Discussion, limites et axes d’amélioration}{27}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Limites observées}{27}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Améliorations prioritaires}{28}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Conclusion opérationnelle}{28}{subsection.8.3}%
+\contentsline {subsection}{\numberline {7.2}Scénario UX 1 — Personne à Mobilité Réduite (PMR)}{29}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Discussion, limites et axes d’amélioration}{29}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Limites observées}{29}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Améliorations prioritaires}{30}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Conclusion opérationnelle}{30}{subsection.8.3}%

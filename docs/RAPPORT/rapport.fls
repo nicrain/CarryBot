@@ -126,6 +126,10 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT ./rapport.aux
@@ -148,6 +152,8 @@ OUTPUT rapport.pdf
 INPUT ./rapport.out
 INPUT ./rapport.out
 OUTPUT rapport.out
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty
 INPUT ../img/logo-p8.jpg
 INPUT ../img/logo-p8.jpg
 INPUT ../img/logo-p8.jpg
