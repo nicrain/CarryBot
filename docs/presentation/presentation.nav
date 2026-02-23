@@ -107,20 +107,29 @@
 \headcommand {\sectionentry {11}{Détection par caméra}{52}{Détection par caméra}{0}}
 \headcommand {\slideentry {11}{0}{1}{52/52}{}{0}}
 \headcommand {\beamer@framepages {52}{52}}
-\headcommand {\slideentry {11}{0}{2}{53/53}{}{0}}
+\headcommand {\beamer@sectionpages {52}{52}}
+\headcommand {\beamer@subsectionpages {52}{52}}
+\headcommand {\sectionentry {12}{Tests utilisateur}{53}{Tests utilisateur}{0}}
+\headcommand {\slideentry {12}{0}{1}{53/53}{}{0}}
 \headcommand {\beamer@framepages {53}{53}}
-\headcommand {\slideentry {11}{0}{3}{54/59}{}{0}}
+\headcommand {\beamer@sectionpages {53}{53}}
+\headcommand {\beamer@subsectionpages {53}{53}}
+\headcommand {\sectionentry {13}{Défis \& solutions}{54}{Défis \& solutions}{0}}
+\headcommand {\slideentry {13}{0}{1}{54/59}{}{0}}
 \headcommand {\beamer@framepages {54}{59}}
-\headcommand {\slideentry {11}{0}{4}{60/60}{}{0}}
+\headcommand {\beamer@sectionpages {54}{59}}
+\headcommand {\beamer@subsectionpages {54}{59}}
+\headcommand {\sectionentry {14}{Perspectives}{60}{Perspectives}{0}}
+\headcommand {\slideentry {14}{0}{1}{60/60}{}{0}}
 \headcommand {\beamer@framepages {60}{60}}
-\headcommand {\beamer@sectionpages {52}{60}}
-\headcommand {\beamer@subsectionpages {52}{60}}
-\headcommand {\sectionentry {12}{Bibliographie}{61}{Bibliographie}{0}}
-\headcommand {\slideentry {12}{0}{1}{61/61}{}{0}}
+\headcommand {\beamer@sectionpages {60}{60}}
+\headcommand {\beamer@subsectionpages {60}{60}}
+\headcommand {\sectionentry {15}{Bibliographie}{61}{Bibliographie}{0}}
+\headcommand {\slideentry {15}{0}{1}{61/61}{}{0}}
 \headcommand {\beamer@framepages {61}{61}}
-\headcommand {\slideentry {12}{0}{2}{62/62}{}{0}}
+\headcommand {\slideentry {15}{0}{2}{62/62}{}{0}}
 \headcommand {\beamer@framepages {62}{62}}
-\headcommand {\slideentry {12}{0}{3}{63/63}{}{0}}
+\headcommand {\slideentry {15}{0}{3}{63/63}{}{0}}
 \headcommand {\beamer@framepages {63}{63}}
 \headcommand {\beamer@partpages {1}{63}}
 \headcommand {\beamer@subsectionpages {61}{63}}

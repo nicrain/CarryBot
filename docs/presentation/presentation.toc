@@ -9,3 +9,6 @@
 \beamer@sectionintoc {8}{Logique de contrôle}{42}{0}{8}
 \beamer@sectionintoc {9}{Application}{45}{0}{9}
 \beamer@sectionintoc {10}{Technologies}{51}{0}{10}
+\beamer@sectionintoc {12}{Tests utilisateur}{53}{0}{11}
+\beamer@sectionintoc {13}{Défis \& solutions}{54}{0}{12}
+\beamer@sectionintoc {14}{Perspectives}{60}{0}{13}
