@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 14:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 16:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1035,101 +1035,115 @@ Package pdftex.def Info: images/carryBot.jpg  used on input line 657.
 
 [43
 
-] (./presentation.toc)
+]
+<images/logique.png, id=556, 1776.6375pt x 1168.86688pt>
+File: images/logique.png Graphic file (type png)
+<use images/logique.png>
+Package pdftex.def Info: images/logique.png  used on input line 712.
+(pdftex.def)             Requested size: 326.9845pt x 215.11336pt.
+
+Overfull \vbox (3.90802pt too high) detected at line 712
+ []
+
+
 
 [44
 
-]
-<../img/home.png, id=572, 1084.05pt x 2409.0pt>
-File: ../img/home.png Graphic file (type png)
-<use ../img/home.png>
-Package pdftex.def Info: ../img/home.png  used on input line 737.
-(pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
-
+ <./images/logique.png>] (./presentation.toc)
 
 [45
 
- <../img/home.png>]
-<../img/add.png, id=579, 1084.05pt x 2409.0pt>
-File: ../img/add.png Graphic file (type png)
-<use ../img/add.png>
-Package pdftex.def Info: ../img/add.png  used on input line 763.
+]
+<../img/home.png, id=579, 1084.05pt x 2409.0pt>
+File: ../img/home.png Graphic file (type png)
+<use ../img/home.png>
+Package pdftex.def Info: ../img/home.png  used on input line 744.
 (pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
 
 
 [46
 
- <../img/add.png>]
-<../img/connect.png, id=586, 1084.05pt x 2409.0pt>
-File: ../img/connect.png Graphic file (type png)
-<use ../img/connect.png>
-Package pdftex.def Info: ../img/connect.png  used on input line 787.
+ <../img/home.png>]
+<../img/add.png, id=586, 1084.05pt x 2409.0pt>
+File: ../img/add.png Graphic file (type png)
+<use ../img/add.png>
+Package pdftex.def Info: ../img/add.png  used on input line 770.
 (pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
 
 
 [47
 
- <../img/connect.png>]
-<../img/contrast.png, id=593, 1084.05pt x 2409.0pt>
-File: ../img/contrast.png Graphic file (type png)
-<use ../img/contrast.png>
-Package pdftex.def Info: ../img/contrast.png  used on input line 817.
-(pdftex.def)             Requested size: 79.6678pt x 177.02812pt.
-<../img/language.png, id=594, 1084.05pt x 2409.0pt>
-File: ../img/language.png Graphic file (type png)
-<use ../img/language.png>
-Package pdftex.def Info: ../img/language.png  used on input line 817.
-(pdftex.def)             Requested size: 79.6678pt x 177.02812pt.
-
-Overfull \vbox (4.63107pt too high) detected at line 817
- []
-
+ <../img/add.png>]
+<../img/connect.png, id=593, 1084.05pt x 2409.0pt>
+File: ../img/connect.png Graphic file (type png)
+<use ../img/connect.png>
+Package pdftex.def Info: ../img/connect.png  used on input line 794.
+(pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
 
 
 [48
 
- <../img/contrast.png> <../img/language.png>]
+ <../img/connect.png>]
+<../img/contrast.png, id=600, 1084.05pt x 2409.0pt>
+File: ../img/contrast.png Graphic file (type png)
+<use ../img/contrast.png>
+Package pdftex.def Info: ../img/contrast.png  used on input line 824.
+(pdftex.def)             Requested size: 79.6678pt x 177.02812pt.
+<../img/language.png, id=601, 1084.05pt x 2409.0pt>
+File: ../img/language.png Graphic file (type png)
+<use ../img/language.png>
+Package pdftex.def Info: ../img/language.png  used on input line 824.
+(pdftex.def)             Requested size: 79.6678pt x 177.02812pt.
+
+Overfull \vbox (4.63107pt too high) detected at line 824
+ []
+
+
 
 [49
 
-]
-<images/camera.png, id=646, 1470.49374pt x 925.4575pt>
-File: images/camera.png Graphic file (type png)
-<use images/camera.png>
-Package pdftex.def Info: images/camera.png  used on input line 895.
-(pdftex.def)             Requested size: 206.51929pt x 129.97269pt.
-
+ <../img/contrast.png> <../img/language.png>]
 
 [50
 
- <./images/camera.png>]
+]
+<images/camera.png, id=653, 1470.49374pt x 925.4575pt>
+File: images/camera.png Graphic file (type png)
+<use images/camera.png>
+Package pdftex.def Info: images/camera.png  used on input line 902.
+(pdftex.def)             Requested size: 206.51929pt x 129.97269pt.
+
 
 [51
 
-]
+ <./images/camera.png>]
 
 [52
 
- </usr/local/texlive/2025/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>]
+]
 
 [53
+
+ </usr/local/texlive/2025/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>]
+
+[54
 
 ]
 File: images/logo-p8.jpg Graphic file (type jpg)
 <use images/logo-p8.jpg>
-Package pdftex.def Info: images/logo-p8.jpg  used on input line 941.
+Package pdftex.def Info: images/logo-p8.jpg  used on input line 948.
 (pdftex.def)             Requested size: 71.12737pt x 71.13188pt.
 File: ../img/carryBot.png Graphic file (type png)
 <use ../img/carryBot.png>
-Package pdftex.def Info: ../img/carryBot.png  used on input line 941.
+Package pdftex.def Info: ../img/carryBot.png  used on input line 948.
 (pdftex.def)             Requested size: 91.76544pt x 56.9055pt.
 File: images/logo-handi.png Graphic file (type png)
 <use images/logo-handi.png>
-Package pdftex.def Info: images/logo-handi.png  used on input line 941.
+Package pdftex.def Info: images/logo-handi.png  used on input line 948.
 (pdftex.def)             Requested size: 71.13031pt x 71.13188pt.
 
 
-[54
+[55
 
 ]
 \tf@nav=\write5
@@ -1148,18 +1162,18 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 24856 strings out of 473190
- 481768 string characters out of 5715799
+ 24867 strings out of 473190
+ 481979 string characters out of 5715799
  855056 words of memory out of 5000000
- 47485 multiletter control sequences out of 15000+600000
+ 47494 multiletter control sequences out of 15000+600000
  575751 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,14n,123p,449b,834s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsi0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx2488.pfb>
-Output written on presentation.pdf (54 pages, 10263950 bytes).
+Output written on presentation.pdf (55 pages, 10452465 bytes).
 PDF statistics:
- 853 PDF objects out of 1000 (max. 8388607)
- 561 compressed objects within 6 object streams
- 124 named destinations out of 1000 (max. 500000)
- 1161 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 861 PDF objects out of 1000 (max. 8388607)
+ 566 compressed objects within 6 object streams
+ 126 named destinations out of 1000 (max. 500000)
+ 1166 words of extra memory for PDF output out of 10000 (max. 10000000)
 
