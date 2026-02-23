@@ -43,4 +43,4 @@
 \contentsline {section}{\numberline {8}Discussion, limites et axes d’amélioration}{26}{section.8}%
 \contentsline {subsection}{\numberline {8.1}Limites observées}{26}{subsection.8.1}%
 \contentsline {subsection}{\numberline {8.2}Améliorations prioritaires}{27}{subsection.8.2}%
-\contentsline {section}{\numberline {9}Conclusion générale}{27}{section.9}%
+\contentsline {subsection}{\numberline {8.3}Conclusion opérationnelle}{27}{subsection.8.3}%
