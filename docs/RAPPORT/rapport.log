@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 15:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 16:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -376,7 +376,7 @@ Package hyperref Info: Link coloring ON on input line 31.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<../img/logo-p8.jpg, id=184, 903.375pt x 903.375pt>
+<../img/logo-p8.jpg, id=188, 903.375pt x 903.375pt>
 File: ../img/logo-p8.jpg Graphic file (type jpg)
 <use ../img/logo-p8.jpg>
 Package pdftex.def Info: ../img/logo-p8.jpg  used on input line 39.
@@ -387,12 +387,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 40.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 40.
-<../img/logo-handi.png, id=185, 337.26pt x 337.26pt>
+<../img/logo-handi.png, id=189, 337.26pt x 337.26pt>
 File: ../img/logo-handi.png Graphic file (type png)
 <use ../img/logo-handi.png>
 Package pdftex.def Info: ../img/logo-handi.png  used on input line 44.
 (pdftex.def)             Requested size: 102.42923pt x 102.42929pt.
-<../img/carryBot.png, id=186, 179.67125pt x 111.41624pt>
+<../img/carryBot.png, id=190, 179.67125pt x 111.41624pt>
 File: ../img/carryBot.png Graphic file (type png)
 <use ../img/carryBot.png>
 Package pdftex.def Info: ../img/carryBot.png  used on input line 60.
@@ -417,7 +417,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 73--76
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.43 ... et axes dâ€™amÃ©lioration}{26}{section.8}
+l.43 ...ilitÃ© RÃ©duite (PMR)}{27}{subsection.7.2}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `rapport.toc'.
@@ -438,7 +438,7 @@ Underfull \hbox (badness 2310) in paragraph at lines 114--114
 
 
 [4]
-<../img/GANTT-CarryBot.png, id=302, 770.88pt x 578.16pt>
+<../img/GANTT-CarryBot.png, id=310, 770.88pt x 578.16pt>
 File: ../img/GANTT-CarryBot.png Graphic file (type png)
 <use ../img/GANTT-CarryBot.png>
 Package pdftex.def Info: ../img/GANTT-CarryBot.png  used on input line 191.
@@ -462,7 +462,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 225--226
 
  []
 
-<../img/tug.png, id=322, 274.626pt x 302.3295pt>
+<../img/tug.png, id=330, 274.626pt x 302.3295pt>
 File: ../img/tug.png Graphic file (type png)
 <use ../img/tug.png>
 Package pdftex.def Info: ../img/tug.png  used on input line 230.
@@ -475,7 +475,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 227--233
 
 
 [7]
-<../img/care-o-bot.png, id=342, 345.9324pt x 259.6902pt>
+<../img/care-o-bot.png, id=350, 345.9324pt x 259.6902pt>
 File: ../img/care-o-bot.png Graphic file (type png)
 <use ../img/care-o-bot.png>
 Package pdftex.def Info: ../img/care-o-bot.png  used on input line 242.
@@ -488,12 +488,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 239--245
 
 
 [8 <../img/tug.png> <../img/care-o-bot.png>]
-<../img/labrador.png, id=353, 247.6452pt x 236.5638pt>
+<../img/labrador.png, id=361, 247.6452pt x 236.5638pt>
 File: ../img/labrador.png Graphic file (type png)
 <use ../img/labrador.png>
 Package pdftex.def Info: ../img/labrador.png  used on input line 253.
 (pdftex.def)             Requested size: 213.96529pt x 204.39383pt.
-<../img/rosa.png, id=354, 295.3434pt x 315.579pt>
+<../img/rosa.png, id=362, 295.3434pt x 315.579pt>
 File: ../img/rosa.png Graphic file (type png)
 <use ../img/rosa.png>
 Package pdftex.def Info: ../img/rosa.png  used on input line 260.
@@ -501,12 +501,12 @@ Package pdftex.def Info: ../img/rosa.png  used on input line 260.
 
 
 [9 <../img/labrador.png> <../img/rosa.png>]
-<../img/rox.png, id=371, 665.48625pt x 473.77pt>
+<../img/rox.png, id=379, 665.48625pt x 473.77pt>
 File: ../img/rox.png Graphic file (type png)
 <use ../img/rox.png>
 Package pdftex.def Info: ../img/rox.png  used on input line 285.
 (pdftex.def)             Requested size: 204.85846pt x 145.84064pt.
-<../img/wheel.png, id=376, 289.08pt x 171.5208pt>
+<../img/wheel.png, id=384, 289.08pt x 171.5208pt>
 File: ../img/wheel.png Graphic file (type png)
 <use ../img/wheel.png>
 Package pdftex.def Info: ../img/wheel.png  used on input line 298.
@@ -540,7 +540,7 @@ Underfull \hbox (badness 1189) in paragraph at lines 403--404
 []\T1/cmr/m/n/12 Sensibilité à l'équi-libre des ob-jets trans-por-tés ?
  []
 
-<../img/marie.png, id=396, 734.745pt x 553.06625pt>
+<../img/marie.png, id=404, 734.745pt x 553.06625pt>
 File: ../img/marie.png Graphic file (type png)
 <use ../img/marie.png>
 Package pdftex.def Info: ../img/marie.png  used on input line 440.
@@ -548,7 +548,7 @@ Package pdftex.def Info: ../img/marie.png  used on input line 440.
 
 
 [12]
-<../img/lucas.png, id=405, 628.3475pt x 473.77pt>
+<../img/lucas.png, id=413, 628.3475pt x 473.77pt>
 File: ../img/lucas.png Graphic file (type png)
 <use ../img/lucas.png>
 Package pdftex.def Info: ../img/lucas.png  used on input line 448.
@@ -605,22 +605,22 @@ Overfull \hbox (13.56468pt too wide) in paragraph at lines 500--511
 [14]
 
 [15]
-<../img/CB-global.png, id=421, 354.32375pt x 283.0575pt>
+<../img/CB-global.png, id=429, 354.32375pt x 283.0575pt>
 File: ../img/CB-global.png Graphic file (type png)
 <use ../img/CB-global.png>
 Package pdftex.def Info: ../img/CB-global.png  used on input line 587.
 (pdftex.def)             Requested size: 218.51521pt x 174.56953pt.
-<../img/CB-detail.png, id=422, 354.32375pt x 268.00125pt>
+<../img/CB-detail.png, id=430, 354.32375pt x 268.00125pt>
 File: ../img/CB-detail.png Graphic file (type png)
 <use ../img/CB-detail.png>
 Package pdftex.def Info: ../img/CB-detail.png  used on input line 593.
 (pdftex.def)             Requested size: 218.51521pt x 165.28392pt.
-<../img/monter.png, id=423, 354.32375pt x 317.185pt>
+<../img/monter.png, id=431, 354.32375pt x 317.185pt>
 File: ../img/monter.png Graphic file (type png)
 <use ../img/monter.png>
 Package pdftex.def Info: ../img/monter.png  used on input line 606.
 (pdftex.def)             Requested size: 218.51521pt x 195.61693pt.
-<../img/descente.png, id=424, 354.32375pt x 313.17pt>
+<../img/descente.png, id=432, 354.32375pt x 313.17pt>
 File: ../img/descente.png Graphic file (type png)
 <use ../img/descente.png>
 Package pdftex.def Info: ../img/descente.png  used on input line 612.
@@ -628,7 +628,7 @@ Package pdftex.def Info: ../img/descente.png  used on input line 612.
 
 
 [16 <../img/CB-global.png> <../img/CB-detail.png>]
-<../img/architecture-Glob.png, id=433, 940.51375pt x 577.15625pt>
+<../img/architecture-Glob.png, id=441, 940.51375pt x 577.15625pt>
 File: ../img/architecture-Glob.png Graphic file (type png)
 <use ../img/architecture-Glob.png>
 Package pdftex.def Info: ../img/architecture-Glob.png  used on input line 635.
@@ -638,112 +638,118 @@ Package pdftex.def Info: ../img/architecture-Glob.png  used on input line 635.
 [17 <../img/monter.png> <../img/descente.png> <../img/architecture-Glob.png>]
 
 [18]
-<../img/appli-figma.png, id=456, 201.75375pt x 422.57875pt>
+<../images/ArchitectureFoncGlob.png, id=464, 1411.77437pt x 869.2475pt>
+File: ../images/ArchitectureFoncGlob.png Graphic file (type png)
+<use ../images/ArchitectureFoncGlob.png>
+Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 744.
+(pdftex.def)             Requested size: 455.24411pt x 280.30032pt.
+
+
+[19 <../images/ArchitectureFoncGlob.png>]
+
+[20]
+<../img/appli-figma.png, id=487, 201.75375pt x 422.57875pt>
 File: ../img/appli-figma.png Graphic file (type png)
 <use ../img/appli-figma.png>
-Package pdftex.def Info: ../img/appli-figma.png  used on input line 761.
+Package pdftex.def Info: ../img/appli-figma.png  used on input line 853.
 (pdftex.def)             Requested size: 168.4381pt x 352.80363pt.
-<../img/prototype.jpg, id=457, 3035.34pt x 4047.12pt>
+<../img/prototype.jpg, id=488, 3035.34pt x 4047.12pt>
 File: ../img/prototype.jpg Graphic file (type jpg)
 <use ../img/prototype.jpg>
-Package pdftex.def Info: ../img/prototype.jpg  used on input line 767.
+Package pdftex.def Info: ../img/prototype.jpg  used on input line 859.
 (pdftex.def)             Requested size: 250.38564pt x 333.84212pt.
 
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 794--796
+[21 <../img/appli-figma.png> <../img/prototype.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 886--888
 
  []
 
-
-
-[20 <../img/appli-figma.png> <../img/prototype.jpg>]
-<../img/home.png, id=470, 1084.05pt x 2409.0pt>
+<../img/home.png, id=494, 1084.05pt x 2409.0pt>
 File: ../img/home.png Graphic file (type png)
 <use ../img/home.png>
-Package pdftex.def Info: ../img/home.png  used on input line 806.
+Package pdftex.def Info: ../img/home.png  used on input line 898.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
-<../img/add.png, id=471, 1084.05pt x 2409.0pt>
+<../img/add.png, id=495, 1084.05pt x 2409.0pt>
 File: ../img/add.png Graphic file (type png)
 <use ../img/add.png>
-Package pdftex.def Info: ../img/add.png  used on input line 812.
+Package pdftex.def Info: ../img/add.png  used on input line 904.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 829--830
+
+[22 <../img/home.png> <../img/add.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 921--922
 
  []
 
-
-
-[21 <../img/home.png> <../img/add.png>]
-<../img/connect.png, id=479, 1084.05pt x 2409.0pt>
+<../img/connect.png, id=502, 1084.05pt x 2409.0pt>
 File: ../img/connect.png Graphic file (type png)
 <use ../img/connect.png>
-Package pdftex.def Info: ../img/connect.png  used on input line 835.
+Package pdftex.def Info: ../img/connect.png  used on input line 927.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
 
-[22 <../img/connect.png>]
-<../img/language.png, id=486, 1084.05pt x 2409.0pt>
+[23 <../img/connect.png>]
+<../img/language.png, id=509, 1084.05pt x 2409.0pt>
 File: ../img/language.png Graphic file (type png)
 <use ../img/language.png>
-Package pdftex.def Info: ../img/language.png  used on input line 860.
+Package pdftex.def Info: ../img/language.png  used on input line 952.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
-<..//img/contrast.png, id=487, 1084.05pt x 2409.0pt>
+<..//img/contrast.png, id=510, 1084.05pt x 2409.0pt>
 File: ..//img/contrast.png Graphic file (type png)
 <use ..//img/contrast.png>
-Package pdftex.def Info: ..//img/contrast.png  used on input line 866.
+Package pdftex.def Info: ..//img/contrast.png  used on input line 958.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
 
-[23 <../img/language.png> <..//img/contrast.png>]
-
-[24]
+[24 <../img/language.png> <..//img/contrast.png>]
 
 [25]
 
 [26]
 
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1070
+
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 1161--1162
 
  []
 
 
-Underfull \hbox (badness 3579) in paragraph at lines 1108--1109
+Underfull \hbox (badness 3579) in paragraph at lines 1200--1201
 []\T1/cmr/m/n/12 Salwa, M., & Kr-zysz-to-fik, I. (2025). In-fluence of Control Sys-tem Ar-chi-
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 1108--1109
+Underfull \hbox (badness 1748) in paragraph at lines 1200--1201
 \T1/cmr/m/n/12 tec-ture on Mo-bile Ro-bot Sta-bi-lity and Per-for-mance. \T1/cmr/m/it/12 Sen-sors\T1/cmr/m/n/12 , 25(23), 7353.
  []
 
 
 
-[28]
+[29]
 
-[29] (./rapport.aux)
+[30] (./rapport.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `rapport.out' has not changed.
-(rerunfilecheck)             Checksum: 6BF69DED4DE9748A3BF4337181E0D7FD;9018.
+(rerunfilecheck)             Checksum: F685300DC450026A8F33C5046B19CBFC;9326.
  ) 
 Here is how much of TeX's memory you used:
- 13900 strings out of 473190
- 228629 string characters out of 5715799
- 655420 words of memory out of 5000000
- 36859 multiletter control sequences out of 15000+600000
+ 13921 strings out of 473190
+ 229086 string characters out of 5715799
+ 655566 words of memory out of 5000000
+ 36868 multiletter control sequences out of 15000+600000
  571630 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,12n,79p,837b,692s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,12n,79p,837b,708s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on rapport.pdf (30 pages, 11433914 bytes).
+Output written on rapport.pdf (31 pages, 11540341 bytes).
 PDF statistics:
- 624 PDF objects out of 1000 (max. 8388607)
- 517 compressed objects within 6 object streams
- 139 named destinations out of 1000 (max. 500000)
- 481 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 652 PDF objects out of 1000 (max. 8388607)
+ 542 compressed objects within 6 object streams
+ 151 named destinations out of 1000 (max. 500000)
+ 494 words of extra memory for PDF output out of 10000 (max. 10000000)
 

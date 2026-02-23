@@ -718,24 +718,116 @@ Le flux opérationnel suit la séquence suivante :
     \item Les capteurs renvoient un retour d’état.
 \end{enumerate}
 
+
+
 % =============================================================
-\subsubsection*{5. Synthèse architecturale}
+\subsubsection{Architecture fonctionnelle globale du système}
 % =============================================================
 
-L’organisation hiérarchique peut être résumée ainsi :
-
-\begin{center}
-Application $\rightarrow$ Raspberry Pi $\rightarrow$ MegaPi $\rightarrow$ Actionneurs
-\end{center}
-
-Cette séparation fonctionnelle améliore :
+L’architecture de CarryBot repose sur une organisation hiérarchique
+séparant clairement:
 
 \begin{itemize}
-    \item la maintenabilité,
-    \item la robustesse temporelle du contrôle moteur,
-    \item la clarté des responsabilités,
-    \item la possibilité d’évolution future (navigation autonome, SLAM).
+    \item la \textbf{couche interaction utilisateur},
+    \item la \textbf{couche supervision et décision},
+    \item la \textbf{couche exécution temps réel},
+    \item la \textbf{couche physique (robot)}.
 \end{itemize}
+
+Cette structuration permet d’assurer modularité, robustesse et évolutivité.
+
+% -------------------------------------------------------------
+% Diagramme global
+% -------------------------------------------------------------
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{../images/ArchitectureFoncGlob.png}
+    \caption{Architecture fonctionnelle globale de CarryBot:
+    séparation client, supervision Raspberry Pi et exécution MegaPi}
+    \label{fig:architecture_globale_carrybot}
+\end{figure}
+
+La Figure~\ref{fig:architecture_globale_carrybot} illustre
+les relations entre les différents modules logiciels et matériels.
+
+% =============================================================
+\subsubsection*{1. Application Android — Couche client}
+% =============================================================
+
+L’application Android constitue l’interface utilisateur du système.
+Elle assure trois fonctions principales:
+
+\begin{itemize}
+    \item \textbf{Pilotage manuel} (commandes directionnelles),
+    \item \textbf{Fonctionnalités d’accessibilité} (contraste, langue, TTS),
+    \item \textbf{Arrêt logiciel sécurisé}.
+\end{itemize}
+
+La communication avec le robot s’effectue via un réseau local Wi-Fi,
+la Raspberry Pi pouvant fonctionner en mode point d’accès.
+
+L’application joue un rôle strictement client:
+elle n’exécute aucune logique critique de contrôle moteur.
+
+% =============================================================
+\subsubsection*{2. Couche physique — CarryBot}
+% =============================================================
+
+La couche physique correspond au robot lui-même,
+intégrant:
+
+\begin{itemize}
+    \item Le châssis,
+    \item Les roues Tri-Star,
+    \item Les moteurs DC,
+    \item Le vérin linéaire,
+    \item Les capteurs embarqués.
+\end{itemize}
+
+Les actions résultantes sont:
+
+\begin{itemize}
+    \item Le \textbf{déplacement horizontal} du robot,
+    \item Le \textbf{franchissement d’irrégularités},
+    \item La \textbf{stabilisation active du plateau}.
+\end{itemize}
+
+% =============================================================
+\subsubsection*{5. Flux fonctionnel global}
+% =============================================================
+
+Le cycle opérationnel complet peut être résumé ainsi:
+
+\begin{enumerate}
+    \item L’utilisateur envoie une commande via l’application.
+    \item La Raspberry Pi reçoit la requête via API HTTP.
+    \item La logique de décision et de sécurité est appliquée.
+    \item Une commande série est envoyée à la MegaPi.
+    \item La MegaPi active moteurs ou vérin.
+    \item Les capteurs renvoient un retour d’état.
+\end{enumerate}
+
+% =============================================================
+\subsubsection*{6. Justification architecturale}
+% =============================================================
+
+Le découplage entre supervision et exécution répond à plusieurs objectifs:
+
+\begin{itemize}
+    \item \textbf{Robustesse temporelle}: les tâches critiques moteur sont isolées.
+    \item \textbf{Sécurité}: validation centralisée des commandes.
+    \item \textbf{Maintenabilité}: séparation claire des responsabilités.
+    \item \textbf{Évolutivité}: possibilité d’intégrer navigation autonome,
+          SLAM ou capteurs supplémentaires sans refonte complète.
+\end{itemize}
+
+Cette architecture est cohérente avec les modèles
+classiques de robotique mobile légère
+reposant sur une hiérarchie supervision/exécution.
+
+
+% =============================================================
+
 
 
 % =============================================================

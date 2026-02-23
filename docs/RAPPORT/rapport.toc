@@ -29,18 +29,19 @@
 \contentsline {subsubsection}{\numberline {5.1.3}Hors périmètre}{15}{subsubsection.5.1.3}%
 \contentsline {subsection}{\numberline {5.2}Architecture}{16}{subsection.5.2}%
 \contentsline {subsubsection}{\numberline {5.2.1}Architecture logique et communication inter-modules}{17}{subsubsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.3}Matériel}{19}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Logiciel}{20}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Application Android}{20}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Acteurs}{24}{subsection.5.6}%
-\contentsline {section}{\numberline {6}Solutions et orientations}{24}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Solutions techniques retenues}{24}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Contraintes et orientations de conception}{24}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Perspectives d’évolution}{24}{subsection.6.3}%
-\contentsline {section}{\numberline {7}Validation et tests utilisateurs}{25}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Critères de validation — Tests techniques et fonctionnels}{25}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Scénario UX 1 — Personne à Mobilité Réduite (PMR)}{26}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Discussion, limites et axes d’amélioration}{26}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Limites observées}{26}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Améliorations prioritaires}{27}{subsection.8.2}%
-\contentsline {subsection}{\numberline {8.3}Conclusion opérationnelle}{27}{subsection.8.3}%
+\contentsline {subsubsection}{\numberline {5.2.2}Architecture fonctionnelle globale du système}{19}{subsubsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.3}Matériel}{20}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Logiciel}{21}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Application Android}{22}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Acteurs}{25}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Solutions et orientations}{25}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Solutions techniques retenues}{25}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Contraintes et orientations de conception}{25}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Perspectives d’évolution}{26}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Validation et tests utilisateurs}{26}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Critères de validation — Tests techniques et fonctionnels}{26}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Scénario UX 1 — Personne à Mobilité Réduite (PMR)}{27}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Discussion, limites et axes d’amélioration}{27}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Limites observées}{27}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Améliorations prioritaires}{28}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Conclusion opérationnelle}{28}{subsection.8.3}%

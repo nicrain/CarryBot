@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 16:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 16:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -745,26 +745,26 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Info: Redefining \degres on input line 48.
 LaTeX Info: Redefining \up on input line 48.
  (./presentation.nav)
-<images/logo-p8.jpg, id=25, 903.375pt x 903.375pt>
-File: images/logo-p8.jpg Graphic file (type jpg)
-<use images/logo-p8.jpg>
-Package pdftex.def Info: images/logo-p8.jpg  used on input line 56.
+<../images/logo-p8.jpg, id=25, 903.375pt x 903.375pt>
+File: ../images/logo-p8.jpg Graphic file (type jpg)
+<use ../images/logo-p8.jpg>
+Package pdftex.def Info: ../images/logo-p8.jpg  used on input line 56.
 (pdftex.def)             Requested size: 71.12737pt x 71.13188pt.
 <../img/carryBot.png, id=26, 179.67125pt x 111.41624pt>
 File: ../img/carryBot.png Graphic file (type png)
 <use ../img/carryBot.png>
 Package pdftex.def Info: ../img/carryBot.png  used on input line 56.
 (pdftex.def)             Requested size: 91.76544pt x 56.9055pt.
-<images/logo-handi.png, id=28, 337.26pt x 337.26pt>
-File: images/logo-handi.png Graphic file (type png)
-<use images/logo-handi.png>
-Package pdftex.def Info: images/logo-handi.png  used on input line 56.
+<../images/logo-handi.png, id=28, 337.26pt x 337.26pt>
+File: ../images/logo-handi.png Graphic file (type png)
+<use ../images/logo-handi.png>
+Package pdftex.def Info: ../images/logo-handi.png  used on input line 56.
 (pdftex.def)             Requested size: 71.13031pt x 71.13188pt.
 
 
 [1
 
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./images/logo-p8.jpg> <../img/carryBot.png> <./images/logo-handi.png>] (./presentation.toc)
+{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <../images/logo-p8.jpg> <../img/carryBot.png> <../images/logo-handi.png>] (./presentation.toc)
 
 [2
 
@@ -781,25 +781,25 @@ LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on inpu
  (/usr/local/texlive/2025/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
 )
-<images/Lenaa.jpg, id=71, 1173.38374pt x 1931.215pt>
-File: images/Lenaa.jpg Graphic file (type jpg)
-<use images/Lenaa.jpg>
-Package pdftex.def Info: images/Lenaa.jpg  used on input line 121.
+<../images/Lenaa.jpg, id=71, 1173.38374pt x 1931.215pt>
+File: ../images/Lenaa.jpg Graphic file (type jpg)
+<use ../images/Lenaa.jpg>
+Package pdftex.def Info: ../images/Lenaa.jpg  used on input line 121.
 (pdftex.def)             Requested size: 71.13188pt x 117.04662pt.
-<images/zhaoyu.jpg, id=72, 1861.95625pt x 3262.1875pt>
-File: images/zhaoyu.jpg Graphic file (type jpg)
-<use images/zhaoyu.jpg>
-Package pdftex.def Info: images/zhaoyu.jpg  used on input line 121.
+<../images/zhaoyu.jpg, id=72, 1861.95625pt x 3262.1875pt>
+File: ../images/zhaoyu.jpg Graphic file (type jpg)
+<use ../images/zhaoyu.jpg>
+Package pdftex.def Info: ../images/zhaoyu.jpg  used on input line 121.
 (pdftex.def)             Requested size: 67.43289pt x 118.1206pt.
-<images/xinqi.jpg, id=73, 2503.3525pt x 3982.88pt>
-File: images/xinqi.jpg Graphic file (type jpg)
-<use images/xinqi.jpg>
-Package pdftex.def Info: images/xinqi.jpg  used on input line 121.
+<../images/xinqi.jpg, id=73, 2503.3525pt x 3982.88pt>
+File: ../images/xinqi.jpg Graphic file (type jpg)
+<use ../images/xinqi.jpg>
+Package pdftex.def Info: ../images/xinqi.jpg  used on input line 121.
 (pdftex.def)             Requested size: 74.54608pt x 118.56964pt.
-<images/Lou.png, id=74, 135.50626pt x 207.77625pt>
-File: images/Lou.png Graphic file (type png)
-<use images/Lou.png>
-Package pdftex.def Info: images/Lou.png  used on input line 121.
+<../images/Lou.png, id=74, 135.50626pt x 207.77625pt>
+File: ../images/Lou.png Graphic file (type png)
+<use ../images/Lou.png>
+Package pdftex.def Info: ../images/Lou.png  used on input line 121.
 (pdftex.def)             Requested size: 76.25317pt x 116.92456pt.
 
 Overfull \hbox (3.30608pt too wide) in paragraph at lines 121--121
@@ -810,7 +810,7 @@ Overfull \hbox (3.30608pt too wide) in paragraph at lines 121--121
 
 [3
 
- <./images/Lenaa.jpg> <./images/zhaoyu.jpg> <./images/xinqi.jpg> <./images/Lou.png>]
+ <../images/Lenaa.jpg> <../images/zhaoyu.jpg> <../images/xinqi.jpg> <../images/Lou.png>]
 
 [4
 
@@ -1008,26 +1008,26 @@ Package pdftex.def Info: ../img/CB-detail.png  used on input line 603.
 [39
 
  <../img/CB-global.png> <../img/CB-detail.png>]
-<images/tri-star.png, id=489, 425.59pt x 414.54875pt>
-File: images/tri-star.png Graphic file (type png)
-<use images/tri-star.png>
-Package pdftex.def Info: images/tri-star.png  used on input line 633.
+<../images/tri-star.png, id=489, 425.59pt x 414.54875pt>
+File: ../images/tri-star.png Graphic file (type png)
+<use ../images/tri-star.png>
+Package pdftex.def Info: ../images/tri-star.png  used on input line 633.
 (pdftex.def)             Requested size: 108.42267pt x 105.61047pt.
 
 
 [40
 
- <./images/tri-star.png>]
-<images/carryBot.jpg, id=496, 4047.12pt x 3035.34pt>
-File: images/carryBot.jpg Graphic file (type jpg)
-<use images/carryBot.jpg>
-Package pdftex.def Info: images/carryBot.jpg  used on input line 657.
+ <../images/tri-star.png>]
+<../images/carryBot.jpg, id=496, 4047.12pt x 3035.34pt>
+File: ../images/carryBot.jpg Graphic file (type jpg)
+<use ../images/carryBot.jpg>
+Package pdftex.def Info: ../images/carryBot.jpg  used on input line 657.
 (pdftex.def)             Requested size: 142.26378pt x 106.6646pt.
 
 
 [41
 
- <./images/carryBot.jpg>]
+ <../images/carryBot.jpg>]
 
 [42
 
@@ -1036,10 +1036,10 @@ Package pdftex.def Info: images/carryBot.jpg  used on input line 657.
 [43
 
 ]
-<images/logique.png, id=556, 1776.6375pt x 1168.86688pt>
-File: images/logique.png Graphic file (type png)
-<use images/logique.png>
-Package pdftex.def Info: images/logique.png  used on input line 712.
+<../images/logique.png, id=556, 1776.6375pt x 1168.86688pt>
+File: ../images/logique.png Graphic file (type png)
+<use ../images/logique.png>
+Package pdftex.def Info: ../images/logique.png  used on input line 712.
 (pdftex.def)             Requested size: 326.9845pt x 215.11336pt.
 
 Overfull \vbox (3.90802pt too high) detected at line 712
@@ -1049,7 +1049,7 @@ Overfull \vbox (3.90802pt too high) detected at line 712
 
 [44
 
- <./images/logique.png>] (./presentation.toc)
+ <../images/logique.png>] (./presentation.toc)
 
 [45
 
@@ -1107,16 +1107,16 @@ Overfull \vbox (4.63107pt too high) detected at line 824
 [50
 
 ]
-<images/camera.png, id=653, 1470.49374pt x 925.4575pt>
-File: images/camera.png Graphic file (type png)
-<use images/camera.png>
-Package pdftex.def Info: images/camera.png  used on input line 902.
+<../images/camera.png, id=653, 1470.49374pt x 925.4575pt>
+File: ../images/camera.png Graphic file (type png)
+<use ../images/camera.png>
+Package pdftex.def Info: ../images/camera.png  used on input line 902.
 (pdftex.def)             Requested size: 206.51929pt x 129.97269pt.
 
 
 [51
 
- <./images/camera.png>]
+ <../images/camera.png>]
 
 [52
 
@@ -1129,17 +1129,17 @@ Package pdftex.def Info: images/camera.png  used on input line 902.
 [54
 
 ]
-File: images/logo-p8.jpg Graphic file (type jpg)
-<use images/logo-p8.jpg>
-Package pdftex.def Info: images/logo-p8.jpg  used on input line 948.
+File: ../images/logo-p8.jpg Graphic file (type jpg)
+<use ../images/logo-p8.jpg>
+Package pdftex.def Info: ../images/logo-p8.jpg  used on input line 948.
 (pdftex.def)             Requested size: 71.12737pt x 71.13188pt.
 File: ../img/carryBot.png Graphic file (type png)
 <use ../img/carryBot.png>
 Package pdftex.def Info: ../img/carryBot.png  used on input line 948.
 (pdftex.def)             Requested size: 91.76544pt x 56.9055pt.
-File: images/logo-handi.png Graphic file (type png)
-<use images/logo-handi.png>
-Package pdftex.def Info: images/logo-handi.png  used on input line 948.
+File: ../images/logo-handi.png Graphic file (type png)
+<use ../images/logo-handi.png>
+Package pdftex.def Info: ../images/logo-handi.png  used on input line 948.
 (pdftex.def)             Requested size: 71.13031pt x 71.13188pt.
 
 
@@ -1163,8 +1163,8 @@ L3 programming layer <2025-01-18>
  ) 
 Here is how much of TeX's memory you used:
  24867 strings out of 473190
- 481979 string characters out of 5715799
- 855056 words of memory out of 5000000
+ 482189 string characters out of 5715799
+ 855062 words of memory out of 5000000
  47494 multiletter control sequences out of 15000+600000
  575751 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191

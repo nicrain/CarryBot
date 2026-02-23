@@ -13,12 +13,13 @@
 \contentsline {figure}{\numberline {12}{\ignorespaces La montée de la palette motorisée}}{17}{figure.caption.25}%
 \contentsline {figure}{\numberline {13}{\ignorespaces La descente de la palette motorisée}}{17}{figure.caption.25}%
 \contentsline {figure}{\numberline {14}{\ignorespaces Architecture logique globale de CarryBot}}{17}{figure.caption.26}%
-\contentsline {figure}{\numberline {15}{\ignorespaces Prototype Figma}}{20}{figure.caption.32}%
-\contentsline {figure}{\numberline {16}{\ignorespaces Prototype à la main}}{20}{figure.caption.32}%
-\contentsline {figure}{\numberline {17}{\ignorespaces Interface principale de l’application CarryBot}}{20}{figure.caption.32}%
-\contentsline {figure}{\numberline {18}{\ignorespaces Gestion des robots enregistrés \& HOME}}{21}{figure.caption.33}%
-\contentsline {figure}{\numberline {19}{\ignorespaces Écran de connexion IP}}{21}{figure.caption.33}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Interface principale de pilotage}}{22}{figure.caption.35}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Sélection de langue}}{23}{figure.caption.37}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Mode contraste et options TTS}}{23}{figure.caption.37}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Fonctionnalités d’accessibilité intégrées}}{23}{figure.caption.37}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Architecture fonctionnelle globale de CarryBot: séparation client, supervision Raspberry Pi et exécution MegaPi}}{19}{figure.caption.31}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Prototype Figma}}{21}{figure.caption.36}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Prototype à la main}}{21}{figure.caption.36}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Interface principale de l’application CarryBot}}{21}{figure.caption.36}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Gestion des robots enregistrés \& HOME}}{22}{figure.caption.37}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Écran de connexion IP}}{22}{figure.caption.37}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Interface principale de pilotage}}{23}{figure.caption.39}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Sélection de langue}}{24}{figure.caption.41}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Mode contraste et options TTS}}{24}{figure.caption.41}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Fonctionnalités d’accessibilité intégrées}}{24}{figure.caption.41}%
