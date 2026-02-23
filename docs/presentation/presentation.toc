@@ -3,12 +3,14 @@
 \beamer@sectionintoc {2}{Problématique}{4}{0}{2}
 \beamer@sectionintoc {3}{Objectifs}{8}{0}{3}
 \beamer@sectionintoc {4}{État de l’art}{12}{0}{4}
-\beamer@sectionintoc {6}{Analyse des besoins}{19}{0}{5}
-\beamer@sectionintoc {7}{Architecture du CarryBot}{28}{0}{6}
-\beamer@sectionintoc {8}{Composants matériels}{29}{0}{7}
-\beamer@sectionintoc {9}{Application}{31}{0}{8}
-\beamer@sectionintoc {10}{Technologies}{32}{0}{9}
-\beamer@sectionintoc {11}{Exigences principales}{33}{0}{10}
-\beamer@sectionintoc {12}{Avancement}{34}{0}{11}
-\beamer@sectionintoc {13}{Détection par caméra}{35}{0}{12}
-\beamer@sectionintoc {14}{Perspectives}{36}{0}{13}
+\beamer@sectionintoc {5}{Analyse des besoins}{28}{0}{5}
+\beamer@sectionintoc {6}{Architecture du CarryBot}{37}{0}{6}
+\beamer@sectionintoc {7}{Composants matériels}{38}{0}{7}
+\beamer@sectionintoc {8}{Logique de contrôle}{40}{0}{8}
+\beamer@sectionintoc {9}{Application}{42}{0}{9}
+\beamer@sectionintoc {10}{Technologies}{43}{0}{10}
+\beamer@sectionintoc {11}{Exigences principales}{44}{0}{11}
+\beamer@sectionintoc {12}{Avancement}{45}{0}{12}
+\beamer@sectionintoc {13}{Détection par caméra}{46}{0}{13}
+\beamer@sectionintoc {14}{Perspectives}{47}{0}{14}
+\beamer@sectionintoc {15}{Bibliographie}{48}{0}{15}

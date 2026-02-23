@@ -42,6 +42,8 @@
 \titlegraphic{\includegraphics[height=2.5cm]{images/logo-p8.jpg} 
 \hspace{2cm} \includegraphics[height=2.5cm]{images/logo-handi.png}}
 
+\usepackage[numbers]{natbib}
+\bibliographystyle{unsrt}
 % -------------------------------------------------------------
 \begin{document}
 % -------------------------------------------------------------
@@ -164,63 +166,278 @@ en environnement intérieur de manière stable et sécurisée.
 
 % -------------------------------------------------------------
 % SLIDE : État de l’art
-% ------------ -------------------------------------------------
+% -------------------------------------------------------------
 \section{État de l’art}
-\begin{frame}{\textbf{État de l’art — Analyse comparative des solutions existantes}}
+% Slide 1
+\begin{frame}{Plan de la présentation}
+\tableofcontents[currentsection, ]
+\end{frame}
+
+% -------------------------------------------------------------
+\begin{frame}{\textbf{Contexte sanitaire et robotique}}
+
+\begin{itemize}
+    \item Vieillissement rapide de la population mondiale.
+    \item Manque croissant de personnel hospitalier.
+    \item Développement du secteur robotique comme réponse structurelle
+    \cite{bloss2011}.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\begin{block}{Impact COVID-19}
+Transition accélérée vers la téléprésence et la robotisation des services
+\cite{bourdon2023}.
+\end{block}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 2
+% -------------------------------------------------------------
+\begin{frame}{Les robots d’assistance et leurs effets}
+
+\begin{itemize}
+    \item \textbf{Teng et al. (2022)} :
+    revue systématique de 33 études —
+    téléprésence, aide au diagnostic, distribution médicamenteuse.
+    
+    \item \textbf{Wang et al. (2024)} :
+    revue de 31 robots médicaux,
+    dont 9 dispositifs dédiés au transport.
+    
+    \item \textbf{Li et al. (2023)} :
+    usage quotidien favorisant le mieux-être psychologique.
+\end{itemize}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 3
+% -------------------------------------------------------------
+\begin{frame}{Robot TUG d’Aethon}
 
 \begin{columns}
 
-\column{0.33\textwidth}
+\column{0.55\textwidth}
 \centering
-\textbf{ROSA}\\[0.1cm]
-\includegraphics[width=3cm]{../img/rosa.png}\\
-\footnotesize 
-\textbf{Points forts:} franchissement d’escaliers robustes.\\
-\textbf{Limites:} mouvements saccadés, usage peu domestique.
+\includegraphics[width=5.5cm]{../img/tug.png}\\
+{\scriptsize Source : aethon.com}
 
-\column{0.33\textwidth}
-\centering
-\textbf{Labrador Retriever}\\[0.1cm]
-\includegraphics[width=4cm]{../img/labrador.png}\\
-\footnotesize 
-\textbf{Points forts:} navigation autonome intérieure.\\
-\textbf{Limites:} incapacité à franchir des obstacles verticaux.
+\column{0.45\textwidth}
 
-\column{0.33\textwidth}
-\centering
-\textbf{Help-E}\\[0.1cm]
-\includegraphics[width=3cm]{../img/helpe.png}\\
-\footnotesize 
-\textbf{Points forts:} transport de charges lourdes.\\
-\textbf{Limites:} encombrant, peu adapté aux logements.
+\textbf{Avantages}
+\begin{itemize}
+    \item Transport autonome.
+    \item Capacité jusqu’à 400 kg.
+\end{itemize}
+
+\vspace{0.2cm}
+
+\textbf{Limites}
+\begin{itemize}
+    \item Robot très lourd.
+    \item Incapable de monter des escaliers.
+\end{itemize}
 
 \end{columns}
 
 \end{frame}
 
+% -------------------------------------------------------------
+% Slide 4
+% -------------------------------------------------------------
+\begin{frame}{Robot Care-O-Bot}
+
+\begin{columns}
+
+\column{0.55\textwidth}
+\centering
+\includegraphics[width=5cm]{../img/care-o-bot.png}\\
+{\scriptsize Source : care-o-bot.de}
+
+\column{0.45\textwidth}
+
+\textbf{Avantages}
+\begin{itemize}
+    \item Apparence sociale et sympathique.
+    \item Bras mécanisés.
+    \item Polyvalence fonctionnelle.
+\end{itemize}
+
+\vspace{0.2cm}
+
+\textbf{Limites}
+\begin{itemize}
+    \item Capacité limitée ($\approx$5 kg).
+    \item Complexité et coût élevés.
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
 
 % -------------------------------------------------------------
-% SLIDE : Synthèse de l’analyse de l’existant
+% Slide 5
 % -------------------------------------------------------------
-\section*{État de l’art}
-\begin{frame}{\textbf{Synthèse stratégique de l’analyse}}
+\begin{frame}{Labrador Retriever Robot}
+
+\begin{columns}
+
+\column{0.55\textwidth}
+\centering
+\includegraphics[width=5cm]{../img/labrador.png}\\
+{\scriptsize Source : labradorsystems.com}
+
+\column{0.45\textwidth}
+
+\textbf{Avantages}
+\begin{itemize}
+    \item Polyvalent.
+    \item Transport jusqu’à 11 kg.
+    \item Manipulation plateau repas.
+\end{itemize}
+
+\vspace{0.2cm}
+
+\textbf{Limites}
+\begin{itemize}
+    \item Coût élevé ($\approx$6900 \$).
+    \item Ne monte pas les escaliers.
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 6
+% -------------------------------------------------------------
+\begin{frame}{2. Les défis identifiés}
+
+Après analyse des robots existants, CarryBot doit :
 
 \begin{itemize}
-    \item Les solutions actuelles se spécialisent soit dans :
-    \begin{itemize}
-        \item le \textbf{franchissement d’escaliers},
-        \item la \textbf{navigation autonome intérieure},
-        \item ou le \textbf{transport de charges lourdes}.
-    \end{itemize}
-    \vspace{0.2cm}
-    \item \textbf{Aucune solution ne combine simultanément :}
-    \begin{itemize}
-        \item mobilité fluide en environnement domestique,
-        \item franchissement sécurisé de petites marches,
-        \item stabilisation active d’une charge légère,
-        \item compacité et maniabilité.
-    \end{itemize}
+    \item Être capable de \textbf{monter les escaliers}.
+    \item Être capable de \textbf{s’auto-rééquilibrer rapidement}.
 \end{itemize}
+
+\begin{alertblock}{Objectif stratégique}
+Combiner mobilité verticale + stabilité active
+dans un format compact.
+\end{alertblock}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 7
+% -------------------------------------------------------------
+\begin{frame}{Monter les escaliers}
+
+\begin{itemize}
+    \item \textbf{Seo et al. (2023)} :
+    défi majeur en robotique de service intérieur.
+    \item DARPA Robotics Challenge (2015) :
+    taux de réussite $\approx$ 30\%.
+    \item Forte variabilité géométrique des escaliers
+    (hauteur, angle, contexte culturel).
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Catégories identifiées :}
+\begin{itemize}
+    \item Robots à chenilles.
+    \item Robots à pattes.
+    \item Robots à roues et liaisons.
+    \item Robots hybrides roues-pattes.
+\end{itemize}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 8
+% -------------------------------------------------------------
+\begin{frame}{Robot ROSA}
+
+\begin{columns}
+
+\column{0.55\textwidth}
+\centering
+\includegraphics[width=5cm]{../img/rosa.png}\\
+{\scriptsize Source : robotshop.com}
+
+\column{0.45\textwidth}
+
+\textbf{Avantages}
+\begin{itemize}
+    \item Léger (20 kg).
+    \item Charge jusqu’à 25 kg.
+    \item Conception simple.
+\end{itemize}
+
+\vspace{0.2cm}
+
+\textbf{Limites}
+\begin{itemize}
+    \item Mouvements saccadés.
+    \item Prix élevé ($\approx$3900 \$).
+    \item Usage restreint aux escaliers.
+\end{itemize}
+
+\end{columns}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 9
+% -------------------------------------------------------------
+\begin{frame}{S’auto-équilibrer}
+
+\begin{itemize}
+    \item \textbf{Salwa \& Krzysztofik (2025)} :
+    modèle du \textbf{pendule inversé}.
+    
+    \item Système intrinsèquement instable.
+    
+    \item Système \textbf{sous-actionné} :
+    moins d’actionneurs que de degrés de liberté.
+    
+    \item Forte exigence de précision temporelle.
+\end{itemize}
+
+\end{frame}
+
+% -------------------------------------------------------------
+% Slide 10
+% -------------------------------------------------------------
+\begin{frame}{Wheelchair.q}
+
+\begin{columns}
+
+\column{0.45\textwidth}
+\centering
+\includegraphics[width=5cm]{../img/wheel.png}\\
+{\scriptsize Source: Quaglia et al., 2011}
+
+\column{0.55\textwidth}
+
+\textbf{Avantages}
+\begin{itemize}
+    \item Rééquilibrage mécanique.
+    \item Solution légère et efficace.
+\end{itemize}
+
+\vspace{0.2cm}
+
+\textbf{Limites}
+\begin{itemize}
+    \item Stratégie d’équilibre identique
+    quel que soit le poids utilisateur.
+\end{itemize}
+
+\end{columns}
+
 \end{frame}
 
 
@@ -250,7 +467,7 @@ en environnement intérieur de manière stable et sécurisée.
     \item Deux modes de pilotage attendus:
     \begin{itemize}
         \item \textbf{Pilotage manuel} via l’application Android (pictogrammes simples).
-        \item \textbf{Pilotage automatique} via \textbf{suivi de bande au sol}.
+        \item \textbf{Pilotage automatique} via \textbf{suivi de lignes au sol}.
     \end{itemize}
     \item Besoin de \textbf{sécurisation forte}: arrêt d’urgence physique
     + arrêt logiciel sur l’application.
@@ -680,6 +897,14 @@ la présence d’un mur et d’adapter le comportement du robot.
 \end{block}
 \end{frame}
 
+
+%--------------------------------------------------------------
+\section{Bibliographie}
+%--------------------------------------------------------------
+\begin{frame}[allowframebreaks]{Bibliographie}
+\footnotesize
+\bibliography{references}
+\end{frame}
 
 
 % -------------------------------------------------------------
