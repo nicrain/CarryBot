@@ -947,7 +947,7 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
 \section{Défis \& solutions}
 \begin{frame}{Défis techniques et solutions apportées}
 
-\textbf{Défis identifiés}
+\textbf{Défis identifiés / \textcolor{green!45!black}{Solutions mises en œuvre}}
 \begin{columns}[T,onlytextwidth]
 \column{0.68\textwidth}
 \begin{itemize}
@@ -956,7 +956,13 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
     \item<3-> Détection arrière limitée en montée
     \item<4-> Visibilité insuffisante en descente
     \item<5-> Ports moteurs saturés (ajout vérin)
+        \par {\small\textcolor{green!45!black}{$\Rightarrow$ Pilotage vérin via pont en H L293D}}
     \item<6-> Alimentation Raspberry Pi inadaptée
+        \par {\small\textcolor{green!45!black}{$\Rightarrow$ UPS Shield + 4 batteries 18650 (5A stable)}}
+    \item<7-> CarryBot ne montait pas avec un moteur de monte
+        \par {\small\textcolor{green!45!black}{$\Rightarrow$ Ajout d’un second moteur arrière}}
+    \item<8-> Assemblage chassis impossible a imprimer en 3D
+        \par {\small\textcolor{green!45!black}{$\Rightarrow$ Structure modulaire Makeblock}}
 \end{itemize}
 
 \column{0.32\textwidth}
@@ -968,15 +974,6 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
 \end{columns}
 
 \vspace{0.4cm}
-
-\textbf{Solutions mises en œuvre}
-\begin{itemize}
-    \item Ajout d’un second moteur arrière
-    \item UPS Shield + 4 batteries 18650 (5A stable)
-    \item Pilotage vérin via pont en H L293D
-    \item Structure modulaire Makeblock
-    \item Roues Tri-Star imprimées en 3D
-\end{itemize}
 
 \end{frame}
 % -------------------------------------------------------------
