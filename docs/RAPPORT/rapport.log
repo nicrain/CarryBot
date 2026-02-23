@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 22:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  23 FEB 2026 22:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -453,13 +453,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 76--79
 [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <../img/logo-p8.jpg> <../img/logo-handi.png> <../img/carryBot.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
+
+ []
+
+
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.108 \newpage
+l.110 \newpage
                [1]
+Underfull \hbox (badness 10000) in paragraph at lines 122--123
+
+ []
+
+
 
 [2] (./rapport.toc
 
@@ -476,7 +486,7 @@ l.108 \newpage
 
 
 [5]
-Underfull \hbox (badness 2310) in paragraph at lines 151--151
+Underfull \hbox (badness 2310) in paragraph at lines 155--155
 \T1/cmr/m/n/12 moyeu ro-ta-tif, per-met-tant le fran-chis-se-ment de pe-tites
  []
 
@@ -488,32 +498,32 @@ Underfull \hbox (badness 2310) in paragraph at lines 151--151
 <../img/GANTT-CarryBot.png, id=309, 770.88pt x 578.16pt>
 File: ../img/GANTT-CarryBot.png Graphic file (type png)
 <use ../img/GANTT-CarryBot.png>
-Package pdftex.def Info: ../img/GANTT-CarryBot.png  used on input line 228.
+Package pdftex.def Info: ../img/GANTT-CarryBot.png  used on input line 232.
 (pdftex.def)             Requested size: 500.77129pt x 375.579pt.
 
-Overfull \hbox (45.52718pt too wide) in paragraph at lines 228--229
+Overfull \hbox (45.52718pt too wide) in paragraph at lines 232--233
  [][] 
  []
 
 
-Overfull \hbox (14.37201pt too wide) in paragraph at lines 235--248
+Overfull \hbox (14.37201pt too wide) in paragraph at lines 239--252
 [][] 
  []
 
 
 
 [8 <../img/GANTT-CarryBot.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 262--263
+Underfull \hbox (badness 10000) in paragraph at lines 266--267
 
  []
 
 <../img/tug.png, id=323, 274.626pt x 302.3295pt>
 File: ../img/tug.png Graphic file (type png)
 <use ../img/tug.png>
-Package pdftex.def Info: ../img/tug.png  used on input line 267.
+Package pdftex.def Info: ../img/tug.png  used on input line 271.
 (pdftex.def)             Requested size: 204.85846pt x 225.52406pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 264--270
+Underfull \hbox (badness 10000) in paragraph at lines 268--274
 
  []
 
@@ -523,10 +533,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 264--270
 <../img/care-o-bot.png, id=343, 345.9324pt x 259.6902pt>
 File: ../img/care-o-bot.png Graphic file (type png)
 <use ../img/care-o-bot.png>
-Package pdftex.def Info: ../img/care-o-bot.png  used on input line 279.
+Package pdftex.def Info: ../img/care-o-bot.png  used on input line 283.
 (pdftex.def)             Requested size: 204.85846pt x 153.79044pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 276--282
+Underfull \hbox (badness 10000) in paragraph at lines 280--286
 
  []
 
@@ -536,12 +546,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 276--282
 <../img/labrador.png, id=354, 247.6452pt x 236.5638pt>
 File: ../img/labrador.png Graphic file (type png)
 <use ../img/labrador.png>
-Package pdftex.def Info: ../img/labrador.png  used on input line 290.
+Package pdftex.def Info: ../img/labrador.png  used on input line 294.
 (pdftex.def)             Requested size: 213.96529pt x 204.39383pt.
 <../img/rosa.png, id=355, 295.3434pt x 315.579pt>
 File: ../img/rosa.png Graphic file (type png)
 <use ../img/rosa.png>
-Package pdftex.def Info: ../img/rosa.png  used on input line 297.
+Package pdftex.def Info: ../img/rosa.png  used on input line 301.
 (pdftex.def)             Requested size: 191.20169pt x 204.31012pt.
 
 
@@ -549,46 +559,46 @@ Package pdftex.def Info: ../img/rosa.png  used on input line 297.
 <../img/rox.png, id=372, 665.48625pt x 473.77pt>
 File: ../img/rox.png Graphic file (type png)
 <use ../img/rox.png>
-Package pdftex.def Info: ../img/rox.png  used on input line 322.
+Package pdftex.def Info: ../img/rox.png  used on input line 326.
 (pdftex.def)             Requested size: 204.85846pt x 145.84064pt.
 <../img/wheel.png, id=377, 289.08pt x 171.5208pt>
 File: ../img/wheel.png Graphic file (type png)
 <use ../img/wheel.png>
-Package pdftex.def Info: ../img/wheel.png  used on input line 335.
+Package pdftex.def Info: ../img/wheel.png  used on input line 339.
 (pdftex.def)             Requested size: 204.85846pt x 121.54768pt.
 
 
 [12{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <../img/rox.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 355--360
+Underfull \hbox (badness 10000) in paragraph at lines 359--364
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 382--384
+Underfull \hbox (badness 10000) in paragraph at lines 386--388
 
  []
 
 
 
 [13 <../img/wheel.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 438--439
+Underfull \hbox (badness 10000) in paragraph at lines 442--443
 []\T1/cmr/m/n/12 Importance d'un bou-ton d'ar-rêt d'ur-gence ?
  []
 
 
-Underfull \hbox (badness 2512) in paragraph at lines 439--440
+Underfull \hbox (badness 2512) in paragraph at lines 443--444
 []\T1/cmr/m/n/12 Inquiétude face aux col-li-sions ou mou-ve-ments
  []
 
 
-Underfull \hbox (badness 1189) in paragraph at lines 440--441
+Underfull \hbox (badness 1189) in paragraph at lines 444--445
 []\T1/cmr/m/n/12 Sensibilité à l'équi-libre des ob-jets trans-por-tés ?
  []
 
 <../img/marie.png, id=398, 734.745pt x 553.06625pt>
 File: ../img/marie.png Graphic file (type png)
 <use ../img/marie.png>
-Package pdftex.def Info: ../img/marie.png  used on input line 477.
+Package pdftex.def Info: ../img/marie.png  used on input line 481.
 (pdftex.def)             Requested size: 273.14923pt x 205.61024pt.
 
 
@@ -596,52 +606,52 @@ Package pdftex.def Info: ../img/marie.png  used on input line 477.
 <../img/lucas.png, id=406, 628.3475pt x 473.77pt>
 File: ../img/lucas.png Graphic file (type png)
 <use ../img/lucas.png>
-Package pdftex.def Info: ../img/lucas.png  used on input line 485.
+Package pdftex.def Info: ../img/lucas.png  used on input line 489.
 (pdftex.def)             Requested size: 273.14923pt x 205.95093pt.
 
-Underfull \hbox (badness 6708) in paragraph at lines 502--502
+Underfull \hbox (badness 6708) in paragraph at lines 506--506
 []|\T1/cmr/m/n/12 Interruption im-mé-diate
  []
 
 
-Underfull \hbox (badness 2134) in paragraph at lines 506--506
+Underfull \hbox (badness 2134) in paragraph at lines 510--510
 []|\T1/cmr/m/n/12 Système de roues Tri-
  []
 
 
-Underfull \hbox (badness 6792) in paragraph at lines 510--510
+Underfull \hbox (badness 6792) in paragraph at lines 514--514
 []|\T1/cmr/m/n/12 Transport d'ob-jets lé-
  []
 
 
-Overfull \hbox (13.56468pt too wide) in paragraph at lines 495--514
+Overfull \hbox (13.56468pt too wide) in paragraph at lines 499--518
 [][] 
  []
 
 
 
 [15 <../img/marie.png> <../img/lucas.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 525--525
+Underfull \hbox (badness 10000) in paragraph at lines 529--529
 []|\T1/cmr/m/n/12 Accessibilité UI,
  []
 
 
-Underfull \hbox (badness 3240) in paragraph at lines 527--527
+Underfull \hbox (badness 3240) in paragraph at lines 531--531
 []|\T1/cmr/m/n/12 Résistance des com-po-
  []
 
 
-Overfull \hbox (13.56468pt too wide) in paragraph at lines 519--532
+Overfull \hbox (13.56468pt too wide) in paragraph at lines 523--536
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 541--541
+Underfull \hbox (badness 10000) in paragraph at lines 545--545
 []|\T1/cmr/m/n/12 Respect des normes
  []
 
 
-Overfull \hbox (13.56468pt too wide) in paragraph at lines 537--548
+Overfull \hbox (13.56468pt too wide) in paragraph at lines 541--552
 [][] 
  []
 
@@ -653,22 +663,22 @@ Overfull \hbox (13.56468pt too wide) in paragraph at lines 537--548
 <../img/CB-global.png, id=422, 354.32375pt x 283.0575pt>
 File: ../img/CB-global.png Graphic file (type png)
 <use ../img/CB-global.png>
-Package pdftex.def Info: ../img/CB-global.png  used on input line 624.
+Package pdftex.def Info: ../img/CB-global.png  used on input line 628.
 (pdftex.def)             Requested size: 218.51521pt x 174.56953pt.
 <../img/CB-detail.png, id=423, 354.32375pt x 268.00125pt>
 File: ../img/CB-detail.png Graphic file (type png)
 <use ../img/CB-detail.png>
-Package pdftex.def Info: ../img/CB-detail.png  used on input line 630.
+Package pdftex.def Info: ../img/CB-detail.png  used on input line 634.
 (pdftex.def)             Requested size: 218.51521pt x 165.28392pt.
 <../img/monter.png, id=424, 354.32375pt x 317.185pt>
 File: ../img/monter.png Graphic file (type png)
 <use ../img/monter.png>
-Package pdftex.def Info: ../img/monter.png  used on input line 643.
+Package pdftex.def Info: ../img/monter.png  used on input line 647.
 (pdftex.def)             Requested size: 218.51521pt x 195.61693pt.
 <../img/descente.png, id=425, 354.32375pt x 313.17pt>
 File: ../img/descente.png Graphic file (type png)
 <use ../img/descente.png>
-Package pdftex.def Info: ../img/descente.png  used on input line 649.
+Package pdftex.def Info: ../img/descente.png  used on input line 653.
 (pdftex.def)             Requested size: 218.51521pt x 193.14076pt.
 
 
@@ -676,7 +686,7 @@ Package pdftex.def Info: ../img/descente.png  used on input line 649.
 <../img/architecture-Glob.png, id=435, 940.51375pt x 577.15625pt>
 File: ../img/architecture-Glob.png Graphic file (type png)
 <use ../img/architecture-Glob.png>
-Package pdftex.def Info: ../img/architecture-Glob.png  used on input line 672.
+Package pdftex.def Info: ../img/architecture-Glob.png  used on input line 676.
 (pdftex.def)             Requested size: 455.24411pt x 279.36562pt.
 
 
@@ -686,7 +696,7 @@ Package pdftex.def Info: ../img/architecture-Glob.png  used on input line 672.
 <../images/ArchitectureFoncGlob.png, id=458, 1411.77437pt x 869.2475pt>
 File: ../images/ArchitectureFoncGlob.png Graphic file (type png)
 <use ../images/ArchitectureFoncGlob.png>
-Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 781.
+Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 785.
 (pdftex.def)             Requested size: 455.24411pt x 280.30032pt.
 
 
@@ -696,41 +706,41 @@ Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 
 <../img/appli-figma.png, id=482, 201.75375pt x 422.57875pt>
 File: ../img/appli-figma.png Graphic file (type png)
 <use ../img/appli-figma.png>
-Package pdftex.def Info: ../img/appli-figma.png  used on input line 890.
+Package pdftex.def Info: ../img/appli-figma.png  used on input line 894.
 (pdftex.def)             Requested size: 168.4381pt x 352.80363pt.
 <../img/prototype.jpg, id=483, 3035.34pt x 4047.12pt>
 File: ../img/prototype.jpg Graphic file (type jpg)
 <use ../img/prototype.jpg>
-Package pdftex.def Info: ../img/prototype.jpg  used on input line 896.
+Package pdftex.def Info: ../img/prototype.jpg  used on input line 900.
 (pdftex.def)             Requested size: 250.38564pt x 333.84212pt.
 
 
 [23 <../img/appli-figma.png> <../img/prototype.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 923--925
+Underfull \hbox (badness 10000) in paragraph at lines 927--929
 
  []
 
 <../img/home.png, id=489, 1084.05pt x 2409.0pt>
 File: ../img/home.png Graphic file (type png)
 <use ../img/home.png>
-Package pdftex.def Info: ../img/home.png  used on input line 935.
+Package pdftex.def Info: ../img/home.png  used on input line 939.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 <../img/add.png, id=490, 1084.05pt x 2409.0pt>
 File: ../img/add.png Graphic file (type png)
 <use ../img/add.png>
-Package pdftex.def Info: ../img/add.png  used on input line 941.
+Package pdftex.def Info: ../img/add.png  used on input line 945.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
 
 [24 <../img/home.png> <../img/add.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 958--959
+Underfull \hbox (badness 10000) in paragraph at lines 962--963
 
  []
 
 <../img/connect.png, id=498, 1084.05pt x 2409.0pt>
 File: ../img/connect.png Graphic file (type png)
 <use ../img/connect.png>
-Package pdftex.def Info: ../img/connect.png  used on input line 964.
+Package pdftex.def Info: ../img/connect.png  used on input line 968.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
 
@@ -738,96 +748,96 @@ Package pdftex.def Info: ../img/connect.png  used on input line 964.
 <../img/language.png, id=505, 1084.05pt x 2409.0pt>
 File: ../img/language.png Graphic file (type png)
 <use ../img/language.png>
-Package pdftex.def Info: ../img/language.png  used on input line 989.
+Package pdftex.def Info: ../img/language.png  used on input line 993.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 <..//img/contrast.png, id=506, 1084.05pt x 2409.0pt>
 File: ..//img/contrast.png Graphic file (type png)
 <use ..//img/contrast.png>
-Package pdftex.def Info: ..//img/contrast.png  used on input line 995.
+Package pdftex.def Info: ..//img/contrast.png  used on input line 999.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
 
 [26 <../img/language.png> <..//img/contrast.png>]
 
 [27]
-Underfull \hbox (badness 2368) in paragraph at lines 1145--1149
+Underfull \hbox (badness 2368) in paragraph at lines 1149--1153
 []|\TS1/cmr/m/n/12 ˆ \T1/cmr/m/n/12 Af-fi-chage im-mé-diat d'un re-tour
  []
 
 
-Underfull \hbox (badness 1158) in paragraph at lines 1145--1149
+Underfull \hbox (badness 1158) in paragraph at lines 1149--1153
 \T1/cmr/m/n/12 d'état lors des com-mandes (dé-pla-
  []
 
 
-Underfull \hbox (badness 7869) in paragraph at lines 1152--1152
+Underfull \hbox (badness 7869) in paragraph at lines 1156--1156
 []|\T1/cmr/m/n/12 Réduction de l'ef-fort
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1160--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1164
 []|\T1/cmr/m/n/12 L'utilisateur reste
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1160--1160
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1164
 \T1/cmr/m/n/12 maître des ac-tions ;
  []
 
 
-Underfull \hbox (badness 2635) in paragraph at lines 1160--1160
+Underfull \hbox (badness 2635) in paragraph at lines 1164--1164
 \T1/cmr/m/n/12 ab-sence de com-por-te-
  []
 
 
-Underfull \hbox (badness 7030) in paragraph at lines 1168--1168
+Underfull \hbox (badness 7030) in paragraph at lines 1172--1172
 []|\T1/cmr/m/n/12 Capacité du sys-tème
  []
 
 
-Underfull \hbox (badness 1226) in paragraph at lines 1168--1168
+Underfull \hbox (badness 1226) in paragraph at lines 1172--1172
 \T1/cmr/m/n/12 à s'ajus-ter aux pré-fé-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1176--1176
+Underfull \hbox (badness 10000) in paragraph at lines 1180--1180
 []|\T1/cmr/m/n/12 Prévention, dé-tec-tion
  []
 
 
-Underfull \hbox (badness 4454) in paragraph at lines 1184--1184
+Underfull \hbox (badness 4454) in paragraph at lines 1188--1188
 []|\T1/cmr/m/n/12 Uniformité des règles
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1191--1191
+Underfull \hbox (badness 10000) in paragraph at lines 1195--1195
 []|\T1/cmr/m/n/12 Compréhensibilité im-
  []
 
 
-Underfull \hbox (badness 1137) in paragraph at lines 1191--1191
+Underfull \hbox (badness 1137) in paragraph at lines 1195--1195
 \T1/cmr/m/n/12 mé-diate des icônes et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1197--1197
+Underfull \hbox (badness 10000) in paragraph at lines 1201--1201
 []|\T1/cmr/m/n/12 Adéquation avec les
  []
 
 
-Underfull \hbox (badness 4765) in paragraph at lines 1197--1197
+Underfull \hbox (badness 4765) in paragraph at lines 1201--1201
 \T1/cmr/m/n/12 ca-pa-ci-tés, at-tentes et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1197--1197
+Underfull \hbox (badness 10000) in paragraph at lines 1201--1201
 \T1/cmr/m/n/12 contexte d'usage des
  []
 
 
 
 [28] [29]
-Underfull \hbox (badness 7308) in paragraph at lines 1227--1227
+Underfull \hbox (badness 7308) in paragraph at lines 1231--1231
 []|\T1/cmr/m/n/12 Personnes à mo-bi-lité ré-duite
  []
 
@@ -838,17 +848,17 @@ Underfull \hbox (badness 7308) in paragraph at lines 1227--1227
 [31]
 
 [32]
-Underfull \hbox (badness 10000) in paragraph at lines 1395--1396
+Underfull \hbox (badness 10000) in paragraph at lines 1399--1400
 
  []
 
 
-Underfull \hbox (badness 3579) in paragraph at lines 1434--1435
+Underfull \hbox (badness 3579) in paragraph at lines 1438--1439
 []\T1/cmr/m/n/12 Salwa, M., & Kr-zysz-to-fik, I. (2025). In-fluence of Control Sys-tem Ar-chi-
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 1434--1435
+Underfull \hbox (badness 1748) in paragraph at lines 1438--1439
 \T1/cmr/m/n/12 tec-ture on Mo-bile Ro-bot Sta-bi-lity and Per-for-mance. \T1/cmr/m/it/12 Sen-sors\T1/cmr/m/n/12 , 25(23), 7353.
  []
 
@@ -873,7 +883,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,972b,706s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on rapport.pdf (35 pages, 11553034 bytes).
+Output written on rapport.pdf (35 pages, 11553712 bytes).
 PDF statistics:
  674 PDF objects out of 1000 (max. 8388607)
  560 compressed objects within 6 object streams
