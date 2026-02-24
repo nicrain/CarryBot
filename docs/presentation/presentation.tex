@@ -43,6 +43,8 @@
 \hspace{1cm} \includegraphics[height=2cm]{../images/IC-carryBot.png}
 \hspace{1cm} \includegraphics[height=2.5cm]{../images/logo-handi.png}}
 
+\usepackage[backend=biber,style=authoryear]{biblatex}
+\addbibresource{references.bib}
 % -------------------------------------------------------------
 \begin{document}
 % -------------------------------------------------------------
@@ -1077,15 +1079,10 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
 %--------------------------------------------------------------
 \section*{Bibliographie}
 %--------------------------------------------------------------
-% Bibliography handled manually below to avoid BibTeX warnings.
-% The automatic \bibliography{references} was removed.
-% A manual thebibliography environment is provided later in the file.
+\section*{Bibliographie}
 \begin{frame}[allowframebreaks]{Bibliographie}
-\footnotesize
-\begin{thebibliography}{9}
-\bibitem{bloss2011} Bloss, A. (2011). Titre de l'article ou rapport. Source institutionnelle.
-\bibitem{bourdon2023} Bourdon, B. (2023). Titre de l'article. Nom de la revue ou site.
-\end{thebibliography}
+\nocite{*}
+\printbibliography
 \end{frame}
 % -------------------------------------------------------------
 \begin{frame}
