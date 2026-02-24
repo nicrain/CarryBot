@@ -43,8 +43,7 @@
 \hspace{1cm} \includegraphics[height=2cm]{../images/IC-carryBot.png}
 \hspace{1cm} \includegraphics[height=2.5cm]{../images/logo-handi.png}}
 
-\usepackage[backend=biber,style=authoryear]{biblatex}
-\addbibresource{references.bib}
+
 % -------------------------------------------------------------
 \begin{document}
 % -------------------------------------------------------------
@@ -658,12 +657,12 @@ Agir comme \textbf{cerveau décisionnel} du système.
 \end{block}
 
 \begin{itemize}
-    \item Traite les données caméra (vision + profondeur).
-    \item Prend les décisions de déplacement (détection de murs/escaliers).
-    \item Expose les services \textbf{HTTP} (interface \textbf{Web/API}) pour le pilotage à distance.
-    \item Diffuse un \textbf{flux vidéo} en temps réel pour la supervision.
-    \item Communique avec MegaPi (envoi des commandes, réception de la télémétrie).
-    \item Assure la connectivité réseau en \textbf{Wi-Fi} (mode point d’accès).
+    \item<1-1>Traite les données caméra (vision + profondeur).
+    \item<2-2> Prend les décisions de déplacement (détection de murs/escaliers).
+    \item<3-3> Expose les services \textbf{HTTP} (interface \textbf{Web/API}) pour le pilotage à distance.
+    \item<4-4>Diffuse un \textbf{flux vidéo} en temps réel pour la supervision.
+    \item<5-5> Communique avec MegaPi (envoi des commandes, réception de la télémétrie).
+    \item<6-6> Assure la connectivité réseau en \textbf{Wi-Fi} (mode point d’accès).
 \end{itemize}
 
 \begin{alertblock}{Entrées / sorties}
@@ -680,11 +679,11 @@ Exécuter les commandes bas niveau et piloter les actionneurs.
 \end{block}
 
 \begin{itemize}
-    \item Contrôle les moteurs de roues et du mécanisme Tri-Star.
-    \item Lecture des capteurs embarqués (ultrason, IMU).
-    \item Renvoie au Raspberry Pi les données de télémétrie.
-    \item Gestion de l’exécution temps réel des ordres reçus.
-    \item Ajuste l’équilibre en pilotant le vérin à partir des données IMU.
+    \item<1-1>Contrôle les moteurs de roues et du mécanisme Tri-Star.
+    \item<2-2> Lecture des capteurs embarqués (ultrason, IMU).
+    \item<3-3> Renvoie au Raspberry Pi les données de télémétrie.
+    \item<4-4> Gestion de l’exécution temps réel des ordres reçus.
+    \item<5-5> Ajuste l’équilibre en pilotant le vérin à partir des données IMU.
 \end{itemize}
 
 \begin{alertblock}{Résultat}
@@ -1089,14 +1088,6 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
 
 \end{frame}
 
-%--------------------------------------------------------------
-\section*{Bibliographie}
-%--------------------------------------------------------------
-\section*{Bibliographie}
-\begin{frame}[allowframebreaks]{Bibliographie}
-\nocite{*}
-\printbibliography
-\end{frame}
 % -------------------------------------------------------------
 \begin{frame}
 \centering
