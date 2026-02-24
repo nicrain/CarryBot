@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  24 FEB 2026 10:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  24 FEB 2026 11:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1060,56 +1060,52 @@ Overfull \vbox (3.90802pt too high) detected at line 709
 [44
 
 ]
-<../images/home.png, id=572, 1084.05pt x 2409.0pt>
-File: ../images/home.png Graphic file (type png)
-<use ../images/home.png>
-Package pdftex.def Info: ../images/home.png  used on input line 741.
-(pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
+<../images/Home.jpg, id=572, 803.0pt x 1284.8pt>
+File: ../images/Home.jpg Graphic file (type jpg)
+<use ../images/Home.jpg>
+Package pdftex.def Info: ../images/Home.jpg  used on input line 741.
+(pdftex.def)             Requested size: 91.04872pt x 145.66101pt.
 
 
 [45
 
- <../images/home.png>]
-<../images/add.png, id=579, 1084.05pt x 2409.0pt>
-File: ../images/add.png Graphic file (type png)
-<use ../images/add.png>
-Package pdftex.def Info: ../images/add.png  used on input line 767.
-(pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
+ <../images/Home.jpg>]
+<../images/Add.jpg, id=578, 803.0pt x 1284.8pt>
+File: ../images/Add.jpg Graphic file (type jpg)
+<use ../images/Add.jpg>
+Package pdftex.def Info: ../images/Add.jpg  used on input line 767.
+(pdftex.def)             Requested size: 91.04872pt x 145.66101pt.
 
 
 [46
 
- <../images/add.png>]
-<../images/connect.png, id=586, 1084.05pt x 2409.0pt>
-File: ../images/connect.png Graphic file (type png)
-<use ../images/connect.png>
-Package pdftex.def Info: ../images/connect.png  used on input line 791.
-(pdftex.def)             Requested size: 91.04872pt x 202.31786pt.
+ <../images/Add.jpg>]
+<../images/connect.jpg, id=584, 803.0pt x 1284.8pt>
+File: ../images/connect.jpg Graphic file (type jpg)
+<use ../images/connect.jpg>
+Package pdftex.def Info: ../images/connect.jpg  used on input line 791.
+(pdftex.def)             Requested size: 91.04872pt x 145.66101pt.
 
 
 [47
 
- <../images/connect.png>]
-<../images/contrast.png, id=593, 1084.05pt x 2409.0pt>
-File: ../images/contrast.png Graphic file (type png)
-<use ../images/contrast.png>
-Package pdftex.def Info: ../images/contrast.png  used on input line 821.
-(pdftex.def)             Requested size: 79.6678pt x 177.02812pt.
-<../images/language.png, id=594, 1084.05pt x 2409.0pt>
-File: ../images/language.png Graphic file (type png)
-<use ../images/language.png>
-Package pdftex.def Info: ../images/language.png  used on input line 821.
-(pdftex.def)             Requested size: 79.6678pt x 177.02812pt.
-
-Overfull \vbox (4.63107pt too high) detected at line 821
- []
-
+ <../images/connect.jpg>]
+<../images/contrast.jpg, id=590, 803.0pt x 1284.8pt>
+File: ../images/contrast.jpg Graphic file (type jpg)
+<use ../images/contrast.jpg>
+Package pdftex.def Info: ../images/contrast.jpg  used on input line 821.
+(pdftex.def)             Requested size: 91.04872pt x 145.66101pt.
+<../images/language.jpg, id=591, 803.0pt x 1284.8pt>
+File: ../images/language.jpg Graphic file (type jpg)
+<use ../images/language.jpg>
+Package pdftex.def Info: ../images/language.jpg  used on input line 821.
+(pdftex.def)             Requested size: 91.04872pt x 145.66101pt.
 
 
 [48
 
- <../images/contrast.png> <../images/language.png>]
-<../images/ArchitectureFoncGlob.png, id=602, 1411.77437pt x 869.2475pt>
+ <../images/contrast.jpg> <../images/language.jpg>]
+<../images/ArchitectureFoncGlob.png, id=597, 1411.77437pt x 869.2475pt>
 File: ../images/ArchitectureFoncGlob.png Graphic file (type png)
 <use ../images/ArchitectureFoncGlob.png>
 Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 829.
@@ -1123,7 +1119,7 @@ Package pdftex.def Info: ../images/ArchitectureFoncGlob.png  used on input line 
 [50
 
 ]
-<../images/camera.png, id=654, 1470.49374pt x 925.4575pt>
+<../images/camera.png, id=649, 1470.49374pt x 925.4575pt>
 File: ../images/camera.png Graphic file (type png)
 <use ../images/camera.png>
 Package pdftex.def Info: ../images/camera.png  used on input line 903.
@@ -1137,7 +1133,7 @@ Package pdftex.def Info: ../images/camera.png  used on input line 903.
 [52
 
 {/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
-<../images/axeFixe.jpg, id=680, 700.6175pt x 1202.4925pt>
+<../images/axeFixe.jpg, id=675, 700.6175pt x 1202.4925pt>
 File: ../images/axeFixe.jpg Graphic file (type jpg)
 <use ../images/axeFixe.jpg>
 Package pdftex.def Info: ../images/axeFixe.jpg  used on input line 990.
@@ -1163,7 +1159,7 @@ Overfull \vbox (12.72592pt too high) detected at line 990
 [56
 
 ]
-<../images/secondeMoteur.jpg, id=704, 4047.12pt x 3035.34pt>
+<../images/secondeMoteur.jpg, id=699, 4047.12pt x 3035.34pt>
 File: ../images/secondeMoteur.jpg Graphic file (type jpg)
 <use ../images/secondeMoteur.jpg>
 Package pdftex.def Info: ../images/secondeMoteur.jpg  used on input line 990.
@@ -1173,7 +1169,7 @@ Package pdftex.def Info: ../images/secondeMoteur.jpg  used on input line 990.
 [57
 
  <../images/secondeMoteur.jpg>]
-<../images/l293d.jpg, id=710, 2487.2925pt x 2581.645pt>
+<../images/l293d.jpg, id=705, 2487.2925pt x 2581.645pt>
 File: ../images/l293d.jpg Graphic file (type jpg)
 <use ../images/l293d.jpg>
 Package pdftex.def Info: ../images/l293d.jpg  used on input line 990.
@@ -1183,7 +1179,7 @@ Package pdftex.def Info: ../images/l293d.jpg  used on input line 990.
 [58
 
  <../images/l293d.jpg>]
-<../images/upsShield.jpeg, id=716, 4047.12pt x 3035.34pt>
+<../images/upsShield.jpeg, id=711, 4047.12pt x 3035.34pt>
 File: ../images/upsShield.jpeg Graphic file (type jpg)
 <use ../images/upsShield.jpeg>
 Package pdftex.def Info: ../images/upsShield.jpeg  used on input line 990.
@@ -1250,9 +1246,9 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  128i,14n,123p,446b,834s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsi0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0500.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0700.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx2488.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on presentation.pdf (64 pages, 20192032 bytes).
+Output written on presentation.pdf (64 pages, 19943748 bytes).
 PDF statistics:
- 922 PDF objects out of 1000 (max. 8388607)
+ 917 PDF objects out of 1000 (max. 8388607)
  608 compressed objects within 7 object streams
  145 named destinations out of 1000 (max. 500000)
  1173 words of extra memory for PDF output out of 10000 (max. 10000000)
