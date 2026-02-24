@@ -7,7 +7,7 @@
 \beamer@sectionintoc {6}{Composants matériels}{39}{0}{6}
 \beamer@sectionintoc {7}{Logique de contrôle}{41}{0}{7}
 \beamer@sectionintoc {8}{Application}{44}{0}{8}
-\beamer@sectionintoc {9}{Technologies}{50}{0}{9}
-\beamer@sectionintoc {11}{Tests utilisateur}{52}{0}{10}
-\beamer@sectionintoc {12}{Défis \& solutions}{53}{0}{11}
-\beamer@sectionintoc {13}{Perspectives}{61}{0}{12}
+\beamer@sectionintoc {9}{Technologies}{53}{0}{9}
+\beamer@sectionintoc {11}{Tests utilisateur}{55}{0}{10}
+\beamer@sectionintoc {12}{Défis \& solutions}{56}{0}{11}
+\beamer@sectionintoc {13}{Perspectives}{64}{0}{12}
