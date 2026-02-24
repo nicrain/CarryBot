@@ -101,7 +101,7 @@ The increasing aging population, combined with mobility limitations affecting el
 
 The robot integrates a Tri-Star wheel mechanism enabling the crossing of small obstacles and low-height steps, combined with a linear actuator-based stabilization system designed to maintain platform balance during vertical transitions. The system architecture follows a hierarchical model separating high-level supervision (Raspberry Pi 5) from real-time execution (Makeblock MegaPi), ensuring modularity, robustness, and evolvability. Perception is supported by an Intel RealSense depth camera, ultrasonic sensing, and inertial measurement (IMU). User interaction is achieved through an accessible Android application featuring simplified directional controls, multilingual support, high-contrast mode, and secure emergency stop mechanisms.
 
-Technical validation addressed mobility, stabilization time, load capacity (up to 2~kg), and obstacle detection. Ergonomic evaluation was conducted with 12 participants, including persons with reduced mobility and elderly users, based on Bastien \& Scapin usability criteria. Results indicate satisfactory perceived control, low cognitive load, and good interface comprehensibility.
+Technical validation addressed mobility, stabilization time, load capacity (up to 1~kg), and obstacle detection. Ergonomic evaluation was conducted with 12 participants, including persons with reduced mobility and elderly users, based on Bastien \& Scapin usability criteria. Results indicate satisfactory perceived control, low cognitive load, and good interface comprehensibility.
 
 Although advanced autonomous navigation (e.g., SLAM) was intentionally excluded from the current scope, CarryBot provides a coherent demonstrator integrating mechanical, electronic, and software components. The project establishes a solid foundation for future developments toward semi-autonomous navigation, enhanced stabilization, and industrial-grade robustness.\\
 
@@ -118,7 +118,7 @@ Le vieillissement de la population et la pr\'evalence des limitations motrices c
 
 Le robot s’appuie sur un m\'ecanisme de roues Tri-Star permettant le franchissement de petites irr\'egularit\'es et de marches de faible hauteur, associ\'e \`a un syst\`eme de stabilisation par v\'erin lin\'eaire visant \`a maintenir l’horizontalit\'e de la plateforme lors des transitions verticales. L’architecture suit une approche hi\'erarchique s\'eparant la supervision haut niveau (Raspberry Pi~5) de l’ex\'ecution temps r\'eel (Makeblock MegaPi), afin de garantir modularit\'e, robustesse et \'evolutivit\'e. La perception repose sur une cam\'era de profondeur Intel RealSense, un capteur ultrason et une unit\'e inertielle (IMU). L’interaction utilisateur est assur\'ee par une application Android accessible, int\'egrant commandes directionnelles simplifi\'ees, multilinguisme, mode contraste \'elev\'e et dispositifs d’arr\^et d’urgence physiques et logiciels.
 
-La validation a port\'e sur la mobilit\'e, la stabilisation, la capacit\'e d’emport (jusqu’\`a 2~kg) et la d\'etection d’obstacles. Une \'evaluation ergonomique a \'et\'e men\'ee aupr\`es de 12 participants, incluant des personnes \`a mobilit\'e r\'eduite et des personnes \^ag\'ees, selon les crit\`eres de Bastien \& Scapin. Les r\'esultats indiquent une bonne compr\'ehension de l’interface, une charge cognitive limit\'ee et un contr\^ole per\c{c}u satisfaisant.
+La validation a port\'e sur la mobilit\'e, la stabilisation, la capacit\'e d’emport (jusqu’\`a 1~kg) et la d\'etection d’obstacles. Une \'evaluation ergonomique a \'et\'e men\'ee aupr\`es de 12 participants, incluant des personnes \`a mobilit\'e r\'eduite et des personnes \^ag\'ees, selon les crit\`eres de Bastien \& Scapin. Les r\'esultats indiquent une bonne compr\'ehension de l’interface, une charge cognitive limit\'ee et un contr\^ole per\c{c}u satisfaisant.
 
 Les fonctionnalit\'es de navigation autonome avanc\'ee (ex.~SLAM) ont \'et\'e exclues du p\'erim\`etre actuel. CarryBot constitue n\'eanmoins un d\'emonstrateur coh\'erent int\'egrant m\'ecanique, \'electronique et logiciel, et fournit une base solide pour des \'evolutions vers un mode semi-autonome, une stabilisation optimis\'ee et une robustesse accrue.\\
 
@@ -510,7 +510,7 @@ EF3 & Arrêt logiciel sécurisé & H & Arrêt critique déclenché depuis l’ap
 
 EF4 & Franchissement de petites marches & M & Système de roues Tri-Star. \\ \hline
 
-EF5 & Transport d’objets légers sur palette motorisée & H & Capacité de charge jusqu’à 2 kg. \\ \hline
+EF5 & Transport d’objets légers sur palette motorisée & H & Capacité de charge jusqu’à 1 kg. \\ \hline
 
 EF6 & Élévation de la palette motorisée & M & Transport d’objets légers. \\ \hline
 
@@ -1082,7 +1082,7 @@ L’interaction effective avec CarryBot est actuellement limitée aux membres de
 \subsection{Contraintes et orientations de conception}
 
 \begin{itemize}
-    \item \textbf{Contraintes physiques}: masse totale du robot inférieure à 3~kg.
+    \item \textbf{Contraintes physiques}: masse totale du robot inférieure à 2~kg.
     \item \textbf{Contraintes d’autonomie}: le robot est alimenté via un module UPS 5.1 V / 5 A compatible Raspberry Pi 5, utilisant jusqu’à quatre cellules 18650. L’autonomie dépend du nombre et de la capacité des cellules installées, mais le système assure une alimentation stable pour la durée des essais prévus.
     \item \textbf{Contraintes de sécurité}: mécanismes d’arrêt d’urgence adaptés à un usage hospitalier et PMR.
 \end{itemize}
@@ -1119,7 +1119,7 @@ L’évaluation du prototype CarryBot repose sur plusieurs indicateurs technique
 
 \textbf{Capacité de déplacement vertical:} nombre de marches franchissables consécutivement. Le prototype actuel permet le franchissement de marches d’environ 4 cm. L’objectif minimal est de franchir trois marches successives.
 
-\textbf{Capacité de charge:} transport sécurisé d’objets légers (jusqu’à 2 kg dans la version actuelle).
+\textbf{Capacité de charge:} transport sécurisé d’objets légers (jusqu’à 1 kg dans la version actuelle).
 
 \textbf{Efficacité du rééquilibrage:} capacité du système à détecter une inclinaison du plateau et à rétablir l’horizontalité via le vérin:
 \begin{itemize}
