@@ -39,12 +39,12 @@
 \begin{center}
 \begin{minipage}{0.36\textwidth}
   \centering
-  \includegraphics[width=0.75\linewidth]{../img/logo-p8.jpg}
+  \includegraphics[width=0.75\linewidth]{../images/logo-p8.jpg}
 \end{minipage}
 \hfill
 \begin{minipage}{0.45\textwidth}
   \centering
-  \includegraphics[width=0.5\linewidth]{../img/logo-handi.png}
+  \includegraphics[width=0.5\linewidth]{../images/logo-handi.png}
 \end{minipage}
 \end{center}
 
@@ -60,7 +60,7 @@
 % -------------------------------------------------------------
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.38\textwidth]{../img/carryBot.png} % <- mets ta photo ici
+    \includegraphics[width=0.38\textwidth]{../images/IC-carryBot.png} 
 \end{figure}
 \vspace{0.5cm}
 
@@ -229,7 +229,7 @@ CarryBot s’adresse prioritairement à des publics nécessitant une assistance 
 Le déroulement du projet suit les jalons suivants:
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1.10\linewidth]{../img/GANTT-CarryBot.png}
+    \includegraphics[width=1.10\linewidth]{../images/GANTT-CarryBot.png}
     \caption{Diagramme de Gantt du projet CarryBot}
     \label{fig:architecture_carrybot}
 \end{figure}
@@ -268,7 +268,7 @@ Cette section s’appuie sur trois revues de littérature: (1) une revue systém
 Le robot \textbf{TUG} (Aethon), développé dès 2004, constitue un système emblématique, largement documenté \cite{holland2021,teng2022}. Il s’agit d’un robot mobile autonome capable de transporter médicaments, sang, nourriture, linge ou déchets, avec une forte capacité d’emport. Il s’appuie sur des plans numériques, des capteurs (laser/ultrasons) pour l’évitement d’obstacles, et peut interagir avec l’infrastructure (ex. ascenseurs) via réseau sans fil \cite{holland2021}. Les chaînes de traitement en pharmacie peuvent ainsi être automatisées via programmation de séquences de livraison, réduisant le temps de cycle et libérant du temps opérateur \cite{teng2022}.\\
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\linewidth]{../img/tug.png}
+    \includegraphics[width=0.45\linewidth]{../images/tug.png}
     \caption{Robot logistique hospitalier TUG (Aethon)}
     \label{fig:tug}
 \end{figure}
@@ -280,7 +280,7 @@ D’autres systèmes mettent l’accent sur des exigences spécifiques: sécuris
 La robotique d’assistance vise l’autonomie et le maintien à domicile, particulièrement pour les personnes âgées et les personnes à mobilité réduite. Plusieurs dispositifs de service sont rapportés, offrant des fonctionnalités de \textbf{rappels de médicaments}, d’appels, de divertissement et de petites commissions \cite{wang2024}. Le robot \textbf{Care-O-Bot} constitue une ligne de recherche historique: ses versions successives illustrent une montée en complexité (mobilité, capteurs, interface tactile, bras motorisés) et un positionnement orienté interaction et acceptabilité sociale \cite{graf2009,kittmann2015,graf2023}.\\
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\linewidth]{../img/care-o-bot.png}
+    \includegraphics[width=0.45\linewidth]{../images/care-o-bot.png}
     \caption{Care-O-Bot – Robot d’assistance domestique}
     \label{fig:careobot}
 \end{figure}
@@ -291,14 +291,14 @@ En complément des dispositifs de recherche, des solutions plus récentes existe
     \centering
     \begin{minipage}{0.47\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/labrador.png}
+        \includegraphics[width=\linewidth]{../images/labrador.png}
         \caption{Labrador Retriever}
         \label{fig:labrador}
     \end{minipage}
     \hfill
     \begin{minipage}{0.42\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/rosa.png}
+        \includegraphics[width=\linewidth]{../images/rosa.png}
         \caption{ROSA }
         \label{fig:rosa}
     \end{minipage}
@@ -323,7 +323,7 @@ Les robots \textbf{tri-star} (star-wheel based) se rattachent aux hybrides roues
 Dalvand et al. (2006) présentent le robot \textbf{MSRox}, combinant roues régulières et unités tri-star, avec deux axes rotatifs par module (roues sur plat, pivot du module sur obstacle). Le système maintient de nombreux points de contact au sol et réduit les chocs, avec une capacité de franchissement de marches jusqu’à 17 cm \cite{dalvand2006}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\linewidth]{../img/rox.png}
+    \includegraphics[width=0.45\linewidth]{../images/rox.png}
     \caption{Principe mécanique d’un système tri-star}
     \label{fig:tristar_schema}
 \end{figure}
@@ -336,7 +336,7 @@ L’auto-équilibrage s’appuie sur le concept du pendule inversé: le robot es
 Zhao et al. (2023) décrivent un robot d’inspection sur deux roues intégrant capteur 360° et gyroscope MPU 6050, capable de se stabiliser rapidement et de supporter une charge significative \cite{zhao2023}. Une approche alternative consiste à stabiliser via mécanismes physiques: Quaglia et al. (2011) présentent \textbf{Wheelchair.q}, fauteuil roulant motorisé avec capacité de franchissement et gestion du centre de masse via liaison à quatre barres, limitant le basculement lors de la montée \cite{quaglia2011}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\linewidth]{../img/wheel.png}
+    \includegraphics[width=0.45\linewidth]{../images/wheel.png}
     \caption{Modélisation du pendule inversé pour robot auto-équilibré}
     \label{fig:pendule_inverse}
 \end{figure}
@@ -478,7 +478,7 @@ ergonomique de CarryBot.
 % Persona 1 -----------------------------------------------------
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{../img/marie.png}
+    \includegraphics[width=0.6\textwidth]{../images/marie.png}
     \caption{Persona 1: Marie, 75 ans, retraitée}
 
 \end{figure}
@@ -486,7 +486,7 @@ ergonomique de CarryBot.
 % Persona 2 -----------------------------------------------------
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\textwidth]{../img/lucas.png}
+    \includegraphics[width=0.6\textwidth]{../images/lucas.png}
     \caption{Persona 2: Lucas, 30 ans, à mobilité réduite}
 \end{figure}
 
@@ -625,13 +625,13 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
     \centering
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/CB-global.png}
+        \includegraphics[width=\linewidth]{../images/CB-global.png}
         \caption{CarryBot en vue globale}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/CB-detail.png}
+        \includegraphics[width=\linewidth]{../images/img2.png}
         \caption{Détail de la motorisation et des roues Tri-Star}
     \end{minipage}
 \end{figure}
@@ -644,13 +644,13 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
     \centering
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/monter.png}
+        \includegraphics[width=\linewidth]{../images/monter.png}
         \caption{La montée de la palette motorisée}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/descente.png}
+        \includegraphics[width=\linewidth]{../images/descente.png}
         \caption{La descente de la palette motorisée}
     \end{minipage}
 \end{figure}
@@ -673,7 +673,7 @@ et à la stabilisation.
 % -------------------------------------------------------------
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{../img/architecture-Glob.png}
+    \includegraphics[width=\linewidth]{../images/architecture-Glob.png}
     \caption{Architecture logique globale de CarryBot}
     \label{fig:architecture_logique}
 \end{figure}
@@ -783,8 +783,7 @@ Cette structuration permet d’assurer modularité, robustesse et évolutivité.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{../images/ArchitectureFoncGlob.png}
-    \caption{Architecture fonctionnelle globale de CarryBot:
-    séparation client, supervision Raspberry Pi et exécution MegaPi}
+    \caption{Architecture fonctionnelle globale de CarryBot}
     \label{fig:architecture_globale_carrybot}
 \end{figure}
 
@@ -891,13 +890,13 @@ reposant sur une hiérarchie supervision/exécution.
     \centering
     \begin{minipage}{0.37\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/appli-figma.png}
+        \includegraphics[width=\linewidth]{../images/appli-figma.png}
         \caption{Prototype Figma}
     \end{minipage}
     \hfill
     \begin{minipage}{0.55\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/prototype.jpg}
+        \includegraphics[width=\linewidth]{../images/prototype.jpg}
         \caption{Prototype à la main}
     \end{minipage}
     \caption{Interface principale de l’application CarryBot}
@@ -936,13 +935,13 @@ L’objectif principal de cette application est de proposer un contrôle simple,
     \centering
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/home.png}
+        \includegraphics[width=\linewidth]{../images/home.png}
         \caption{Gestion des robots enregistrés \& HOME}
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/add.png}
+        \includegraphics[width=\linewidth]{../images/add.png}
         \caption{Écran de connexion IP}
     \end{minipage}
     \hfill
@@ -965,7 +964,7 @@ Cette architecture permet une utilisation évolutive en contexte domestique ou i
     \centering
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/connect.png}
+        \includegraphics[width=\linewidth]{../images/connect.png}
         \caption{Interface principale de pilotage}
     \end{minipage}
 \end{figure}
@@ -990,13 +989,13 @@ Le design privilégie des pictogrammes larges, un contraste élevé et une hiér
     \centering
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../img/language.png}
+        \includegraphics[width=\linewidth]{../images/language.png}
         \caption{Sélection de langue}
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{..//img/contrast.png}
+        \includegraphics[width=\linewidth]{..//images/contrast.png}
         \caption{Mode contraste et options TTS}
     \end{minipage}
     \caption{Fonctionnalités d’accessibilité intégrées}
