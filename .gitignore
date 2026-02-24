@@ -7,3 +7,7 @@ __pycache__/
 
 # Virtual environments
 .venv/
+
+# Local LaTeX build artifacts
+docs/RAPPORT/.latex_tmp_files/
+docs/presentation/.latex_tmp_files/
