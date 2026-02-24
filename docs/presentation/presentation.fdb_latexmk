@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1771933771.40925 "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" "presentation.pdf" "presentation" 1771933783.81702 0
+["pdflatex"] 1771935543.87699 "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" "presentation.pdf" "presentation" 1771935555.27436 0
   "../images/Add.jpg" 1771927573.37246 67535 ab2afe7fb042d70ef52b202136e50f1c ""
   "../images/ArchitectureFoncGlob.png" 1771860755.21868 132917 8a07f3be948b57646cd446130d633947 ""
   "../images/FlowChart.png" 1771929400.99185 353885 65da454454ad34ccd25a6e7980427eb9 ""
@@ -35,7 +35,7 @@
   "../images/wheel.png" 1771775618.11736 240945 46d747c2e107af919f910e1433f8bec0 ""
   "../images/xinqi.jpg" 1771620690.91045 1867328 70836fdfec37e741a07c6afd5384e03b ""
   "../images/zhaoyu.jpg" 1771620690.91746 988272 3fc88ff918d899d9690ce475c4c8df4a ""
-  "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" 1771933756.5755 30281 fdb738530db525c9c6984e75b7bf39c8 ""
+  "/Users/bessa/Downloads/COURS_M2/CarryBot/docs/presentation/presentation.tex" 1771935531.8776 30161 29972dc514074a78239238d93c1ef3a3 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -270,10 +270,10 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1765882013 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1765881960 3345729 a8f9567bc53af137e47b4baab6a70a04 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "presentation.aux" 1771933783.43633 14032 cf76556dfd02b07fa7aed6aa6dc729c6 "pdflatex"
-  "presentation.nav" 1771933783.44365 6794 6c3139b856c053793120ed8a1eab0c07 "pdflatex"
-  "presentation.tex" 1771933756.5755 30281 fdb738530db525c9c6984e75b7bf39c8 ""
-  "presentation.toc" 1771933783.44443 660 10a7feb920d4f1605a4fb6dbf254ed44 "pdflatex"
+  "presentation.aux" 1771935554.9073 14032 94549ce5ac2ac73e9f78a9473cc6eeac "pdflatex"
+  "presentation.nav" 1771935554.91468 6794 6c3139b856c053793120ed8a1eab0c07 "pdflatex"
+  "presentation.tex" 1771935531.8776 30161 29972dc514074a78239238d93c1ef3a3 ""
+  "presentation.toc" 1771935554.91478 660 10a7feb920d4f1605a4fb6dbf254ed44 "pdflatex"
   (generated)
   "presentation.aux"
   "presentation.log"

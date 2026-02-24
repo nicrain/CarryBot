@@ -1,5 +1,4 @@
-\documentclass[10pt]{beamer}
-
+\documentclass[10pt,aspectratio=169]{beamer}
 \usetheme{Madrid}
 
 % ------------------ Couleurs personnalisées ---------------------
@@ -364,7 +363,6 @@ dans un format compact.
 {\scriptsize Source: robotshop.com}
 
 \column{0.45\textwidth}
-
 \textbf{Avantages}
 \begin{itemize}
     \item Léger (20 kg).
@@ -585,14 +583,14 @@ du plan de travail au salon.
 
 \centering
 \begin{tabular}{cc}
-\includegraphics[width=0.30\linewidth]{../images/img1.png} &
-\includegraphics[width=0.30\linewidth]{../images/img2.png} \\
+\includegraphics[width=0.23\linewidth]{../images/img1.png} &
+\includegraphics[width=0.23\linewidth]{../images/img2.png} \\
 
 {\footnotesize Vue globale} &
 {\footnotesize Tri-Star} \\[0.3cm]
 
-\includegraphics[width=0.30\linewidth]{../images/img3.png} &
-\includegraphics[width=0.30\linewidth]{../images/img4.png} \\
+\includegraphics[width=0.23\linewidth]{../images/img3.png} &
+\includegraphics[width=0.23\linewidth]{../images/img4.png} \\
 
 {\footnotesize Vue arrière} &
 {\footnotesize Stabilisation}
@@ -703,7 +701,7 @@ Transformation de la décision logicielle en mouvement physique du robot.
 
 \begin{frame}{\textbf{Schéma des connexions électroniques}}
 \centering
-\includegraphics[width=0.95\linewidth]{../images/logique.png}\\[0.2cm]
+\includegraphics[width=0.85\linewidth]{../images/logique.png}\\[0.2cm]
 {\scriptsize Logique de connexion entre Raspberry Pi, MegaPi, caméra, moteurs, vérin et capteurs}
 \end{frame}
 
@@ -724,7 +722,7 @@ Transformation de la décision logicielle en mouvement physique du robot.
 
 \column{0.5\textwidth}
 \centering
-\includegraphics[width=3.2cm]{../images/Home.jpg}\\
+\includegraphics[width=4cm]{../images/Home.jpg}\\
 {\scriptsize Écran d'accueil de l'application}
 
 \column{0.5\textwidth}
@@ -748,7 +746,7 @@ Transformation de la décision logicielle en mouvement physique du robot.
 
 \column{0.55\textwidth}
 \centering
-\includegraphics[width=3.2cm]{../images/Add.jpg}\\
+\includegraphics[width=4cm]{../images/Add.jpg}\\
 {\scriptsize Sélection et gestion des robots enregistrés}
 
 \column{0.45\textwidth}
@@ -773,7 +771,7 @@ Transformation de la décision logicielle en mouvement physique du robot.
 
 \column{0.55\textwidth}
 \centering
-\includegraphics[width=3.2cm]{../images/connect.jpg}\\
+\includegraphics[width=4cm]{../images/connect.jpg}\\
 {\scriptsize Interface de contrôle directionnel}
 
 \column{0.45\textwidth}
@@ -850,14 +848,14 @@ Transformation de la décision logicielle en mouvement physique du robot.
 % -------- Image 1 --------
 \column{0.35\textwidth}
 \centering
-\includegraphics[width=2.2cm]{../images/connect-phone.png}\\
+\includegraphics[width=3cm]{../images/connect-phone.png}\\
 {\scriptsize Version téléphone}
 
 
 % -------- Image 2 --------
 \column{0.35\textwidth}
 \centering
-\includegraphics[width=3.2cm]{../images/connect.jpg}\\
+\includegraphics[width=4cm]{../images/video-CB.jpg}\\
 {\scriptsize Version tablette}
 
 \end{columns}
@@ -878,7 +876,7 @@ Transformation de la décision logicielle en mouvement physique du robot.
 %--------------------------------------------------------------
 \begin{frame}{\textbf{Schéma de Fonctionnement global}}
 \centering
-\includegraphics[width=0.95\linewidth]{../images/ArchitectureFoncGlob.png}\\[0.2cm]
+\includegraphics[width=0.85\linewidth]{../images/ArchitectureFoncGlob.png}\\[0.2cm]
 {\scriptsize Logique de connexion entre Raspberry Pi, MegaPi, caméra, moteurs, vérin et capteurs}
 \end{frame}
 %--------------------------------------------------------------
@@ -932,7 +930,7 @@ Transformation de la décision logicielle en mouvement physique du robot.
 
 \column{0.6\textwidth}
 \centering
-\includegraphics[width=\linewidth]{../images/camera.png}\\
+\includegraphics[width=0.70\linewidth]{../images/camera.png}\\
 {\scriptsize Interface de détection mur via caméra RealSense}
 
 \column{0.4\textwidth}
@@ -1019,32 +1017,29 @@ avec un bon niveau de contrôle perçu et une charge cognitive limitée.
 \column{0.32\textwidth}
 \only<1>{
 \centering
-\includegraphics[width=\linewidth]{../images/axeFixe.jpg}\\
-{\scriptsize Illustration : renforcement / fixation de l’axe Tri-Star}
+\includegraphics[width=0.70\linewidth]{../images/axeFixe.jpg}\\
+{\scriptsize Illustration: renforcement / fixation de l’axe Tri-Star}
 }
 \only<5>{
 \centering
 \includegraphics[width=\linewidth]{../images/secondeMoteur.jpg}\\
-{\scriptsize Illustration : ajout d’un second moteur arrière}
+{\scriptsize Illustration: ajout d’un second moteur arrière}
 }
 \only<6>{
 \centering
 \includegraphics[width=\linewidth]{../images/l293d.jpg}\\
-{\scriptsize Illustration : ajout du pont en H L293D pour le vérin}
+{\scriptsize Illustration: ajout du pont en H L293D pour le vérin}
 }
 \only<7>{
 \centering
 \includegraphics[width=\linewidth]{../images/upsShield.jpeg}\\
-{\scriptsize Illustration : alimentation Raspberry Pi via UPS Shield}
+{\scriptsize Illustration: alimentation Raspberry Pi via UPS Shield}
 }
 \end{columns}
 
 \vspace{0.4cm}
 
 \end{frame}
-% -------------------------------------------------------------
-% -------------------------------------------------------------
-
 
 % -------------------------------------------------------------
 % SLIDE Perspectives
