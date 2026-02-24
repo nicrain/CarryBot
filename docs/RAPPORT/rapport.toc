@@ -32,11 +32,11 @@
 \contentsline {subsection}{\numberline {5.2}Architecture}{18}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Matériel}{22}{subsection.5.3}%
 \contentsline {subsection}{\numberline {5.4}Logiciel}{23}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Application Android}{24}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.5}Application Android}{23}{subsection.5.5}%
 \contentsline {subsection}{\numberline {5.6}Acteurs}{27}{subsection.5.6}%
 \contentsline {section}{\numberline {6}Solutions et orientations}{27}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Solutions techniques retenues}{27}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Contraintes et orientations de conception}{27}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.2}Contraintes et orientations de conception}{28}{subsection.6.2}%
 \contentsline {subsection}{\numberline {6.3}Perspectives d’évolution}{28}{subsection.6.3}%
 \contentsline {section}{\numberline {7}Validation et tests utilisateurs}{28}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Critères de validation — Tests techniques et fonctionnels}{28}{subsection.7.1}%

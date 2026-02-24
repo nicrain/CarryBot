@@ -614,7 +614,6 @@ Commande & Raspberry Pi 5 (supervision) + MegaPi (actionneurs) \\ \hline
 \caption{Spécifications synthétiques du prototype CarryBot (mesurées / à compléter)}
 \end{table}
 
-\vspace{0,5cm}
 \subsection{Architecture}
 L’architecture de CarryBot repose sur une intégration cohérente entre l’électronique embarquée, la motorisation, les systèmes de détection et la couche logicielle de supervision. Elle se structure comme suit:
 
@@ -625,13 +624,13 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
     \centering
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/CB-global.png}
+        \includegraphics[width=0.7\linewidth]{../images/CB-global.png}
         \caption{CarryBot en vue globale}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/img2.png}
+        \includegraphics[width=0.7\linewidth]{../images/img2.png}
         \caption{Détail de la motorisation et des roues Tri-Star}
     \end{minipage}
 \end{figure}
@@ -644,19 +643,18 @@ L’architecture de CarryBot repose sur une intégration cohérente entre l’é
     \centering
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/monter.png}
+        \includegraphics[width=0.7\linewidth]{../images/monter.png}
         \caption{La montée de la palette motorisée}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/descente.png}
+        \includegraphics[width=0.7\linewidth]{../images/descente.png}
         \caption{La descente de la palette motorisée}
     \end{minipage}
 \end{figure}
 
 
-%------ 
 % =============================================================
 \subsubsection*{Architecture logique et communication inter-modules}
 % =============================================================
@@ -896,7 +894,7 @@ reposant sur une hiérarchie supervision/exécution.
     \hfill
     \begin{minipage}{0.55\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/prototype.jpg}
+        \includegraphics[width=0.9\linewidth]{../images/prototype.jpg}
         \caption{Prototype à la main}
     \end{minipage}
     \caption{Interface principale de l’application CarryBot}
@@ -935,13 +933,13 @@ L’objectif principal de cette application est de proposer un contrôle simple,
     \centering
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/home.png}
+        \includegraphics[width=\linewidth]{../images/Home.jpg}
         \caption{Gestion des robots enregistrés \& HOME}
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/add.png}
+        \includegraphics[width=\linewidth]{../images/Add.jpg}
         \caption{Écran de connexion IP}
     \end{minipage}
     \hfill
@@ -964,12 +962,18 @@ Cette architecture permet une utilisation évolutive en contexte domestique ou i
     \centering
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/connect.png}
+        \includegraphics[width=\linewidth]{../images/connect.jpg}
         \caption{Interface principale de pilotage}
     \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{../images/video-CB.jpg}
+        \caption{Pilotage avec flux vidéo}
+    \end{minipage}
+    \hfill
 \end{figure}
 
-\vspace{2cm}
 \subsubsection*{Interface de pilotage}
 L’interface principale propose:
 
@@ -978,6 +982,7 @@ L’interface principale propose:
     \item des commandes spécifiques de franchissement (monter / descendre) ;
     \item un indicateur d’état du robot;
     \item un bouton d’arrêt logiciel sécurisé.
+    \item Un bouton d'activation flux vidéo(caméra) en temps réel.
 \end{itemize}
 
 Le design privilégie des pictogrammes larges, un contraste élevé et une hiérarchie visuelle claire afin de limiter la charge cognitive.
@@ -989,13 +994,13 @@ Le design privilégie des pictogrammes larges, un contraste élevé et une hiér
     \centering
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/language.png}
+        \includegraphics[width=\linewidth]{../images/language.jpg}
         \caption{Sélection de langue}
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{../images/contrast.png}
+        \includegraphics[width=\linewidth]{../images/contrast.jpg}
         \caption{Mode contraste et options TTS}
     \end{minipage}
     \caption{Fonctionnalités d’accessibilité intégrées}
@@ -1007,9 +1012,9 @@ Le design privilégie des pictogrammes larges, un contraste élevé et une hiér
 L’application intègre plusieurs fonctionnalités d’accessibilité:
 
 \begin{itemize}
-    \item sélection multilingue (Français, English, chinois) ;
+    \item sélection multilingue (Français, English, chinois);
     \item mode contraste élevé;
-    \item activation d’un système Text-To-Speech (TTS) ;
+    \item activation d’un système Text-To-Speech (TTS);
     \item interface épurée adaptée aux personnes âgées ou PMR.
 \end{itemize}
 
@@ -1017,7 +1022,17 @@ Ces choix répondent aux exigences d’ergonomie et d’inclusion définies dans
 
 
 %-------------------------------------------------------------
+\subsubsection*{Diagramme de flux applicatif}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{../images/FlowChart.png}
+    \caption{Diagramme de flux applicatif}
+    \label{fig:architecture_globale_carrybot}
+\end{figure}
 
+La Figure~\ref{fig:architecture_globale_carrybot} illustre
+les relations entre les différentes interfaces de l'application CarryBot.
+%-------------------------------------------------------------
 
 \subsection{Acteurs}
 
@@ -1392,9 +1407,9 @@ Ainsi, le projet constitue une base solide pour une évolution vers un système 
 \bibitem{rosa}
 Hospital News, "How ROSA the Robot Will Help Isolated Seniors and Support Aging in Place", 2022. 
 \url{https://hospitalnews.com/how-rosa-the-robot-will-help-isolated-seniors-and-support-aging-in-place/}
+
 \bibitem{labrador}
 Labrador Systems, "Labrador Retriever", 2022.  \url{https://labradorsystems.com/}
-\bibitem{helpe} Borobo, "Help-E", 2022. \url{https://borobo.fr/}\\
 
 \bibitem{bloss2011}
 Bloss, R. (2011). Mobile hospital robots cure numerous logistic needs. \textit{Industrial Robot}, 38(6), 567--571. https://doi.org/10.1108/01439911111179075

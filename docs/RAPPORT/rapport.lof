@@ -10,8 +10,8 @@
 \contentsline {figure}{\numberline {9}{\ignorespaces Persona 2: Lucas, 30 ans, à mobilité réduite}}{15}{figure.caption.23}%
 \contentsline {figure}{\numberline {10}{\ignorespaces CarryBot en vue globale}}{18}{figure.caption.26}%
 \contentsline {figure}{\numberline {11}{\ignorespaces Détail de la motorisation et des roues Tri-Star}}{18}{figure.caption.26}%
-\contentsline {figure}{\numberline {12}{\ignorespaces La montée de la palette motorisée}}{19}{figure.caption.27}%
-\contentsline {figure}{\numberline {13}{\ignorespaces La descente de la palette motorisée}}{19}{figure.caption.27}%
+\contentsline {figure}{\numberline {12}{\ignorespaces La montée de la palette motorisée}}{18}{figure.caption.27}%
+\contentsline {figure}{\numberline {13}{\ignorespaces La descente de la palette motorisée}}{18}{figure.caption.27}%
 \contentsline {figure}{\numberline {14}{\ignorespaces Architecture logique globale de CarryBot}}{19}{figure.caption.29}%
 \contentsline {figure}{\numberline {15}{\ignorespaces Architecture fonctionnelle globale de CarryBot}}{21}{figure.caption.35}%
 \contentsline {figure}{\numberline {16}{\ignorespaces Prototype Figma}}{23}{figure.caption.40}%
@@ -20,6 +20,8 @@
 \contentsline {figure}{\numberline {19}{\ignorespaces Gestion des robots enregistrés \& HOME}}{24}{figure.caption.41}%
 \contentsline {figure}{\numberline {20}{\ignorespaces Écran de connexion IP}}{24}{figure.caption.41}%
 \contentsline {figure}{\numberline {21}{\ignorespaces Interface principale de pilotage}}{25}{figure.caption.43}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Sélection de langue}}{26}{figure.caption.45}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Mode contraste et options TTS}}{26}{figure.caption.45}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Fonctionnalités d’accessibilité intégrées}}{26}{figure.caption.45}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Pilotage avec flux vidéo}}{25}{figure.caption.43}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Sélection de langue}}{26}{figure.caption.45}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Mode contraste et options TTS}}{26}{figure.caption.45}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Fonctionnalités d’accessibilité intégrées}}{26}{figure.caption.45}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Diagramme de flux applicatif}}{27}{figure.caption.48}%
