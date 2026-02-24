@@ -158,7 +158,7 @@ IMU &  (Inertial Measurement Unit) Capteur regroupant accéléromètre, gyroscop
 
 Raspberry Pi 5 & Micro-ordinateur monocarte utilisé comme unité centrale embarquée pour la gestion des capteurs, moteurs et communications du robot. \\ \hline
 
-Intel RealSense D435 & Caméra de profondeur permettant de capturer une carte 3D de l’environnement, utilisée pour la perception et la détection avancée. \\ \hline
+Intel RealSense D435i & Caméra de profondeur permettant de capturer une carte 3D de l’environnement, utilisée pour la perception et la détection avancée. \\ \hline
 
 Vérin linéaire & Actionneur électrique convertissant une rotation en mouvement linéaire, utilisé ici pour stabiliser la palette et ajuster son inclinaison. \\ \hline
 
@@ -496,7 +496,7 @@ ergonomique de CarryBot.
 \section{Exigences}
 \subsection{Exigences fonctionnelles}
 
-\begin{tabular}{|p{1.3cm}|p{6.6cm}|p{1.7cm}|p{4,5cm}|}
+\begin{tabular}{|p{1.3cm}|p{6.6cm}|p{1.7cm}|p{4.5cm}|}
 \hline
 \textbf{Id} & \textbf{Exigence} & \textbf{Priorité} & \textbf{Commentaire} \\ \hline
 
@@ -538,7 +538,7 @@ EQ4 & Autonomie minimale & M & 5 heures de fonctionnement continu. \\ \hline
 
 \subsection{Exigences légales et réglementaires}
 
-\begin{tabular}{|p{1.3cm}|p{6.6cm}|p{1.7cm}|p{4,5cm}|}
+\begin{tabular}{|p{1.3cm}|p{6.6cm}|p{1.7cm}|p{4.5cm}|}
 \hline
 \textbf{Id} & \textbf{Exigence} & \textbf{Priorité} & \textbf{Commentaire} \\ \hline
 
@@ -608,7 +608,7 @@ Franchissement & $\approx$ 4 cm (validé en essais internes) \\ \hline
 Autonomie & Objectif: 5 h (à mesurer selon 2 ou 4 cellules 18650) \\ \hline
 Vitesse moyenne & \textit{8 $\approx$ 10 (cm/s)} \\ \hline
 Sécurité & 2 arrêts d’urgence physiques + arrêt logiciel Android \\ \hline
-Capteurs & RealSense D435 + 1 ultrason + IMU \\ \hline
+Capteurs & RealSense D435i + 1 ultrason + IMU \\ \hline
 Commande & Raspberry Pi 5 (supervision) + MegaPi (actionneurs) \\ \hline
 \end{tabular}
 \caption{Spécifications synthétiques du prototype CarryBot (mesurées / à compléter)}
@@ -875,7 +875,7 @@ reposant sur une hiérarchie supervision/exécution.
 \subsection{Matériel}
 \begin{itemize}
     \item \textbf{Carte principale:} Raspberry Pi 5 (8\,GB), équipée d’une carte microSD 32\,GB, d’un refroidisseur \textit{Active Cooler} et d’un câble d’extension GPIO 40\,broches.
-    \item \textbf{Caméra de perception:} Intel RealSense D435 pour la capture de profondeur et la détection avancée de l’environnement.
+    \item \textbf{Caméra de perception:} Intel RealSense D435i pour la capture de profondeur et la détection avancée de l’environnement.
     \item \textbf{Capteurs ultrason:} 1 module pour la détection d’obstacles à courte distance.
     \item \textbf{Unité inertielle (IMU):} module inclinomètre / accéléromètre / gyroscope (Makeblock) pour la mesure de l’inclinaison et la stabilisation.
     \item \textbf{Roues Tri-Star:} 20 roues (14 à l’avant, 6 à l’arrière) (Makeblock), imprimées en 3D, adaptées au franchissement de petites marches et irrégularités.
@@ -916,7 +916,7 @@ reposant sur une hiérarchie supervision/exécution.
     \item \textbf{Application Android:} développée sous Android Studio en Java, intégrant une interface à pictogrammes et des fonctionnalités d’accessibilité.
     
     \item \textbf{Microcontrôleurs additionnels (si requis):} gestion dédiée des capteurs ou actionneurs via interfaces GPIO ou bus série, en communication avec la Raspberry Pi.
-
+\end{itemize}
 
     % -------------------------------------------------------------
 % Application Android détaillée
@@ -995,7 +995,7 @@ Le design privilégie des pictogrammes larges, un contraste élevé et une hiér
     \hfill
     \begin{minipage}{0.45\linewidth}
         \centering
-        \includegraphics[width=\linewidth]{..//images/contrast.png}
+        \includegraphics[width=\linewidth]{../images/contrast.png}
         \caption{Mode contraste et options TTS}
     \end{minipage}
     \caption{Fonctionnalités d’accessibilité intégrées}
@@ -1014,7 +1014,6 @@ L’application intègre plusieurs fonctionnalités d’accessibilité:
 \end{itemize}
 
 Ces choix répondent aux exigences d’ergonomie et d’inclusion définies dans l’analyse des besoins utilisateurs.
-\end{itemize}
 
 
 %-------------------------------------------------------------

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  24 FEB 2026 09:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.16)  24 FEB 2026 10:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -750,94 +750,94 @@ File: ../images/language.png Graphic file (type png)
 <use ../images/language.png>
 Package pdftex.def Info: ../images/language.png  used on input line 992.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
-<..//images/contrast.png, id=504, 1084.05pt x 2409.0pt>
-File: ..//images/contrast.png Graphic file (type png)
-<use ..//images/contrast.png>
-Package pdftex.def Info: ..//images/contrast.png  used on input line 998.
+<../images/contrast.png, id=504, 1084.05pt x 2409.0pt>
+File: ../images/contrast.png Graphic file (type png)
+<use ../images/contrast.png>
+Package pdftex.def Info: ../images/contrast.png  used on input line 998.
 (pdftex.def)             Requested size: 204.85846pt x 455.2152pt.
 
 
-[26 <../images/language.png> <..//images/contrast.png>]
+[26 <../images/language.png> <../images/contrast.png>]
 
 [27]
-Underfull \hbox (badness 2368) in paragraph at lines 1148--1152
+Underfull \hbox (badness 2368) in paragraph at lines 1147--1151
 []|\TS1/cmr/m/n/12 ˆ \T1/cmr/m/n/12 Af-fi-chage im-mé-diat d'un re-tour
  []
 
 
-Underfull \hbox (badness 1158) in paragraph at lines 1148--1152
+Underfull \hbox (badness 1158) in paragraph at lines 1147--1151
 \T1/cmr/m/n/12 d'état lors des com-mandes (dé-pla-
  []
 
 
-Underfull \hbox (badness 7869) in paragraph at lines 1155--1155
+Underfull \hbox (badness 7869) in paragraph at lines 1154--1154
 []|\T1/cmr/m/n/12 Réduction de l'ef-fort
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1163--1163
+Underfull \hbox (badness 10000) in paragraph at lines 1162--1162
 []|\T1/cmr/m/n/12 L'utilisateur reste
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1163--1163
+Underfull \hbox (badness 10000) in paragraph at lines 1162--1162
 \T1/cmr/m/n/12 maître des ac-tions ;
  []
 
 
-Underfull \hbox (badness 2635) in paragraph at lines 1163--1163
+Underfull \hbox (badness 2635) in paragraph at lines 1162--1162
 \T1/cmr/m/n/12 ab-sence de com-por-te-
  []
 
 
-Underfull \hbox (badness 7030) in paragraph at lines 1171--1171
+Underfull \hbox (badness 7030) in paragraph at lines 1170--1170
 []|\T1/cmr/m/n/12 Capacité du sys-tème
  []
 
 
-Underfull \hbox (badness 1226) in paragraph at lines 1171--1171
+Underfull \hbox (badness 1226) in paragraph at lines 1170--1170
 \T1/cmr/m/n/12 à s'ajus-ter aux pré-fé-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1179--1179
+Underfull \hbox (badness 10000) in paragraph at lines 1178--1178
 []|\T1/cmr/m/n/12 Prévention, dé-tec-tion
  []
 
 
-Underfull \hbox (badness 4454) in paragraph at lines 1187--1187
+Underfull \hbox (badness 4454) in paragraph at lines 1186--1186
 []|\T1/cmr/m/n/12 Uniformité des règles
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1194--1194
+Underfull \hbox (badness 10000) in paragraph at lines 1193--1193
 []|\T1/cmr/m/n/12 Compréhensibilité im-
  []
 
 
-Underfull \hbox (badness 1137) in paragraph at lines 1194--1194
+Underfull \hbox (badness 1137) in paragraph at lines 1193--1193
 \T1/cmr/m/n/12 mé-diate des icônes et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1200--1200
+Underfull \hbox (badness 10000) in paragraph at lines 1199--1199
 []|\T1/cmr/m/n/12 Adéquation avec les
  []
 
 
-Underfull \hbox (badness 4765) in paragraph at lines 1200--1200
+Underfull \hbox (badness 4765) in paragraph at lines 1199--1199
 \T1/cmr/m/n/12 ca-pa-ci-tés, at-tentes et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1200--1200
+Underfull \hbox (badness 10000) in paragraph at lines 1199--1199
 \T1/cmr/m/n/12 contexte d'usage des
  []
 
 
 
 [28] [29]
-Underfull \hbox (badness 7308) in paragraph at lines 1230--1230
+Underfull \hbox (badness 7308) in paragraph at lines 1229--1229
 []|\T1/cmr/m/n/12 Personnes à mo-bi-lité ré-duite
  []
 
@@ -848,17 +848,17 @@ Underfull \hbox (badness 7308) in paragraph at lines 1230--1230
 [31]
 
 [32]
-Underfull \hbox (badness 10000) in paragraph at lines 1398--1399
+Underfull \hbox (badness 10000) in paragraph at lines 1397--1398
 
  []
 
 
-Underfull \hbox (badness 3579) in paragraph at lines 1437--1438
+Underfull \hbox (badness 3579) in paragraph at lines 1436--1437
 []\T1/cmr/m/n/12 Salwa, M., & Kr-zysz-to-fik, I. (2025). In-fluence of Control Sys-tem Ar-chi-
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 1437--1438
+Underfull \hbox (badness 1748) in paragraph at lines 1436--1437
 \T1/cmr/m/n/12 tec-ture on Mo-bile Ro-bot Sta-bi-lity and Per-for-mance. \T1/cmr/m/it/12 Sen-sors\T1/cmr/m/n/12 , 25(23), 7353.
  []
 
@@ -876,14 +876,14 @@ Package rerunfilecheck Info: File `rapport.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  14160 strings out of 473190
- 233397 string characters out of 5715799
+ 233390 string characters out of 5715799
  659732 words of memory out of 5000000
  37078 multiletter control sequences out of 15000+600000
  571630 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,79p,972b,706s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on rapport.pdf (35 pages, 13921995 bytes).
+Output written on rapport.pdf (35 pages, 13921983 bytes).
 PDF statistics:
  672 PDF objects out of 1000 (max. 8388607)
  559 compressed objects within 6 object streams

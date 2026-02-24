@@ -304,11 +304,11 @@ INPUT ../images/language.png
 INPUT ../images/language.png
 INPUT ../images/language.png
 INPUT ../images/language.png
-INPUT ..//images/contrast.png
-INPUT ..//images/contrast.png
-INPUT ..//images/contrast.png
-INPUT ..//images/contrast.png
-INPUT ..//images/contrast.png
+INPUT ../images/contrast.png
+INPUT ../images/contrast.png
+INPUT ../images/contrast.png
+INPUT ../images/contrast.png
+INPUT ../images/contrast.png
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt1200.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ecrm0800.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm0800.tfm
