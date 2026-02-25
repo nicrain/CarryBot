@@ -8,6 +8,9 @@ __pycache__/
 # Virtual environments
 .venv/
 
+# GitHub metadata
+.github/
+
 # Local LaTeX build artifacts
 docs/RAPPORT/.latex_tmp_files/
 docs/presentation/.latex_tmp_files/
